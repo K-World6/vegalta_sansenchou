@@ -18,55 +18,75 @@
   .wrap{max-width:480px;margin:0 auto}
   .foil{background-image:linear-gradient(135deg,#fff2c0,#f3ce55 35%,#d7a01e 55%,#f0d066 80%,#c9a11a);
     -webkit-background-clip:text;background-clip:text;color:transparent}
+  :focus-visible{outline:2px solid #f0c64a;outline-offset:2px;border-radius:4px}
 
-  header.app{position:sticky;top:0;z-index:20;background:#100e0c;border-bottom:1px solid #2a2620;overflow:hidden}
+  /* ── 固定ヘッダー（背景＝ユーザー撮影のコレオ写真） ── */
+  header.app{position:sticky;top:0;z-index:20;background:#100e0c;overflow:hidden;
+    border-bottom:1px solid #2a2620}
+  header.app::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;z-index:2;
+    background:linear-gradient(90deg,transparent,rgba(224,185,74,.55),transparent)}
   .headerBg{position:absolute;inset:-20px;background-size:cover;background-position:center 35%;filter:blur(1px);z-index:0}
   header.app>.wrap{position:relative;z-index:1}
-  .hd{padding:12px 16px 10px}
+  .hd{padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
   .hdtop{display:flex;justify-content:space-between;align-items:flex-end}
   .titlewrap{display:flex;align-items:center;gap:10px}
   .crest{width:38px;height:38px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
   .crestsm{width:28px;height:28px}
-  .eyebrow{font-size:10px;letter-spacing:.35em;color:#7a756c}
-  .title{font-size:20px;font-weight:600;margin:2px 0 0;letter-spacing:.02em}
+  .eyebrow{font-size:10px;letter-spacing:.35em;color:#8a8378}
+  .title{font-size:20px;font-weight:600;margin:2px 0 0;letter-spacing:.03em;text-shadow:0 1px 4px rgba(0,0,0,.6);font-feature-settings:"palt"}
   .gowrap{text-align:right;line-height:1}
-  .goN{font-size:30px;font-weight:700}
-  .goL{font-size:9px;letter-spacing:.2em;color:#7a756c}
-  .divider{height:1px;margin-top:8px;background:linear-gradient(90deg,transparent,#e0b94a55,transparent)}
+  .goN{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;
+    filter:drop-shadow(0 0 10px rgba(240,198,74,.25))}
+  .goL{font-size:9px;letter-spacing:.2em;color:#8a8378}
+  .divider{height:1px;margin-top:8px;background:linear-gradient(90deg,transparent,#e0b94a66,transparent)}
   .counts{display:flex;gap:4px;margin-top:6px}
-  .ccell{flex:1;background:#1b1813;border:1px solid #322c22;border-radius:4px;padding:1px 2px;text-align:center;font-weight:700;white-space:nowrap;line-height:1.5}
+  .ccell{flex:1;background:rgba(27,24,19,.82);border:1px solid #322c22;border-radius:4px;padding:1px 2px;
+    text-align:center;font-weight:700;white-space:nowrap;line-height:1.5;font-variant-numeric:tabular-nums;
+    backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
   .ccell span{font-size:10px}
   .ccell b{display:inline;font-size:11px;margin-left:2px}
-  .ccell.none{background:#15161a;border-color:#262a30;color:#8a8a8a}
-  .filters{display:flex;gap:6px;overflow-x:auto;padding:0 12px 8px}
-  .fbtn{flex:0 0 auto;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:#1b1813;color:#c9b897;border:1px solid #322c22;white-space:nowrap}
-  .fbtn.on{background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508;border-color:transparent}
-  .fn{opacity:.6}
+  .ccell.none{background:rgba(21,22,26,.82);border-color:#262a30;color:#8a8a8a}
+  .filters{display:flex;gap:6px;overflow-x:auto;padding:0 12px 9px;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .fbtn{flex:0 0 auto;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;
+    background:rgba(27,24,19,.85);color:#c9b897;border:1px solid #322c22;white-space:nowrap;
+    transition:transform .12s ease,background .15s ease,color .15s ease}
+  .fbtn:active{transform:scale(.95)}
+  .fbtn.on{background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508;border-color:transparent;
+    box-shadow:0 1px 6px rgba(205,161,28,.4)}
+  .fn{opacity:.6;font-variant-numeric:tabular-nums}
 
-  .list{padding:10px 12px 96px}
-  .empty{text-align:center;color:#6b665d;padding:40px 0;font-size:14px}
+  .list{padding:12px 12px 96px}
+  .empty{text-align:center;color:#6b665d;padding:48px 0 8px;font-size:14px}
+  .empty::before{content:"— · —";display:block;letter-spacing:.4em;color:#3a352a;margin-bottom:10px}
 
-  .ticket{position:relative;border-radius:10px;margin-bottom:10px;
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 6px 16px rgba(0,0,0,.5)}
+  /* ── チケット（ユニフォーム意匠） ── */
+  .ticket{position:relative;border-radius:10px;margin-bottom:12px;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.16),0 2px 4px rgba(0,0,0,.35),0 10px 22px rgba(0,0,0,.45)}
+  .ticket::before{content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;z-index:2;
+    background:linear-gradient(112deg,transparent 32%,rgba(255,255,255,.16) 46%,rgba(255,255,255,.05) 54%,transparent 66%)}
   .pat{position:absolute;inset:0;border-radius:10px;pointer-events:none;z-index:0}
   .row{position:relative;display:flex;z-index:1}
   .stub{flex:0 0 62px;width:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px 4px}
-  .stubcomp{font-size:10px;font-weight:700;letter-spacing:.02em;line-height:1}
+  .stubcomp{font-size:10px;font-weight:700;letter-spacing:.06em;line-height:1}
   .stubno{font-size:24px;font-weight:700;line-height:1;margin-top:4px;text-shadow:0 1px 0 rgba(255,255,255,.4)}
   .stubsetsu{font-size:9px;font-weight:700;margin-top:2px;opacity:.7}
   .stubcup{font-size:14px;font-weight:700;line-height:1.15;margin-top:4px}
-  .body{flex:1 1 auto;min-width:0;padding:8px 10px 8px 14px}
-  .plate{border-radius:8px;padding:6px 10px}
+  .body{flex:1 1 auto;min-width:0;padding:8px 10px 12px 14px}
+  .plate{border-radius:8px;padding:6px 10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
   .prow{display:flex;align-items:center;gap:8px}
-  .opp{flex:1;min-width:0;font-weight:700;font-size:15px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .badge{flex:0 0 auto;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;letter-spacing:.03em;color:#fff}
+  .opp{flex:1;min-width:0;font-weight:700;font-size:15px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.01em;font-feature-settings:"palt"}
+  .badge{flex:0 0 auto;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;letter-spacing:.06em;color:#fff;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
   .meta{font-size:12px;font-weight:700;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .stgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
-  .st{height:36px;border-radius:6px;font-weight:700;font-size:11px;padding:0 2px;line-height:1.2;letter-spacing:-0.02em}
+  .st{height:36px;border-radius:6px;font-weight:700;font-size:11px;padding:0 2px;line-height:1.2;letter-spacing:-0.02em;
+    transition:transform .12s ease,box-shadow .15s ease}
+  .st:active{transform:scale(.94)}
 
-  .memo{margin-top:8px;border-radius:8px;overflow:hidden}
+  .memo{margin-top:8px;border-radius:8px;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
   .tg{width:100%;display:flex;align-items:flex-start;gap:6px;font-size:12px;font-weight:600;padding:6px 10px;text-align:left}
-  .chev{display:inline-block;transition:transform .15s;margin-top:1px;flex:0 0 auto}
+  .chev{display:inline-block;transition:transform .18s ease;margin-top:1px;flex:0 0 auto}
   .msum{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
   .mline{display:flex;align-items:flex-start;gap:4px}
   .brk{overflow-wrap:break-word;word-break:break-word}
@@ -74,58 +94,187 @@
   .lbl{font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:4px}
   .opt{font-weight:400;opacity:.6}
   .chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
-  .chip{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600}
+  .chip{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;transition:transform .12s ease}
+  .chip:active{transform:scale(.93)}
   .inp{width:100%;border-radius:6px;padding:6px 8px;font-size:13px;outline:none;font-family:inherit}
   svg.ic{vertical-align:-2px}
 
+  /* 半券のミシン目と、券面下端のマイクロ文字（偽造防止帯風） */
   .perf{position:absolute;left:62px;top:2px;bottom:2px;width:1.5px;z-index:2;
     background:repeating-linear-gradient(to bottom,rgba(0,0,0,.42) 0 4px,transparent 4px 8px)}
-  .hole{position:absolute;left:62px;width:5px;height:5px;border-radius:50%;background:#0e0d0b;transform:translateX(-50%);z-index:2}
+  .hole{position:absolute;left:62px;width:5px;height:5px;border-radius:50%;background:#0e0d0b;transform:translateX(-50%);z-index:3}
+  .micro{position:absolute;left:70px;right:10px;bottom:2px;z-index:1;pointer-events:none;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:7px;letter-spacing:.22em;
+    white-space:nowrap;overflow:hidden;text-align:center;opacity:.3;user-select:none}
 
-  .foot{max-width:480px;margin:0 auto;padding:0 16px 32px;text-align:center}
+  /* 押印（ステータス選択でスタブに朱印が押される。画像化のハンコと同じ意匠） */
+  .seal{position:absolute;left:31px;bottom:8px;width:32px;height:32px;z-index:2;pointer-events:none;
+    transform:translateX(-50%) rotate(var(--rot,-8deg));filter:drop-shadow(0 0 4px var(--scg,rgba(0,0,0,.3)))}
+  .seal .ring{position:absolute;inset:0;border-radius:50%;border:2.5px solid var(--sc);opacity:.95}
+  .seal .core{position:absolute;inset:5px;border-radius:50%;background:var(--sc);display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:13px;
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif}
+  .seal.just{animation:press .3s cubic-bezier(.2,1.5,.4,1) both}
+  @keyframes press{
+    0%{transform:translateX(-50%) rotate(var(--rot,-8deg)) scale(1.7);opacity:0}
+    55%{opacity:1}
+    100%{transform:translateX(-50%) rotate(var(--rot,-8deg)) scale(1)}}
+
+  /* 初回表示のみ、チケットが上から順にすっと現れる */
+  body.boot .ticket{animation:tin .32s ease both}
+  body.boot .ticket:nth-child(1){animation-delay:.02s}
+  body.boot .ticket:nth-child(2){animation-delay:.06s}
+  body.boot .ticket:nth-child(3){animation-delay:.10s}
+  body.boot .ticket:nth-child(4){animation-delay:.14s}
+  body.boot .ticket:nth-child(5){animation-delay:.18s}
+  body.boot .ticket:nth-child(6){animation-delay:.22s}
+  @keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .foot{max-width:480px;margin:0 auto;padding:0 16px calc(148px + env(safe-area-inset-bottom));text-align:center}
   .foot p{font-size:10px;color:#6b665d;line-height:1.6}
+  .backupRow{display:flex;gap:8px;justify-content:center;margin:14px 0 8px}
+  .backupBtn{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;background:#1b1813;color:#c9b897;border:1px solid #322c22;
+    transition:transform .12s ease,background .15s ease}
+  .backupBtn:active{background:#232019;transform:scale(.96)}
+  .backupNote{font-size:10px;color:#6b665d;line-height:1.6}
 
-  .fab{position:fixed;right:16px;bottom:20px;z-index:30;display:flex;align-items:center;justify-content:center;gap:8px;
+  /* ── フローティングボタン（2つとも金・同幅で統一） ── */
+  .fab,.fab2{position:fixed;right:16px;z-index:30;display:flex;align-items:center;justify-content:center;gap:8px;
     width:132px;padding:12px 0;border-radius:999px;font-weight:700;
-    background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508;box-shadow:0 6px 18px rgba(0,0,0,.55)}
-  .fab2{position:fixed;right:16px;bottom:76px;z-index:30;display:flex;align-items:center;justify-content:center;gap:8px;
-    width:132px;padding:12px 0;border-radius:999px;font-weight:700;
-    background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508;box-shadow:0 6px 18px rgba(0,0,0,.55)}
+    background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 6px 18px rgba(0,0,0,.55);
+    transition:transform .12s ease,box-shadow .15s ease}
+  .fab{bottom:calc(20px + env(safe-area-inset-bottom))}
+  .fab2{bottom:calc(76px + env(safe-area-inset-bottom))}
+  .fab:active,.fab2:active{transform:scale(.95);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 3px 10px rgba(0,0,0,.5)}
 
+  /* ── 参戦マップ ── */
   .maplegend{display:flex;gap:14px;justify-content:center;padding:4px 0 14px;font-size:12px;color:#c9b897}
   .maplegend span{display:inline-flex;align-items:center;gap:5px}
   .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
   .mapcounts{display:flex;gap:8px;justify-content:center;padding:0 0 14px}
-  .mapcount{background:#1b1813;border:1px solid #322c22;border-radius:8px;padding:6px 14px;text-align:center}
-  .mapcount b{display:block;font-size:18px}
+  .mapcount{background:#1b1813;border:1px solid #322c22;border-radius:8px;padding:6px 14px;text-align:center;min-width:96px}
+  .mapcount b{display:block;font-size:18px;font-variant-numeric:tabular-nums}
   .mapcount span{font-size:10px;color:#8a8378}
-  .mapsvgwrap{width:100%;background:#12151c;border-radius:14px;border:1px solid #262c38;padding:8px 4px;overflow:hidden}
+  .mapsvgwrap{width:100%;border-radius:14px;border:1px solid #2b3242;padding:8px 4px;overflow:hidden;
+    background:radial-gradient(ellipse at 50% 38%,#1a2334 0%,#121722 62%,#0d1119 100%)}
   .mapsvgwrap svg{width:100%;height:auto;display:block}
   .mapsvgwrap .prefecture{stroke:#0e0d0b;stroke-width:1.2;transition:opacity .15s}
   .mapsvgwrap .prefecture:active{opacity:.7}
   .mapsvgwrap .boundary-line line{stroke:#4a4f5a}
-  .mapdetail{margin-top:14px;background:#17161a;border:1px solid #2a2820;border-radius:10px;padding:12px 14px;font-size:13px;min-height:20px}
+  .mapdetail{margin-top:14px;background:#17161a;border:1px solid #2a2820;border-left:3px solid #cda11c;
+    border-radius:10px;padding:12px 14px;font-size:13px;min-height:20px}
   .mapdetail .mdname{font-weight:700;font-size:15px;margin-bottom:6px}
   .mapdetail .mditem{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-top:1px solid #232019;font-size:12px}
   .mapdetail .mditem:first-of-type{border-top:none}
 
-  .modal{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.88);display:none;flex-direction:column}
+  /* ── モーダル ── */
+  .modal{position:fixed;inset:0;z-index:40;background:rgba(6,5,4,.86);display:none;flex-direction:column;
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
   .modal.show{display:flex}
-  .mhd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;flex:0 0 auto}
-  .mtitle{font-size:14px;font-weight:700;color:#f0c64a}
+  .modal.show>*{animation:mup .24s ease both}
+  @keyframes mup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .mhd{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;flex:0 0 auto;
+    border-bottom:1px solid rgba(224,185,74,.18)}
+  .mtitle{font-size:14px;font-weight:700;color:#f0c64a;letter-spacing:.04em}
   .msub{font-size:11px;color:#9a938a;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .mclose{font-size:14px;color:#e6e6e6;padding:6px 12px;border-radius:999px;border:1px solid #444}
-  .mbody{flex:1;overflow:auto;padding:0 16px 8px}
+  .mclose{font-size:14px;color:#e6e6e6;padding:6px 12px;border-radius:999px;border:1px solid #4a4436;
+    transition:transform .12s ease}
+  .mclose:active{transform:scale(.95)}
+  .mbody{flex:1;overflow:auto;padding:12px 16px 8px}
   .mimg{width:100%;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.6);display:block}
   .mhint{font-size:11px;color:#9a938a;text-align:center;margin-top:8px}
   .densityRow{display:flex;gap:6px;justify-content:center;margin-bottom:10px}
-  .densityBtn{padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;background:#1b1813;color:#c9b897;border:1px solid #322c22}
+  .densityBtn{padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;background:#1b1813;color:#c9b897;border:1px solid #322c22;
+    transition:transform .12s ease,background .15s ease}
+  .densityBtn:active{transform:scale(.95)}
   .densityBtn.on{background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508;border-color:transparent}
-  .mfoot{padding:16px;flex:0 0 auto}
-  .msave{width:100%;padding:12px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508}
+  .mfoot{padding:12px 16px calc(16px + env(safe-area-inset-bottom));flex:0 0 auto}
+  .msave{width:100%;padding:12px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,#f6d666,#cda11c);color:#1a1508;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 14px rgba(0,0,0,.4);transition:transform .12s ease}
+  .msave:active{transform:scale(.97)}
+
+
+  /* ══ 3D演出・常時動的演出 ══ */
+
+  /* 金箔文字が常にゆらめく */
+  .foil{background-size:220% 100%;animation:foilShift 3s ease-in-out infinite}
+  @keyframes foilShift{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+
+  .ticket .memo{perspective:700px}
+
+  /* チケット：常時流れる箔シーン（GPUフレンドリーなtransformのみ） */
+  .shine{position:absolute;inset:0;border-radius:10px;overflow:hidden;pointer-events:none;z-index:2}
+  .shine::before{content:"";position:absolute;top:-25%;bottom:-25%;left:0;width:55%;
+    background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.12) 40%,rgba(255,246,214,.26) 50%,rgba(255,255,255,.12) 60%,transparent 100%);
+    transform:translateX(-160%) skewX(-14deg);
+    animation:sweep 3.6s ease-in-out infinite;
+    animation-delay:calc(var(--i,0)*.3s)}
+  @keyframes sweep{0%{transform:translateX(-160%) skewX(-14deg)}55%,100%{transform:translateX(340%) skewX(-14deg)}}
+
+  /* 移動・宿の入力パネル：開いた瞬間だけ3Dで展開 */
+  .mpanel.justopen{animation:unfold .32s cubic-bezier(.2,.9,.3,1) both;transform-origin:top center}
+  @keyframes unfold{from{opacity:0;transform:rotateX(-55deg)}to{opacity:1;transform:none}}
+
+  /* 参戦マップ：3D入場 → 常時ゆらぎ */
+  .mapsvgwrap{position:relative;perspective:820px}
+  #mapModal.show .mapsvgwrap svg{transform-origin:50% 62%;
+    animation:mapIn .6s cubic-bezier(.2,.9,.3,1) both,mapFloat 6s ease-in-out .6s infinite}
+  @keyframes mapIn{from{opacity:0;transform:rotateX(26deg) translateY(26px) scale(.96)}to{opacity:1;transform:rotateX(4deg)}}
+  @keyframes mapFloat{0%,100%{transform:rotateX(4deg) translateY(0)}50%{transform:rotateX(1.5deg) translateY(-5px)}}
+
+  /* 参戦マップ：金の光が周期的に走る */
+  .mapsvgwrap::after{content:"";position:absolute;top:0;bottom:0;left:-30%;width:46%;pointer-events:none;z-index:3;
+    background:linear-gradient(115deg,transparent 0%,rgba(240,198,74,.10) 45%,rgba(255,236,170,.16) 50%,rgba(240,198,74,.10) 55%,transparent 100%);
+    transform:translateX(-140%) skewX(-12deg);animation:mapSweep 4.5s ease-in-out .6s infinite}
+  @keyframes mapSweep{0%{transform:translateX(-140%) skewX(-12deg)}50%,100%{transform:translateX(380%) skewX(-12deg)}}
+
+  /* 参戦実績・予定の県が呼吸するように明滅 */
+  .mapsvgwrap .prefecture.p-att{animation:prefPulse 2.2s ease-in-out infinite}
+  .mapsvgwrap .prefecture.p-plan{animation:prefPulse 2.2s ease-in-out 1.1s infinite}
+  @keyframes prefPulse{0%,100%{opacity:1}50%{opacity:.68}}
+
+  /* タップした県だけを拡大表示するスポットライト */
+  .prefZoom{position:absolute;inset:0;z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    background:rgba(7,9,15,.74);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);perspective:700px;cursor:pointer}
+  .prefZoom.show{display:flex}
+  .prefZoom svg{width:68%;height:60%;overflow:visible;
+    filter:drop-shadow(0 12px 26px rgba(0,0,0,.65)) drop-shadow(0 0 14px rgba(255,255,255,.22));
+    animation:pzIn .5s cubic-bezier(.2,1.4,.4,1) both}
+  @keyframes pzIn{from{opacity:0;transform:scale(.35) rotateX(38deg)}to{opacity:1;transform:none}}
+  .pzName{font-size:16px;font-weight:700;color:#e7e5e4;letter-spacing:.2em;text-shadow:0 1px 6px rgba(0,0,0,.6);
+    animation:pzIn .5s .06s cubic-bezier(.2,1.4,.4,1) both}
+  .pzHint{font-size:10px;color:#9a938a;animation:pzIn .5s .1s both}
+  .pz-dot{animation:oppBlink 1s ease-in-out infinite}
+  @keyframes oppBlink{0%,100%{opacity:1}50%{opacity:.15}}
+  .pz-ring{fill:none;transform-box:fill-box;transform-origin:center;animation:ping 1.6s ease-out infinite}
+  .pz-label{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;font-weight:700}
+  .pz-link{fill:none;stroke:rgba(255,255,255,.5);stroke-linecap:round}
+  .pz-pulse{fill:none;stroke:#ffffff;stroke-linecap:round;
+    filter:drop-shadow(0 0 3px rgba(255,255,255,.85));
+    animation:linkFlow 1.35s linear infinite}
+  @keyframes linkFlow{from{stroke-dashoffset:0}to{stroke-dashoffset:var(--flow,-40px)}}
+
+  /* 俯瞰マップ：スタジアム位置は常時点灯＋パルスリング（アウェイ=赤／ホーム=白） */
+  .stadiumDot{fill:#ff6b6b;stroke:#0e0d0b;stroke-width:.8;pointer-events:none}
+  .stadiumDot.homeDot{fill:#f0c64a;stroke:#6b4e00;transform-box:fill-box;transform-origin:center;
+    animation:homeTwinkle 1.3s ease-in-out infinite}
+  @keyframes homeTwinkle{
+    0%,100%{transform:scale(1);filter:brightness(1) drop-shadow(0 0 2px rgba(240,198,74,.8))}
+    50%{transform:scale(1.28);filter:brightness(1.7) drop-shadow(0 0 8px rgba(255,224,130,1))}}
+  .stadiumPing{fill:none;stroke:#ff6b6b;stroke-width:1.6;pointer-events:none;
+    transform-box:fill-box;transform-origin:center;animation:ping 2.2s ease-out infinite}
+  /* 宮城（ユアスタ）からソナーリングが広がり続ける */
+  .homePing{fill:none;stroke:#f0c64a;stroke-width:2.2;pointer-events:none;
+    transform-box:fill-box;transform-origin:center;animation:ping 2.2s ease-out infinite}
+  @keyframes ping{0%{transform:scale(.35);opacity:.95}75%{opacity:0}100%{transform:scale(2.8);opacity:0}}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
 </style>
 </head>
-<body>
+<body class="boot">
 <header class="app">
   <div class="headerBg" id="headerBg" aria-hidden="true"></div>
   <div class="wrap hd">
@@ -151,8 +300,14 @@
 <main class="wrap list" id="list"></main>
 
 <footer class="foot">
-  <p><span style="color:#e0b94a">■</span> HOME(ゴールド) ／ <span style="color:#cdd4dd">■</span> AWAY(ホワイト)　◎参戦済み ○参戦予定 △検討中 ×非参戦<br>
+  <p><span style="color:#e0b94a">■</span> HOME(ゴールド) ／ <span style="color:#cdd4dd">■</span> AWAY(ホワイト)　済＝参戦済み　予＝参戦予定　検＝検討中　非＝非参戦<br>
   日程・会場は変更の場合あり。最新情報は公式サイト（vegalta.co.jp）をご確認ください。</p>
+  <div class="backupRow">
+    <button class="backupBtn" id="btnExport">記録を書き出す</button>
+    <button class="backupBtn" id="btnImport">記録を読み込む</button>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none">
+  </div>
+  <p class="backupNote">記録は端末内に保存されます。機種変更やデータ削除に備え、ときどき書き出して保管しておくと安心です。</p>
 </footer>
 
 <button class="fab2" id="fabMap" aria-label="参戦マップを見る">
@@ -588,8 +743,39 @@ migrateOldIds();
 var rec = {};
 var filter = "all";
 var openIds = {};
+var justStamped = null; // 直前に押印したチケットID（押印アニメを1回だけ再生するため）
+var justOpened = null;  // 直前に開いた入力パネルのID（展開アニメを1回だけ再生するため）
+var REDUCED_MOTION = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 try { var raw = localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); for(var k in o){ rec[k] = (typeof o[k]==="string") ? {s:o[k]} : (o[k]||{}); } } } catch(e){}
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(rec)); }catch(e){} }
+
+// ── バックアップ（書き出し／読み込み） ──
+function exportBackup(){
+  var payload = { app:"vegalta-sansencho", key:KEY, exportedAt:new Date().toISOString(), records:rec };
+  var json = JSON.stringify(payload, null, 2);
+  var blob = new Blob([json], {type:"application/json"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  var d = new Date();
+  var p = function(n){return String(n).padStart(2,"0");};
+  a.href = url;
+  a.download = "vegalta-sansencho-backup-"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+".json";
+  a.rel="noopener";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+}
+function importBackupFromText(text){
+  var obj = JSON.parse(text); // 失敗時は呼び出し側で捕捉
+  var records = obj && obj.records ? obj.records : (obj && !obj.app ? obj : null);
+  if(!records || typeof records!=="object") throw new Error("invalid_format");
+  var count=0, next={};
+  for(var k in records){
+    var v = records[k];
+    next[k] = (typeof v==="string") ? {s:v} : (v||{});
+    count++;
+  }
+  return { records:next, count:count };
+}
 
 function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function tListOf(r){ return Array.isArray(r.t)?r.t:(r.t?[r.t]:[]); }
@@ -606,7 +792,7 @@ function setField(id, patch, doRender){
 var ROUTE = '<svg class="ic" width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="4.5" cy="19.6" r="1.5" fill="currentColor"/><circle cx="8.4" cy="16" r="1.1" fill="currentColor" opacity="0.7"/><circle cx="11.4" cy="12.8" r="0.9" fill="currentColor" opacity="0.5"/><path d="M16.5 3.4a5.3 5.3 0 0 0-5.3 5.3c0 3.7 5.3 8.6 5.3 8.6s5.3-4.9 5.3-8.6a5.3 5.3 0 0 0-5.3-5.3Z" stroke="currentColor" stroke-width="1.6"/><circle cx="16.5" cy="8.6" r="1.7" fill="currentColor"/></svg>';
 var MOON = '<svg class="ic" width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20.6 13.4A7.7 7.7 0 1 1 10.9 3.5a6 6 0 0 0 9.7 9.9Z" fill="currentColor"/><path d="M17.4 4.1l.55 1.5 1.5.55-1.5.55-.55 1.5-.55-1.5-1.5-.55 1.5-.55.55-1.5Z" fill="currentColor"/></svg>';
 
-function ticketHTML(m){
+function ticketHTML(m, idx){
   var t = m.home?TH.home:TH.away;
   var r = rec[m.id]||{};
   var tList = tListOf(r);
@@ -638,7 +824,7 @@ function ticketHTML(m){
   if(open){
     var tqs = TRANSPORT_QUICK.map(function(q){ var on=tList.indexOf(q)>=0; return '<button class="chip" data-act="tq" data-id="'+m.id+'" data-q="'+esc(q)+'" style="'+(on?chipOn:chipIdle)+'">'+esc(q)+'</button>'; }).join("");
     var hqs = LODGING_QUICK.map(function(q){ var on=r.h===q; return '<button class="chip" data-act="hq" data-id="'+m.id+'" data-q="'+esc(q)+'" style="'+(on?chipOn:chipIdle)+'">'+esc(q)+'</button>'; }).join("");
-    panel = '<div class="mpanel">'
+    panel = '<div class="mpanel'+(m.id===justOpened?" justopen":"")+'">'
       + '<div class="lbl" style="color:'+t.sub+'">'+ROUTE+'移動手段<span class="opt">（複数選択可）</span></div>'
       + '<div class="chips">'+tqs+'</div>'
       + '<input class="inp" data-act="tn" data-id="'+m.id+'" value="'+esc(r.tn||"")+'" placeholder="補足）新幹線 やまびこ / 車 3時間 など" style="'+inpStyle+'">'
@@ -652,8 +838,16 @@ function ticketHTML(m){
     ? '<div class="stubno">'+m.round+'</div><div class="stubsetsu">節</div>'
     : '<div class="stubcup">'+esc(m.round)+'</div>';
 
+  var seal="";
+  if(r.s){
+    var rot={"◎":"-8deg","○":"5deg","△":"-4deg","×":"8deg"}[r.s]||"-8deg";
+    seal='<div class="seal'+(m.id===justStamped?" just":"")+'" style="--sc:'+STATUS_COLOR[r.s]+';--scg:'+STATUS_COLOR[r.s]+'55;--rot:'+rot+'" aria-hidden="true">'
+      +'<span class="ring"></span><span class="core">'+STATUS_GLYPH[r.s]+'</span></div>';
+  }
+
   return '<div class="ticket" style="background:'+t.metal+'">'
     + '<div class="pat" style="background:'+t.pat+'"></div>'
+    + '<div class="shine" style="--i:'+((idx||0)%8)+'" aria-hidden="true"></div>'
     + '<div class="row">'
       + '<div class="stub" style="color:'+t.ink+'"><div class="stubcomp">'+esc(m.comp)+'</div>'+stubInner+'</div>'
       + '<div class="body" style="color:'+t.ink+'">'
@@ -671,8 +865,10 @@ function ticketHTML(m){
       + '</div>'
     + '</div>'
     + '<div class="perf"></div>'
+    + '<div class="micro" style="color:'+t.ink+'">VEGALTA SENDAI · 参戦帳 · '+(m.year||"")+' · VEGALTA SENDAI · 参戦帳 · '+(m.year||"")+' · VEGALTA SENDAI</div>'
     + '<div class="hole" style="top:-2.5px"></div>'
     + '<div class="hole" style="bottom:-2.5px"></div>'
+    + seal
   + '</div>';
 }
 
@@ -697,7 +893,7 @@ function render(){
   document.getElementById("counts").innerHTML =
     ORDER.map(function(k){return '<div class="ccell"><span class="foil">'+STATUS_GLYPH[k]+'</span><b>'+c[k]+'</b></div>';}).join("")
     + '<div class="ccell none"><span>未</span><b>'+c.none+'</b></div>';
-  var F=[["all","すべて",MATCHES.length],["home","ホーム",HOME_N],["away","アウェイ",AWAY_N],["going","参戦予定",going],["undecided","未選択",c.none]];
+  var F=[["all","すべて",MATCHES.length],["home","ホーム",HOME_N],["away","アウェイ",AWAY_N],["going","済・予定",going],["undecided","未選択",c.none]];
   var years = Array.from(new Set(MATCHES.map(function(m){return m.year;}))).filter(function(y){return y!=null;}).sort();
   years.forEach(function(y){
     var n = MATCHES.filter(function(m){return m.year===y;}).length;
@@ -708,6 +904,8 @@ function render(){
   }).join("");
   var list=getFiltered();
   document.getElementById("list").innerHTML = list.length ? list.map(ticketHTML).join("") : '<p class="empty">該当する試合がありません。</p>';
+  justStamped = null;
+  justOpened = null;
 }
 
 /* ── イベント ── */
@@ -716,11 +914,10 @@ document.addEventListener("click", function(e){
   if(!el) return;
   if(el.getAttribute("data-filter")){ filter=el.getAttribute("data-filter"); render(); return; }
   var act=el.getAttribute("data-act"), id=el.getAttribute("data-id");
-  if(act==="status"){ var cur=rec[id]||{}; setField(id,{s: cur.s===el.getAttribute("data-val")?"":el.getAttribute("data-val")}); }
-  else if(act==="toggle"){ if(openIds[id]) delete openIds[id]; else openIds[id]=1; render(); }
+  if(act==="status"){ var cur=rec[id]||{}; var nv = cur.s===el.getAttribute("data-val")?"":el.getAttribute("data-val"); justStamped = nv?id:null; setField(id,{s:nv}); }
+  else if(act==="toggle"){ if(openIds[id]){ delete openIds[id]; justOpened=null; } else { openIds[id]=1; justOpened=id; } render(); }
   else if(act==="tq"){ var r=rec[id]||{}; var l=tListOf(r); var q=el.getAttribute("data-q"); var nl = l.indexOf(q)>=0 ? l.filter(function(x){return x!==q}) : l.concat([q]); setField(id,{t:nl}); }
   else if(act==="hq"){ var r2=rec[id]||{}; var q2=el.getAttribute("data-q"); setField(id,{h: r2.h===q2?"":q2}); }
-  else if(act==="prefdot"){ showPrefDetail(el.getAttribute("data-pref")); }
 });
 document.addEventListener("input", function(e){
   var el=e.target; if(!el.getAttribute || !el.getAttribute("data-act")) return;
@@ -765,8 +962,49 @@ function renderMapModal(){
       var st = pstatus[name] ? pstatus[name].status : "none";
       var color = fillColorFor(st);
       g.setAttribute("fill", color);
+      g.classList.toggle("p-att", st==="att");
+      g.classList.toggle("p-plan", st==="plan");
       g.style.cursor = "pointer";
-      g.onclick = function(){ showPrefDetail(name); };
+      g.onclick = function(){ showPrefDetail(name); showPrefZoom(g, name); };
+    });
+    // スタジアム位置の点滅マーカー（俯瞰時も常時表示）
+    // 画像書き出し時は属性(fill/stroke=none)が効いて写り込まない
+    svg.querySelectorAll(".stadiumDot,.stadiumPing,.homePing").forEach(function(n){ n.parentNode.removeChild(n); });
+    svg.querySelectorAll(".prefecture").forEach(function(g){
+      var name = CODE_TO_PREF[g.getAttribute("data-code")];
+      var info = pstatus[name];
+      if(!info) return;
+      var bb = shapeBBox(g);
+      if(!bb || !bb.width) return;
+      var u = Math.max(bb.width, bb.height);
+      var pts = [], seen = {};
+      if(name === "宮城"){
+        pts.push({p:HOME_STADIUM, home:true});
+      }else{
+        info.matches.forEach(function(m){
+          if(m.home || seen[m.opp]) return;
+          seen[m.opp] = 1;
+          pts.push({p: STADIUM_POINT[m.opp] || {fx:.5, fy:.5}});
+        });
+      }
+      pts.forEach(function(o){
+        var cx = bb.x + o.p.fx*bb.width, cy = bb.y + o.p.fy*bb.height;
+        var r = Math.max(3.2, Math.min(4.8, u*0.085));
+        // 全国同期のパルスリング（ホームは白、アウェイは赤）
+        var ring = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        ring.setAttribute("class", o.home ? "homePing" : "stadiumPing");
+        ring.setAttribute("cx",cx); ring.setAttribute("cy",cy);
+        ring.setAttribute("r", o.home ? 16 : r*3);
+        ring.setAttribute("fill","none"); ring.setAttribute("stroke","none");
+        g.appendChild(ring);
+        // 常時点灯のドット
+        var dot = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        dot.setAttribute("class","stadiumDot"+(o.home?" homeDot":""));
+        dot.setAttribute("cx",cx); dot.setAttribute("cy",cy);
+        dot.setAttribute("r", r);
+        dot.setAttribute("fill","none"); dot.setAttribute("stroke","none");
+        g.appendChild(dot);
+      });
     });
   }
 
@@ -775,6 +1013,167 @@ function renderMapModal(){
   document.getElementById("mapCounts").innerHTML =
       '<div class="mapcount"><b style="color:'+GREEN+'">'+attCount+'</b><span>参戦実績（県）</span></div>'
     + '<div class="mapcount"><b style="color:#cda11c">'+planCount+'</b><span>参戦予定（県）</span></div>';
+}
+// 各スタジアムの県内位置（実緯度経度をSVG県形状に射影し、県ポリゴン内包を検証済み）
+// アウェイは開催スタジアム＝相手クラブのホームスタジアム。会場未定の試合も同スタジアムを採用
+var STADIUM_POINT = {
+  "藤枝MYFC":{fx:0.472,fy:0.701}, // 藤枝総合運動公園
+  "ジュビロ磐田":{fx:0.242,fy:0.869}, // ヤマハスタジアム
+  "大分トリニータ":{fx:0.659,fy:0.528}, // クラサスドーム大分
+  "ヴァンラーレ八戸":{fx:0.902,fy:0.775}, // プライフーズスタジアム
+  "栃木シティ":{fx:0.417,fy:0.811}, // CITY FOOTBALL STATION
+  "テゲバジャーロ宮崎":{fx:0.655,fy:0.51}, // ユニリーバスタジアム新富
+  "湘南ベルマーレ":{fx:0.466,fy:0.604}, // レモンガススタジアム平塚
+  "横浜FC":{fx:0.766,fy:0.356}, // ニッパツ三ツ沢球技場
+  "福島ユナイテッドFC":{fx:0.635,fy:0.216}, // とうほう・みんなのスタジアム
+  "いわきFC":{fx:0.889,fy:0.815}, // ハワイアンズスタジアムいわき
+  "北海道コンサドーレ札幌":{fx:0.255,fy:0.601}, // 大和ハウスプレミストドーム
+  "モンテディオ山形":{fx:0.746,fy:0.601}, // NDソフトスタジアム山形
+  "徳島ヴォルティス":{fx:0.819,fy:0.069}, // 鳴門大塚スポーツパーク
+  "FC今治":{fx:0.593,fy:0.193}, // アシックス里山スタジアム
+  "アルビレックス新潟":{fx:0.63,fy:0.369}, // デンカビッグスワンスタジアム
+  "カターレ富山":{fx:0.485,fy:0.493}, // 富山県総合運動公園
+  "ヴァンフォーレ甲府":{fx:0.432,fy:0.425}, // JITリサイクルインクスタジアム
+  "ブラウブリッツ秋田":{fx:0.308,fy:0.477}, // ソユースタジアム
+  "サガン鳥栖":{fx:0.975,fy:0.37}, // 駅前不動産スタジアム
+  "RB大宮アルディージャ":{fx:0.773,fy:0.681}, // NACK5スタジアム大宮
+};
+var HOME_STADIUM = {label:"ユアテックスタジアム仙台", fx:0.433, fy:0.554};
+var PZ_ACCENT = "#f4f4f3"; // 白基調（マップの緑・金と混同しない）
+var SVGNS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs){ var e=document.createElementNS(SVGNS,tag); for(var k in attrs) e.setAttribute(k,attrs[k]); return e; }
+// マーカー円を含めず、県の形状だけのバウンディングボックスを返す
+function shapeBBox(g){
+  var bb = null;
+  var shapes = g.querySelectorAll("polygon,path");
+  for(var i=0;i<shapes.length;i++){
+    var b;
+    try{ b = shapes[i].getBBox(); }catch(e){ continue; }
+    if(!b || !b.width) continue;
+    if(!bb){ bb = {x:b.x, y:b.y, x2:b.x+b.width, y2:b.y+b.height}; }
+    else{
+      bb.x = Math.min(bb.x, b.x); bb.y = Math.min(bb.y, b.y);
+      bb.x2 = Math.max(bb.x2, b.x+b.width); bb.y2 = Math.max(bb.y2, b.y+b.height);
+    }
+  }
+  return bb ? {x:bb.x, y:bb.y, width:bb.x2-bb.x, height:bb.y2-bb.y} : null;
+}
+
+function addZoomMarkers(svg, bb, name, pad){
+  var u = Math.max(bb.width, bb.height);
+  var vb = {x:bb.x-pad, y:bb.y-pad, w:bb.width+pad*2, h:bb.height+pad*2};
+
+  var marks = [];
+  if(name === "宮城"){
+    marks.push({label:HOME_STADIUM.label, fx:HOME_STADIUM.fx, fy:HOME_STADIUM.fy, color:"#f0c64a"});
+  }else{
+    var info = computePrefStatus()[name];
+    if(info){
+      var seen = {};
+      info.matches.forEach(function(m){
+        if(m.home || seen[m.opp]) return;
+        seen[m.opp] = 1;
+        var p = STADIUM_POINT[m.opp] || {fx:.5, fy:.5};
+        marks.push({label:m.opp, fx:p.fx, fy:p.fy, color:"#ff6b6b"});
+      });
+    }
+  }
+  if(!marks.length) return;
+
+  var fs = u*0.06;
+  var placedRects = [];
+  function intersects(a,b){ return !(a.x+a.w < b.x || b.x+b.w < a.x || a.y+a.h < b.y || b.y+b.h < a.y); }
+
+  marks.forEach(function(m){
+    m.px = bb.x + m.fx*bb.width;
+    m.py = bb.y + m.fy*bb.height;
+    // 点滅ドット＋広がるリング
+    svg.appendChild(svgEl("circle",{class:"pz-ring", cx:m.px, cy:m.py, r:u*0.05, stroke:m.color, "stroke-width":u*0.012}));
+    svg.appendChild(svgEl("circle",{class:"pz-dot", cx:m.px, cy:m.py, r:u*0.028, fill:m.color, stroke:"#0e0d0b", "stroke-width":u*0.008}));
+    // ドット自体もラベルの回避対象に
+    placedRects.push({x:m.px-u*0.06, y:m.py-u*0.06, w:u*0.12, h:u*0.12});
+  });
+
+  marks.forEach(function(m){
+    var w = m.label.length * fs * 1.04;
+    // 8方向を近い順に試し、パネル内・他要素と非干渉の最短位置に置く
+    var dirs = [[1,0],[-1,0],[0,-1],[0,1],[1,-1],[-1,-1],[1,1],[-1,1]];
+    var best = null;
+    for(var d = u*0.24; d <= u*0.60 && !best; d += u*0.06){
+      for(var k=0; k<dirs.length && !best; k++){
+        var nx = dirs[k][0], ny = dirs[k][1];
+        var len = Math.sqrt(nx*nx+ny*ny); nx/=len; ny/=len;
+        var ax = m.px + nx*d, ay = m.py + ny*d;
+        var anchor, rx;
+        if(dirs[k][0] > 0){ anchor="start"; rx = ax; }
+        else if(dirs[k][0] < 0){ anchor="end"; rx = ax - w; }
+        else { anchor="middle"; rx = ax - w/2; }
+        var rect = {x:rx, y:ay - fs*0.85, w:w, h:fs*1.15};
+        var mgn = u*0.015;
+        if(rect.x < vb.x+mgn || rect.y < vb.y+mgn || rect.x+rect.w > vb.x+vb.w-mgn || rect.y+rect.h > vb.y+vb.h-mgn) continue;
+        var hit = false;
+        for(var q=0; q<placedRects.length; q++){ if(intersects(rect, placedRects[q])){ hit=true; break; } }
+        if(hit) continue;
+        best = {ax:ax, ay:ay, anchor:anchor, rect:rect, nx:nx, ny:ny};
+      }
+    }
+    if(!best){ // 退避：真上に置く
+      best = {ax:m.px, ay:m.py-u*0.26, anchor:"middle",
+        rect:{x:m.px-w/2, y:m.py-u*0.26-fs*0.85, w:w, h:fs*1.15}, nx:0, ny:-1};
+    }
+    placedRects.push(best.rect);
+
+    // ラベルとドットを結ぶ実線＋光のパルスが流れる演出
+    var sx = best.ax - best.nx*u*0.02, sy = best.ay - best.ny*u*0.02;
+    var ex = m.px + best.nx*u*0.045,  ey = m.py + best.ny*u*0.045;
+    svg.appendChild(svgEl("line",{class:"pz-link", x1:sx, y1:sy, x2:ex, y2:ey, "stroke-width":u*0.009}));
+    var lineLen = Math.sqrt((ex-sx)*(ex-sx)+(ey-sy)*(ey-sy));
+    var seg = Math.max(lineLen*0.28, u*0.02), cycle = seg + lineLen + seg;
+    var pulse = svgEl("line",{class:"pz-pulse", x1:sx, y1:sy, x2:ex, y2:ey, "stroke-width":u*0.013});
+    pulse.style.strokeDasharray = seg + " " + (cycle - seg);
+    pulse.style.setProperty("--flow", (-cycle)+"px");
+    svg.appendChild(pulse);
+
+    var tx = svgEl("text",{class:"pz-label", x:best.ax + (best.anchor==="start"?u*0.02:(best.anchor==="end"?-u*0.02:0)),
+      y:best.ay + fs*0.32,
+      "font-size":fs, fill:PZ_ACCENT, stroke:"#0e0d0b", "stroke-width":fs*0.28,
+      "paint-order":"stroke", "text-anchor":best.anchor});
+    tx.textContent = m.label;
+    svg.appendChild(tx);
+  });
+}
+
+function showPrefZoom(g, name){
+  var wrap = document.getElementById("mapSvgWrap");
+  var ov = document.getElementById("prefZoom");
+  if(!ov){
+    ov = document.createElement("div");
+    ov.id = "prefZoom"; ov.className = "prefZoom";
+    ov.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg><div class="pzName"></div><div class="pzHint">タップで戻る</div>';
+    ov.onclick = hidePrefZoom;
+    wrap.appendChild(ov);
+  }
+  var bb = shapeBBox(g);
+  if(!bb || !bb.width) return;
+  var clone = g.cloneNode(true);
+  clone.removeAttribute("transform");
+  var overlays = clone.querySelectorAll(".homePing,.stadiumDot,.stadiumPing");
+  for(var i=0;i<overlays.length;i++) overlays[i].parentNode.removeChild(overlays[i]);
+  var pad = Math.max(bb.width, bb.height) * 0.14 + 2;
+  var svg = ov.querySelector("svg");
+  svg.setAttribute("viewBox", (bb.x-pad)+" "+(bb.y-pad)+" "+(bb.width+pad*2)+" "+(bb.height+pad*2));
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  svg.appendChild(clone);
+  addZoomMarkers(svg, bb, name, pad);
+  ov.querySelector(".pzName").textContent = name;
+  // 再タップ時もポップインを再生
+  ov.classList.remove("show");
+  void ov.offsetWidth;
+  ov.classList.add("show");
+}
+function hidePrefZoom(){
+  var ov = document.getElementById("prefZoom");
+  if(ov) ov.classList.remove("show");
 }
 function showPrefDetail(pref){
   var info = computePrefStatus()[pref];
@@ -789,10 +1188,21 @@ function showPrefDetail(pref){
   body.innerHTML = '<div class="mdname">'+esc(pref)+'</div>'+items;
 }
 document.getElementById("fabMap").onclick=function(){
-  renderMapModal();
   document.getElementById("mapModal").classList.add("show");
+  renderMapModal();
+  if(!REDUCED_MOTION){
+    document.querySelectorAll("#mapCounts .mapcount b").forEach(function(b){
+      var to = parseInt(b.textContent,10)||0; if(!to) return;
+      var t0 = performance.now(), dur = 650;
+      (function step(now){
+        var p = Math.min(1,(now-t0)/dur); p = 1-Math.pow(1-p,3);
+        b.textContent = Math.round(to*p);
+        if(p<1) requestAnimationFrame(step);
+      })(t0);
+    });
+  }
 };
-document.getElementById("mapClose").onclick=function(){ document.getElementById("mapModal").classList.remove("show"); };
+document.getElementById("mapClose").onclick=function(){ hidePrefZoom(); document.getElementById("mapModal").classList.remove("show"); };
 
 /* ── 画像出力（チケット意匠・2列・背景写真） ── */
 function roundRectPath(ctx,x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
@@ -875,33 +1285,6 @@ function drawPhotoBackground(ctx,W,H,photo,xBias){
   ctx.fillStyle=overlay; ctx.fillRect(0,0,W,H);
   var vg=ctx.createRadialGradient(W/2,H*0.42,Math.min(W,H)*0.15,W/2,H*0.42,Math.max(W,H)*0.78);
   vg.addColorStop(0,"rgba(0,0,0,0)"); vg.addColorStop(1,"rgba(0,0,0,0.35)");
-  ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
-}
-// エンブレムの配色（紺・金・赤）を使ったオリジナル背景を描く
-function drawEmblemBackground(ctx,W,H){
-  var bgGrad=ctx.createLinearGradient(0,0,W,H);
-  bgGrad.addColorStop(0,"#0a1224"); bgGrad.addColorStop(0.5,"#111d3a"); bgGrad.addColorStop(1,"#080e1c");
-  ctx.fillStyle=bgGrad; ctx.fillRect(0,0,W,H);
-
-  // 斜めに走る金・赤のバンド（エンブレムの炎・羽根モチーフを抽象化）
-  ctx.save();
-  ctx.translate(W*0.5,H*0.5);
-  ctx.rotate(-16*Math.PI/180);
-  var bands=[
-    {off:-H*0.9,w:H*0.5,color:"rgba(224,185,74,0.10)"},
-    {off:-H*0.25,w:H*0.32,color:"rgba(196,44,44,0.09)"},
-    {off:H*0.25,w:H*0.4,color:"rgba(224,185,74,0.08)"},
-    {off:H*0.75,w:H*0.3,color:"rgba(196,44,44,0.07)"}
-  ];
-  bands.forEach(function(b){
-    ctx.fillStyle=b.color;
-    ctx.fillRect(-W*1.3, b.off, W*2.6, b.w);
-  });
-  ctx.restore();
-
-  // 中央のビネット（暗く落として文字を引き立てる）
-  var vg=ctx.createRadialGradient(W/2,H*0.42,Math.min(W,H)*0.15,W/2,H*0.42,Math.max(W,H)*0.78);
-  vg.addColorStop(0,"rgba(0,0,0,0)"); vg.addColorStop(1,"rgba(0,0,0,0.55)");
   ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
 }
 
@@ -1294,6 +1677,37 @@ document.getElementById("mapSave").onclick=function(){
   });
 };
 
+document.getElementById("btnExport").onclick=function(){
+  exportBackup();
+};
+document.getElementById("btnImport").onclick=function(){
+  document.getElementById("importFile").click();
+};
+document.getElementById("importFile").onchange=function(e){
+  var file = e.target.files && e.target.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(){
+    try{
+      var parsed = importBackupFromText(String(reader.result));
+      var existing = Object.keys(rec).length;
+      var msg = existing>0
+        ? "現在の記録（"+existing+"件）に、読み込んだ"+parsed.count+"件を統合します。同じ試合は読み込んだ内容で上書きされます。よろしいですか？"
+        : "読み込んだ"+parsed.count+"件の記録を反映します。よろしいですか？";
+      if(confirm(msg)){
+        for(var k in parsed.records){ rec[k] = parsed.records[k]; }
+        save(); render();
+        alert("読み込みが完了しました。");
+      }
+    }catch(err){
+      alert("読み込みに失敗しました。バックアップファイル（.json）が正しいかご確認ください。");
+    }
+    document.getElementById("importFile").value="";
+  };
+  reader.onerror = function(){ alert("ファイルの読み込みに失敗しました。"); };
+  reader.readAsText(file);
+};
+
 document.querySelectorAll(".crest").forEach(function(img){ img.src = CREST_IMG; });
 (function(){
   var bg = document.getElementById("headerBg");
@@ -1302,6 +1716,7 @@ document.querySelectorAll(".crest").forEach(function(img){ img.src = CREST_IMG; 
   }
 })();
 render();
+setTimeout(function(){ document.body.classList.remove("boot"); }, 700);
 </script>
 </body>
 </html>
