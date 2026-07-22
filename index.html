@@ -4879,7 +4879,7 @@ function makeScheduleImage(list, filterLabel, going, paddingMode, showTitle){
   }
   var plHcalc=cardH-10;
 
-  return Promise.all([loadCrestImage(), loadSchedBgImage()]).then(function(imgs){
+  return Promise.all([loadCrestImage(), loadSchedBgImage(), ensureFontsReady(fontTextForMatches(list))]).then(function(imgs){
     var crest=imgs[0], schedBg=imgs[1];
     var cv=document.createElement("canvas"); var scale=2;
     cv.width=W*scale; cv.height=H*scale;
@@ -6272,7 +6272,7 @@ function makeCalendarImage(monthList, srcList, paddingMode, showTitle){
   var H=Math.max(Hmin, contentH);
   var colW=Math.floor((W-2*P-GAPX*(cols-1))/cols);
 
-  return Promise.all([loadCrestImage(), loadSchedBgImage()]).then(function(imgs){
+  return Promise.all([loadCrestImage(), loadSchedBgImage(), ensureFontsReady(fontTextForMatches(list))]).then(function(imgs){
     var crest=imgs[0], schedBg=imgs[1];
     var cv=document.createElement("canvas"); var scale=2;
     cv.width=W*scale; cv.height=H*scale;
@@ -6733,6 +6733,8 @@ function svgToImage(svgEl){
 async function makeMapImage(){
   // 表示中のスコープ(今シーズン/全シーズン通算)をそのまま画像化する
   var pstatus = computePrefStatus(mapScope);
+  // 毛筆タイトル等の字形DLを待ってから描画(1回目のフォールバック描画を防ぐ)
+  await ensureFontsReady("ベガルタ仙台 参戦マップ 参戦済み予定検討中非全シーズン通算明治安田J2実績県予定");
   var attCount=0, planCount=0;
   ALL_PREF_NAMES.forEach(function(n){ var s=pstatus[n]; if(s){ if(s.status==="att") attCount++; else if(s.status==="plan") planCount++; } });
 
@@ -6807,9 +6809,42 @@ document.querySelectorAll(".crest").forEach(function(img){ img.src = CREST_IMG; 
     bg.style.backgroundImage = "linear-gradient(180deg, rgba(14,13,10,0.72), rgba(14,13,10,0.82)), url('"+HEADER_BG+"')";
   }
 })();
+/* ── canvas描画前に、使う文字ぶんの Yuji Syuku 読み込みを待つ ──
+   外部フォント(unicode-range分割)は「必要になって初めて」DLされるため、
+   待たずにcanvasへ描くと1回目だけフォールバック書体で焼かれてしまう。
+   生成に使う文字列を渡してフォントDLの完了を待ってから描画する。 */
+function ensureFontsReady(text){
+  if(!(document.fonts && document.fonts.load)) return Promise.resolve();
+  var s = String(text||"");
+  // 重複文字を除いて代表サイズで読み込む(サイズは字形選択に影響しないが念のため複数指定)
+  var uniq = "";
+  var seen = {};
+  for(var i=0;i<s.length;i++){ var ch=s[i]; if(!seen[ch]){ seen[ch]=1; uniq+=ch; } }
+  if(!uniq) uniq = "ベガルタ仙台参戦帳";
+  var fam = '"Yuji Syuku"';
+  var jobs = [
+    document.fonts.load('400 34px '+fam, uniq),
+    document.fonts.load('700 34px '+fam, uniq)
+  ];
+  // 保険として ready(全フォント安定)も待つが、最大1.2秒で切り上げる
+  var guard = new Promise(function(res){ setTimeout(res, 1200); });
+  return Promise.race([
+    Promise.all(jobs).then(function(){ return document.fonts.ready; }).catch(function(){}),
+    guard
+  ]);
+}
+/* 生成対象の全試合から、画像に載る文字(相手名・略称・見出し等)を集める */
+function fontTextForMatches(list){
+  var buf = "ベガルタ仙台 参戦帳 参戦済予検非勝分敗HOMEAWAY全シーズン通算 明治安田J2 第節百年構想天皇杯ルヴァン月日時分未定水火木金土日祝";
+  (list||[]).forEach(function(m){
+    buf += (m.opp||"") + (CITY_SHORT[m.opp]||"") + (m.venue||"") + (m.comp||"") + (m.round||"");
+  });
+  return buf;
+}
 if(document.fonts && document.fonts.load){
-  document.fonts.load('400 20px "Yuji Syuku"');
-  document.fonts.load('400 34px "Yuji Syuku"');
+  // 起動時にタイトル・UIで使う主要字形を先読みしておく(壁紙初回のちらつき軽減)
+  document.fonts.load('400 34px "Yuji Syuku"', "ベガルタ仙台 参戦帳");
+  document.fonts.load('700 20px "Yuji Syuku"', "参戦済予検非勝分敗");
 }
 /* ── モーダル表示中は背後（トップページ）のスクロールを無効化 ── */
 (function(){
@@ -6912,6 +6947,23 @@ var SYNC = (function(){
     if(busy){ pendingAgain = true; return Promise.resolve(); }
     busy = true; stat("同期中…");
 
+    /* ── この端末で前回同期したアカウントを判定 ──
+       ・同一ユーザー         → 従来どおりローカル/クラウドをマージ(複数端末の統合)
+       ・別ユーザーへ切り替え  → クラウドを正としてローカルを丸ごと置き換え
+                                (前アカウントのローカル記録は持ち込まない)
+       ・ローカル専用で貯めた後の“初めて”のログイン
+                              → その記録だけ初回マージでクラウドへ引き継ぐ */
+    var LAST_UID_KEY = "vegalta-last-uid";
+    var prevUid = null;
+    try{ prevUid = localStorage.getItem(LAST_UID_KEY); }catch(e){}
+    var everLoggedIn = (prevUid !== null && prevUid !== "");   // 過去に一度でもログイン同期したか
+    var sameAccount  = everLoggedIn && (prevUid === user.id);
+    // 別アカウント切替 = 過去にログイン実績があり、かつ今回のユーザーが違う
+    var accountSwitched = everLoggedIn && (prevUid !== user.id);
+    // 「クラウド優先で丸ごと置き換える」のは別アカウント切替時のみ。
+    // (初回ログイン=ローカル専用からの移行 は従来どおりマージして引き継ぐ)
+    var cloudWins = accountSwitched;
+
     return sb.from("attendance_docs")
       .select("season_id, records, updated_at")
       .then(function(res){
@@ -6972,12 +7024,29 @@ var SYNC = (function(){
           var localN    = docCount(localRec);
           var remoteN   = docCount(remoteRec);
 
+          var merged, mergedAt;
+          if(cloudWins){
+            // 別アカウントに切り替えた → クラウドを正とし、前アカウントのローカルは破棄。
+            // 空の項目だけ取り除いてクラウドの内容をそのまま採用する。
+            merged = {};
+            for(var rk in remoteRec){ if(remoteRec.hasOwnProperty(rk) && !isEmptyRec(remoteRec[rk])) merged[rk]=remoteRec[rk]; }
+            mergedAt = remoteAt || Date.now();
+            // ローカルを必ずクラウドの内容へ置き換える(前アカウントのデータが残らないように)
+            if(!sameRec(merged, localRec)){
+              try{ localStorage.setItem(s.key, JSON.stringify(merged)); }catch(e){}
+              setLocalAt(s.key, mergedAt);
+              if(s.id === curSeasonId) adoptedCurrent = true;
+            }
+            // クラウドへ書き戻す必要はない(クラウドが正)。押し戻しはしない。
+            return;
+          }
+
           if(localN === 0 && remoteN === 0) return;  // 両方空 → 何もしない
 
           // 試合単位でマージ（競合時は新しい側を優先）
           var localNewer = localAt >= remoteAt;
-          var merged = mergeRecords(localRec, remoteRec, localNewer);
-          var mergedAt = Math.max(localAt, remoteAt) || Date.now();
+          merged = mergeRecords(localRec, remoteRec, localNewer);
+          mergedAt = Math.max(localAt, remoteAt) || Date.now();
 
           // ローカルがマージ結果と異なれば、ローカルを更新（クラウドの新情報を取り込む）
           if(!sameRec(merged, localRec)){
@@ -6996,7 +7065,19 @@ var SYNC = (function(){
           }
         });
 
-        if(adoptedCurrent){ loadRecForKey(); render(); }
+        if(cloudWins){
+          // 別アカウントに切り替えた → 前アカウントのグループ関連ローカルも破棄。
+          // (アクティブグループや表示名が前アカウントのまま残らないようにする)
+          try{
+            localStorage.removeItem(GROUP_ACTIVE_KEY);
+            localStorage.removeItem(GROUP_NICK_KEY);
+          }catch(e){}
+          try{
+            _groupList=null; _groupPlans=null; _groupMembers=null; _groupViewId="";
+          }catch(e){}
+          setActiveGroup("");
+          loadRecForKey(); render();
+        } else if(adoptedCurrent){ loadRecForKey(); render(); }
         var afterAttendance = pushes.length
           ? sb.from("attendance_docs").upsert(pushes, { onConflict: "user_id,season_id" })
           : Promise.resolve({ data:null, error:null });
@@ -7027,6 +7108,8 @@ var SYNC = (function(){
         busy = false;
         var now = Date.now();
         try{ localStorage.setItem("vegalta-last-sync", String(now)); }catch(e){}
+        // この端末で最後に同期したアカウントを記録(次回ログイン時の切替判定に使う)
+        try{ localStorage.setItem("vegalta-last-uid", user.id); }catch(e){}
         window._VG_DIRTY = false;
         if(window.updateSyncBadge) updateSyncBadge();
         stat("最終同期 " + fmtTime(now));
@@ -7103,6 +7186,8 @@ var SYNC = (function(){
       return sb.auth.signOut().then(function(){
         try{
           localStorage.removeItem(MODE_KEY);
+          localStorage.removeItem("vegalta-last-uid");
+          localStorage.removeItem("vegalta-last-sync");
           SEASONS.forEach(function(s){
             localStorage.removeItem(s.key);
             localStorage.removeItem(atKey(s.key));
