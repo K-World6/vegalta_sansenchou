@@ -1940,6 +1940,7 @@
   .grpbtn.danger:active{background:linear-gradient(168deg,#4a2c29,#33201e)}
   .grpfield{margin:8px 0}
   .grpfield label{display:block;font-size:12px;color:#c9bfa8;margin-bottom:4px}
+  .grpnicknote{font-size:11px;line-height:1.5;color:#8fa0bb;margin-top:5px}
   .grpfield input{width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;
     border:1px solid rgba(240,198,74,.3);background:#101a2e;color:#e6ddc4;font-family:inherit;font-size:15px}
   .grptabs{display:inline-flex;margin:2px auto 12px;border:1px solid rgba(240,198,74,.34);
@@ -5747,7 +5748,9 @@ function paintGroupOnboard(fromExisting){
     html += '<div class="grpempty" style="padding-bottom:6px">まだグループに参加していません。<br>新しく作るか、招待コードで参加できます。</div>';
   }
   html += '<div class="grpfield"><label>あなたの表示名（ニックネーム）</label>'
-    + '<input id="grpNick" type="text" maxlength="20" placeholder="例：ベガッ太" value="'+esc(nick)+'"></div>';
+    + '<input id="grpNick" type="text" maxlength="20" placeholder="例：ベガッ太" value="'+esc(nick)+'">'
+    + (nick ? '<div class="grpnicknote">この名前は参加中のすべてのグループで共通です。変更すると全グループに反映されます。</div>' : '')
+    + '</div>';
 
   html += '<div class="dsec"><h3>グループを作る</h3>'
     + '<div class="grpfield"><label>グループ名</label>'
@@ -5779,13 +5782,20 @@ function paintGroupOnboard(fromExisting){
     if(window._lastGroupCreateAt && nowT - window._lastGroupCreateAt < 10000){
       err.textContent="グループを連続して作成することはできません。少し待ってからお試しください"; return;
     }
+    var prevNick = getNick();
     setNick(nk); err.textContent="作成中…";
     btn.disabled=true; btn.style.opacity=".6";
     SYNC.createGroup(nm, nk).then(function(res){
       if(res.error){ err.textContent=mapGroupOpErr(res.error); btn.disabled=false; btn.style.opacity=""; return; }
       window._lastGroupCreateAt = Date.now();
       _groupViewId = res.group_id; setActiveGroup(res.group_id);
-      _pendingJoinCode=""; _groupList=null; renderGroup(true);
+      _pendingJoinCode=""; _groupList=null;
+      // 端末で名前は1つに統一する: 名前を変えて作成したら、既存の全グループも同じ表示名に揃える
+      if(nk !== prevNick && SYNC.updateNickname){
+        SYNC.updateNickname(nk).then(function(){ renderGroup(true); });
+      } else {
+        renderGroup(true);
+      }
     }).catch(function(e){
       err.textContent = groupErrJa(e);
       btn.disabled=false; btn.style.opacity="";
@@ -5801,12 +5811,19 @@ function paintGroupOnboard(fromExisting){
     if(!code){ err.textContent="招待コードを入力してください"; return; }
     if(code.length !== 6){ err.textContent="招待コードは6文字です。入力内容をご確認ください"; return; }
     if((_groupList||[]).length >= MAX_GROUPS){ err.textContent="参加できるグループは"+MAX_GROUPS+"個までです。不要なグループを退出してから参加してください"; return; }
+    var prevNickJ = getNick();
     setNick(nk); err.textContent="参加中…";
     btn.disabled=true; btn.style.opacity=".6";
     SYNC.joinGroup(code, nk).then(function(res){
       if(res.error){ err.textContent=mapGroupOpErr(res.error); btn.disabled=false; btn.style.opacity=""; return; }
       _groupViewId = res.group_id; setActiveGroup(res.group_id);
-      _pendingJoinCode=""; _groupList=null; renderGroup(true);
+      _pendingJoinCode=""; _groupList=null;
+      // 端末で名前は1つに統一する: 名前を変えて参加したら、既存の全グループも同じ表示名に揃える
+      if(nk !== prevNickJ && SYNC.updateNickname){
+        SYNC.updateNickname(nk).then(function(){ renderGroup(true); });
+      } else {
+        renderGroup(true);
+      }
     }).catch(function(e){
       err.textContent = groupErrJa(e);
       btn.disabled=false; btn.style.opacity="";
