@@ -1269,6 +1269,12 @@
   .calviewtoggle button{padding:5px 16px;font-size:12.5px;font-weight:700;background:transparent;color:#d8c8a0;border:none;transition:color .15s ease}
   .calviewtoggle button.on{background:linear-gradient(168deg,#fceaa6 0%,#f3d071 34%,#d9a92e 64%,#f1cb63 100%);color:#1a1508;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(120,80,10,.4)}
+  /* グループ/ソーシャルの切替バー(ヘッダー直下・本文の上に固定配置) */
+  .commviewbar{flex:0 0 auto;display:flex;justify-content:center;
+    padding:10px 16px 6px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    background:linear-gradient(180deg,rgba(12,19,34,.9),rgba(12,19,34,.55))}
+  .commviewbar .calviewtoggle{margin-top:0}
   .scopeseg{display:inline-flex;margin-top:7px;border:1px solid rgba(240,198,74,.34);border-radius:999px;overflow:hidden;
     background:linear-gradient(165deg,#232f47,#151d2c);box-shadow:inset 0 1px 0 rgba(159,182,217,.22),0 2px 8px rgba(0,0,0,.5)}
   .scopeseg button{padding:5px 15px;font-size:12px;font-weight:700;background:transparent;color:#d8c8a0;border:none;cursor:pointer;
@@ -2363,18 +2369,31 @@
     backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;transition:opacity .28s ease}
   .prefsheet.show .prefsheet-scrim{opacity:1}
   .prefsheet-panel{position:absolute;left:0;right:0;bottom:0;
-    max-height:94vh;height:94vh;display:flex;flex-direction:column;
+    /* 画面上端(ステータスバー/ノッチ)に被らないよう、セーフエリア分＋余白を必ず空ける。
+       小さい端末でヘッダーの「閉じる」が欄外に出ないようにする。 */
+    max-height:calc(100vh - env(safe-area-inset-top) - 34px);
+    height:calc(100vh - env(safe-area-inset-top) - 34px);
+    display:flex;flex-direction:column;
     background:linear-gradient(180deg,#141d31,#0d1424);
     border-top:1px solid rgba(240,198,74,.34);
     border-radius:20px 20px 0 0;
     box-shadow:0 -14px 40px rgba(0,0,0,.6);
     transform:translateY(100%);transition:transform .34s cubic-bezier(.32,.72,.28,1);
     padding-bottom:calc(env(safe-area-inset-bottom) + 10px)}
+  /* 画面が低いときはシートをさらに控えめな高さにして、ヘッダーを確実に見せる */
+  @media (max-height: 700px){
+    .prefsheet-panel{max-height:calc(100vh - env(safe-area-inset-top) - 28px);
+      height:calc(100vh - env(safe-area-inset-top) - 28px)}
+    .prefsheet-shape{min-height:180px}
+    .prefsheet-body{max-height:34vh}
+  }
   .prefsheet.show .prefsheet-panel{transform:translateY(0)}
   .prefsheet-panel::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);
     width:38px;height:4px;border-radius:999px;background:rgba(255,255,255,.24)}
   .prefsheet-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:20px 18px 12px;flex:0 0 auto;border-bottom:1px solid rgba(255,255,255,.07)}
+    padding:22px 18px 12px;flex:0 0 auto;border-bottom:1px solid rgba(255,255,255,.07);
+    position:sticky;top:0;z-index:2;
+    background:linear-gradient(180deg,#141d31,rgba(20,29,49,.96))}
   .prefsheet-shape{flex:1 1 auto;min-height:260px;display:block;padding:18px 16px 8px}
   .prefsheet-shape svg{width:100%;height:100%;display:block;overflow:visible;
     filter:drop-shadow(0 10px 24px rgba(0,0,0,.6)) drop-shadow(0 0 14px rgba(255,255,255,.2));
@@ -3055,13 +3074,19 @@
       <img class="crest crestsm" alt="ベガルタ仙台エンブレム">
       <div>
         <div class="mtitle">コミュニティ</div>
-        <div class="calviewtoggle commtoggle">
-          <button data-commview="group">グループ</button>
-          <button class="on" data-commview="social">ソーシャル</button>
+        <div class="scopeseg" id="commScopeSeg">
+          <button data-commscope="season" class="on">シーズン別</button>
+          <button data-commscope="all">全シーズン通算</button>
         </div>
       </div>
     </div>
     <button class="mclose" id="commClose">閉じる</button>
+  </div>
+  <div class="commviewbar">
+    <div class="calviewtoggle commtoggle">
+      <button data-commview="group">グループ</button>
+      <button class="on" data-commview="social">ソーシャル</button>
+    </div>
   </div>
   <div class="mbody dashwrap" id="commBody"></div>
 </div>
@@ -3086,13 +3111,16 @@
       <img class="crest crestsm" alt="ベガルタ仙台エンブレム">
       <div>
         <div class="mtitle">コミュニティ</div>
-        <div class="calviewtoggle commtoggle">
-          <button class="on" data-commview="group">グループ</button>
-          <button data-commview="social">ソーシャル</button>
-        </div>
+        <div class="msub">仲間と参戦予定を共有</div>
       </div>
     </div>
     <button class="mclose" id="groupClose">閉じる</button>
+  </div>
+  <div class="commviewbar">
+    <div class="calviewtoggle commtoggle">
+      <button class="on" data-commview="group">グループ</button>
+      <button data-commview="social">ソーシャル</button>
+    </div>
   </div>
   <div class="mbody dashwrap" id="groupBody"></div>
 </div>
@@ -4190,23 +4218,34 @@ function buildMyPlans(){
   return out;
 }
 
-function buildPrefContribution(){
-  var acc = {};   // code -> {v:0/1, c:0}
+/* 「みんなの集計」用の匿名貢献データ。
+   シーズン別に集計できるよう、シーズンごとに分けて返す。
+   戻り値: [{season_id:"2026-27", payload:{ "04":{v:1,c:25000}, ... }}, ...] */
+function buildPrefContributionsBySeason(){
+  var bySeason = {};   // season_id -> { code -> {v,c} }
   scopedPairs("all").forEach(function(pair){
-    var m = pair.m, r = pair.r || {};
+    var m = pair.m, r = pair.r || {}, sid = pair.sid;
+    if(!sid) return;
     var pname = matchPref(m);
     if(!pname) return;
     var code = PREF_TO_CODE[pname];
     if(!code) return;
+    if(!bySeason[sid]) bySeason[sid] = {};
+    var acc = bySeason[sid];
     if(!acc[code]) acc[code] = { v:0, c:0 };
     if(r.s === "◎") acc[code].v = 1;   // 参戦済みのある県のみ訪問扱い
     var t = costNum(r.ct)+costNum(r.cl)+costNum(r.co);
     if(t > 0) acc[code].c += t;
   });
-  // 訪問も支出も無い県は載せない（payloadを小さく保つ）
-  var out = {};
-  for(var code in acc){
-    if(acc[code].v === 1 || acc[code].c > 0) out[code] = acc[code];
+  var out = [];
+  for(var sid in bySeason){
+    if(!bySeason.hasOwnProperty(sid)) continue;
+    var acc = bySeason[sid], payload = {};
+    // 訪問も支出も無い県は載せない（payloadを小さく保つ）
+    for(var code in acc){
+      if(acc[code].v === 1 || acc[code].c > 0) payload[code] = acc[code];
+    }
+    out.push({ season_id: sid, payload: payload });
   }
   return out;
 }
@@ -5484,6 +5523,7 @@ function paintGroup(){
     + '</div>'
     + '<div class="gc-tools">'
     +   '<button id="grpShareBtn">招待を送る</button>'
+    +   (cur.is_owner ? '<button id="grpRenameBtn">名前を変更</button>' : '')
     +   '<button id="grpDelBtn" class="dg">'+(cur.is_owner?"グループを削除":"グループを退出")+'</button>'
     + '</div>'
     + '</div>';
@@ -5520,6 +5560,51 @@ function paintGroup(){
     else { prompt("招待コード", cur.invite_code); }
   };
   document.getElementById("grpShareBtn").onclick = function(){ shareInvite(cur); };
+  var rnBtn = document.getElementById("grpRenameBtn");
+  if(rnBtn) rnBtn.onclick = function(){
+    var tools = this.parentNode;
+    // 既に編集行が出ていれば閉じる(トグル)
+    var exist = document.getElementById("grpRenameRow");
+    if(exist){ exist.parentNode.removeChild(exist); return; }
+    var row = document.createElement("div");
+    row.id = "grpRenameRow";
+    row.className = "grpfield";
+    row.style.marginTop = "10px";
+    row.innerHTML = '<label>グループ名を変更</label>'
+      + '<input id="grpRenameInp" type="text" maxlength="30" value="'+esc(cur.name||"")+'">'
+      + '<div class="grpshare" style="margin-top:8px">'
+      +   '<button class="grpbtn" id="grpRenameSave">保存する</button>'
+      +   '<button class="grpbtn sub" id="grpRenameCancel">キャンセル</button>'
+      + '</div>'
+      + '<div class="grperr" id="grpRenameErr"></div>';
+    tools.parentNode.insertBefore(row, tools.nextSibling);
+    var inp = document.getElementById("grpRenameInp");
+    inp.focus(); inp.select();
+    document.getElementById("grpRenameCancel").onclick = function(){
+      row.parentNode.removeChild(row);
+    };
+    document.getElementById("grpRenameSave").onclick = function(){
+      var sv = this;
+      if(sv.disabled) return;                        // 連打による二重送信を防ぐ
+      var nm = inp.value.trim();
+      var er = document.getElementById("grpRenameErr");
+      if(!nm){ er.textContent = "グループ名を入力してください"; return; }
+      if(nm === cur.name){ row.parentNode.removeChild(row); return; }
+      er.textContent = "保存中…";
+      sv.disabled = true; sv.style.opacity = ".6";
+      SYNC.renameGroup(cur.group_id, nm).catch(function(e){ return { error: groupErrJa(e) }; })
+        .then(function(res){
+          if(res && res.error){
+            er.textContent = mapGroupOpErr(res.error);
+            sv.disabled = false; sv.style.opacity = "";
+            return;
+          }
+          // 一覧のキャッシュを更新して再描画(再取得せずに即反映)
+          (_groupList||[]).forEach(function(g){ if(g.group_id===cur.group_id) g.name = res.name || nm; });
+          paintGroup();
+        });
+    };
+  };
   document.getElementById("grpNewBtn").onclick = function(){ paintGroupOnboard(true); };
   document.getElementById("grpDelBtn").onclick = function(){
     var owner = cur.is_owner;
@@ -5865,12 +5950,19 @@ document.getElementById("membersClose").onclick=function(){ document.getElementB
 /* ══════════ ソーシャル（コミュニティ集計） ══════════ */
 var commTab = "visitors";     // visitors | spend
 var _commData = null;         // 取得済みデータのキャッシュ
+var commScope = "season";   // "season" = 表示中シーズン / "all" = 全シーズン通算
+var _commScopeLoaded = null; // 取得済みデータがどのスコープのものか
+function commScopeSeasonId(){
+  return commScope==="all" ? "__all"
+       : ((typeof curSeasonId!=="undefined" && curSeasonId) ? curSeasonId : SEASONS[0].id);
+}
 function renderCommunity(force){
   var body = document.getElementById("commBody");
-  if(!_commData || force){
+  var want = commScopeSeasonId();
+  if(!_commData || force || _commScopeLoaded !== want){
     body.innerHTML = '<div class="commempty">集計を読み込んでいます…</div>';
     loadSupabase().then(function(){
-      return SYNC.fetchCommunity();
+      return SYNC.fetchCommunity(want);
     }).then(function(res){
       if(res.error){
         body.innerHTML = '<div class="commempty">集計を読み込めませんでした。<br>'
@@ -5878,7 +5970,10 @@ function renderCommunity(force){
           + '<span style="font-size:11px;opacity:.7">'+esc(String(res.error))+'</span></div>';
         return;
       }
+      // 取得中にスコープが切り替わっていたら、古い結果は捨てる(連打・高速切替対策)
+      if(commScopeSeasonId() !== want) return;
       _commData = res;
+      _commScopeLoaded = want;
       paintCommunity();
     }).catch(function(e){
       // 通信不可・読み込み失敗時に「読み込んでいます…」のまま固まらせない
@@ -5942,7 +6037,10 @@ function paintCommunity(){
     });
   }
   html += '</div>';
-  html += '<p class="commnote">集計はすべて匿名です。個人の記録や金額の順位は表示されません。<br>宮城＝ホーム。参戦済み（◎）のある県を「参戦」として数えています。</p>';
+  var scopeLbl = commScope==="all" ? "全シーズン通算"
+               : ((SEASONS.filter(function(s){return s.id===curSeasonId;})[0]||{}).label || "今シーズン");
+  html += '<p class="commnote">表示範囲：<b style="color:#e8d9ac">'+esc(scopeLbl)+'</b><br>'
+    + '集計はすべて匿名です。個人の記録や金額の順位は表示されません。<br>宮城＝ホーム。参戦済み（◎）のある県を「参戦」として数えています。</p>';
 
   body.innerHTML = html;
 
@@ -5957,6 +6055,21 @@ function paintCommunity(){
     paintCommunity();
   });
 }
+/* コミュニティのシーズン切替(他機能と同じ位置・同じ見た目) */
+(function(){
+  var seg = document.getElementById("commScopeSeg");
+  if(!seg) return;
+  seg.addEventListener("click", function(e){
+    var b = e.target.closest("button[data-commscope]"); if(!b) return;
+    var next = b.getAttribute("data-commscope");
+    if(next === commScope) return;
+    commScope = next;
+    seg.querySelectorAll("button[data-commscope]").forEach(function(x){
+      x.classList.toggle("on", x.getAttribute("data-commscope")===commScope);
+    });
+    renderCommunity();   // スコープが変わったので取り直す
+  });
+})();
 function paintHeatmap(prefs, sortKey, maxV){
   var wrap = document.getElementById("commMapWrap");
   var src = document.querySelector("#mapSvgWrap svg");
@@ -6006,6 +6119,8 @@ function heatColor(t){
 }
 document.getElementById("fabComm").onclick=function(){
   document.getElementById("commModal").classList.add("show");
+  // 他機能(成績・マップ)と同じく、開いたときは「シーズン別」から始める
+  commScope = "season"; resetSeg("commScopeSeg","season","data-commscope");
   renderCommunity(true);   // 開くたびに最新を取得
 };
 document.getElementById("commClose").onclick=function(){ document.getElementById("commModal").classList.remove("show"); };
@@ -7105,11 +7220,24 @@ var SYNC = (function(){
         // 「みんなの集計」用の匿名貢献データを書き出す（閲覧専用端末からは書き出さない）
         if(DEVICE_READONLY) return { data:null, error:null };
         try{
-          var payload = buildPrefContribution();
+          var contribs = buildPrefContributionsBySeason();
+          var nowIso = new Date().toISOString();
+          var rowsC = contribs.map(function(c){
+            return { user_id: user.id, season_id: c.season_id, payload: c.payload, updated_at: nowIso };
+          });
+          if(!rowsC.length) return { data:null, error:null };
           return sb.from("pref_contributions").upsert(
-            { user_id: user.id, payload: payload, updated_at: new Date().toISOString() },
-            { onConflict: "user_id" }
-          );
+            rowsC, { onConflict: "user_id,season_id" }
+          ).then(function(r){
+            // 記録が空になったシーズンの行はクラウドから消す(古い集計が残らないように)
+            var keep = rowsC.map(function(x){ return x.season_id; });
+            try{
+              return sb.from("pref_contributions").delete()
+                .eq("user_id", user.id)
+                .not("season_id","in","("+keep.map(function(s){return '"'+s+'"';}).join(",")+")")
+                .then(function(){ return r; }, function(){ return r; });
+            }catch(e){ return r; }
+          });
         }catch(e){ return { data:null, error:null }; }
       })
       .then(function(res2){
@@ -7240,11 +7368,13 @@ var SYNC = (function(){
   }
 
   /* 「みんなの集計」取得（集計関数経由。生データは取得しない） */
-  function fetchCommunity(){
+  function fetchCommunity(seasonId){
     if(!sb) return Promise.resolve({ error:"未接続" });
+    // seasonId 未指定/"__all" は全シーズン通算
+    var p = { p_season_id: (seasonId && seasonId!=="__all") ? seasonId : null };
     return Promise.all([
-      sb.rpc("community_pref_stats"),
-      sb.rpc("community_totals")
+      sb.rpc("community_pref_stats", p),
+      sb.rpc("community_totals", p)
     ]).then(function(rs){
       var a=rs[0], b=rs[1];
       if(a.error) return { error: a.error.message||"集計取得に失敗" };
@@ -7331,6 +7461,24 @@ var SYNC = (function(){
       return res.error ? { error: res.error.message } : { ok:true };
     });
   }
+  function renameGroup(gid, name){
+    if(!sb || !user) return Promise.resolve({ error:"ログインが必要です" });
+    var nm = String(name||"").trim().slice(0,30);
+    if(!nm) return Promise.resolve({ error:"グループ名を入力してください" });
+    // 作成者(ホスト)のみ変更できる。サーバー側でもRLSで作成者チェックを行うこと。
+    // RLSで弾かれた場合は「エラー無し・更新0件」になるため、
+    // .select() で実際に更新された行が返ったかどうかで成否を判定する。
+    return sb.from("groups").update({ name: nm })
+      .eq("id", gid).eq("created_by", user.id)
+      .select("id,name")
+      .then(function(res){
+        if(res.error) return { error: res.error.message };
+        if(!res.data || !res.data.length){
+          return { error:"グループ名を変更できませんでした。作成者のみ変更できます" };
+        }
+        return { ok:true, name: (res.data[0] && res.data[0].name) || nm };
+      });
+  }
   function leaveGroup(gid){
     if(!sb || !user) return Promise.resolve({ error:"ログインが必要です" });
     return sb.rpc("leave_group", { p_group_id: gid }).then(function(res){
@@ -7385,7 +7533,7 @@ var SYNC = (function(){
            createGroup: createGroup, joinGroup: joinGroup, myGroups: myGroups,
            groupMembers: groupMembers,
            groupPlans: groupPlans, pushMyPlansNow: pushMyPlansNow,
-           deleteGroup: deleteGroup, leaveGroup: leaveGroup, updateNickname: updateNickname,
+           deleteGroup: deleteGroup, leaveGroup: leaveGroup, renameGroup: renameGroup, updateNickname: updateNickname,
            currentUserId: function(){ return user ? user.id : null; },
            signUp: signUp, signIn: signIn, sendReset: sendReset,
            updatePassword: updatePassword, deleteAccount: deleteAccount,
