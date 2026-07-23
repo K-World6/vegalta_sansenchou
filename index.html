@@ -1269,12 +1269,50 @@
   .calviewtoggle button{padding:5px 16px;font-size:12.5px;font-weight:700;background:transparent;color:#d8c8a0;border:none;transition:color .15s ease}
   .calviewtoggle button.on{background:linear-gradient(168deg,#fceaa6 0%,#f3d071 34%,#d9a92e 64%,#f1cb63 100%);color:#1a1508;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(120,80,10,.4)}
-  /* グループ/ソーシャルの切替バー(ヘッダー直下・本文の上に固定配置) */
-  .commviewbar{flex:0 0 auto;display:flex;justify-content:center;
-    padding:10px 16px 6px;
-    border-bottom:1px solid rgba(255,255,255,.06);
-    background:linear-gradient(180deg,rgba(12,19,34,.9),rgba(12,19,34,.55))}
-  .commviewbar .calviewtoggle{margin-top:0}
+  /* グループ/ソーシャルの切替(モーダルヘッダー右側・横並び) */
+  .hdtoggle{flex:0 0 auto;margin-top:0;margin-left:auto;align-self:center;
+    display:inline-flex;flex-direction:row;gap:0;height:28px;box-sizing:border-box;
+    border:1px solid rgba(240,198,74,.34);border-radius:999px;overflow:hidden;
+    background:linear-gradient(165deg,#232f47,#151d2c);
+    box-shadow:inset 0 1px 0 rgba(159,182,217,.22),0 2px 8px rgba(0,0,0,.5)}
+  .hdtoggle button{padding:0 11px;font-size:11px;font-weight:700;
+    background:transparent;color:#d8c8a0;border:none;white-space:nowrap;
+    display:flex;align-items:center;font-family:inherit;transition:color .15s ease}
+  .hdtoggle button+button{border-left:1px solid rgba(240,198,74,.2)}
+  .hdtoggle button.on{background:linear-gradient(168deg,#fceaa6 0%,#f3d071 34%,#d9a92e 64%,#f1cb63 100%);
+    color:#1a1508;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(120,80,10,.4)}
+  /* トグルを置くヘッダーでは、左のタイトル側を縮めてトグルを必ず収める */
+  #commModal .mhd .titlewrap, #groupModal .mhd .titlewrap{min-width:0;flex:0 1 auto}
+  #commModal .mhd .mtitle, #groupModal .mhd .mtitle{
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #commModal .mhd, #groupModal .mhd{gap:8px}
+  /* 幅に余裕がない端末だけエンブレムを省いて、トグルとの間隔を確保する */
+  @media (max-width: 380px){
+    #commModal .mhd .crest, #groupModal .mhd .crest{display:none}
+  }
+  @media (max-width: 340px){
+    .hdtoggle button{padding:0 8px;font-size:10px}
+  }
+  /* ヘッダー内のシーズンフィルター(グループ側)。
+     ソーシャル側の .scopeseg と同じ高さ・同じ見た目に揃え、
+     グループ⇄ソーシャルを切り替えてもヘッダーの高さがズレないようにする。 */
+  /* ヘッダー内のシーズンフィルター(グループ側)。
+     ソーシャル側の .scopeseg と同じ寸法・同じ見た目に揃え、
+     グループ⇄ソーシャルを切り替えてもヘッダー位置がズレないようにする。 */
+  .hdseason{position:relative;padding:0;align-items:center}
+  .hdseason select{appearance:none;-webkit-appearance:none;
+    font-family:inherit;font-size:12px;font-weight:700;color:#f3e2b4;letter-spacing:.02em;
+    background:transparent;border:none;outline:none;
+    padding:5px 28px 5px 15px;margin:0;line-height:1.35;height:26px;
+    max-width:46vw;text-overflow:ellipsis}
+  .hdseason select option{background:#16203a;color:#eee}
+  .hdseason-chev{position:absolute;right:11px;top:50%;transform:translateY(-50%);
+    font-size:8px;color:#d8c8a0;pointer-events:none}
+  /* 折り返しによる高さ変動を防ぐ(位置ズレの原因になるため) */
+  #commModal .mhd .scopeseg, #groupModal .mhd .scopeseg{
+    height:28px;box-sizing:border-box;align-items:stretch}
+  #commModal .mhd .scopeseg button, #groupModal .mhd .scopeseg button{
+    white-space:nowrap;display:flex;align-items:center;padding-top:0;padding-bottom:0}
   .scopeseg{display:inline-flex;margin-top:7px;border:1px solid rgba(240,198,74,.34);border-radius:999px;overflow:hidden;
     background:linear-gradient(165deg,#232f47,#151d2c);box-shadow:inset 0 1px 0 rgba(159,182,217,.22),0 2px 8px rgba(0,0,0,.5)}
   .scopeseg button{padding:5px 15px;font-size:12px;font-weight:700;background:transparent;color:#d8c8a0;border:none;cursor:pointer;
@@ -2392,10 +2430,14 @@
     width:38px;height:4px;border-radius:999px;background:rgba(255,255,255,.24)}
   .prefsheet-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:22px 18px 12px;flex:0 0 auto;border-bottom:1px solid rgba(255,255,255,.07);
-    position:sticky;top:0;z-index:2;
-    background:linear-gradient(180deg,#141d31,rgba(20,29,49,.96))}
-  .prefsheet-shape{flex:1 1 auto;min-height:260px;display:block;padding:18px 16px 8px}
-  .prefsheet-shape svg{width:100%;height:100%;display:block;overflow:visible;
+    position:relative;z-index:3;
+    background:linear-gradient(180deg,#141d31,#141d31)}
+  /* 県の形は自分の領域内だけに描く。
+     以前は overflow:visible で枠外にはみ出し、上のヘッダー(閉じる)に
+     形が重なって見えることがあったため、はみ出しを切って隔離する。 */
+  .prefsheet-shape{flex:1 1 auto;min-height:260px;display:block;padding:18px 16px 8px;
+    position:relative;z-index:1;overflow:hidden;isolation:isolate}
+  .prefsheet-shape svg{width:100%;height:100%;display:block;overflow:hidden;
     filter:drop-shadow(0 10px 24px rgba(0,0,0,.6)) drop-shadow(0 0 14px rgba(255,255,255,.2));
     animation:pzIn .45s cubic-bezier(.2,1.4,.4,1) both}
   .prefsheet-shape:empty{display:none}
@@ -3042,7 +3084,7 @@
         <div class="mtitle">成績サマリー</div>
         <div class="scopeseg" id="dashScopeSeg">
           <button data-scope="season" class="on">シーズン別</button>
-          <button data-scope="all">全シーズン通算</button>
+          <button data-scope="all">通算</button>
         </div>
       </div>
     </div>
@@ -3059,7 +3101,7 @@
         <div class="mtitle">支出管理</div>
         <div class="scopeseg" id="costScopeSeg">
           <button data-cscope="season" class="on">シーズン別</button>
-          <button data-cscope="all">全シーズン通算</button>
+          <button data-cscope="all">通算</button>
         </div>
       </div>
     </div>
@@ -3076,17 +3118,15 @@
         <div class="mtitle">コミュニティ</div>
         <div class="scopeseg" id="commScopeSeg">
           <button data-commscope="season" class="on">シーズン別</button>
-          <button data-commscope="all">全シーズン通算</button>
+          <button data-commscope="all">通算</button>
         </div>
       </div>
     </div>
-    <button class="mclose" id="commClose">閉じる</button>
-  </div>
-  <div class="commviewbar">
-    <div class="calviewtoggle commtoggle">
+    <div class="calviewtoggle commtoggle hdtoggle">
       <button data-commview="group">グループ</button>
       <button class="on" data-commview="social">ソーシャル</button>
     </div>
+    <button class="mclose" id="commClose">閉じる</button>
   </div>
   <div class="mbody dashwrap" id="commBody"></div>
 </div>
@@ -3111,16 +3151,17 @@
       <img class="crest crestsm" alt="ベガルタ仙台エンブレム">
       <div>
         <div class="mtitle">コミュニティ</div>
-        <div class="msub">仲間と参戦予定を共有</div>
+        <div class="scopeseg hdseason" id="grpSeasonWrap">
+          <select id="grpSeasonSelHd" aria-label="シーズンを選ぶ"></select>
+          <span class="hdseason-chev" aria-hidden="true">▼</span>
+        </div>
       </div>
     </div>
-    <button class="mclose" id="groupClose">閉じる</button>
-  </div>
-  <div class="commviewbar">
-    <div class="calviewtoggle commtoggle">
+    <div class="calviewtoggle commtoggle hdtoggle">
       <button class="on" data-commview="group">グループ</button>
       <button data-commview="social">ソーシャル</button>
     </div>
+    <button class="mclose" id="groupClose">閉じる</button>
   </div>
   <div class="mbody dashwrap" id="groupBody"></div>
 </div>
@@ -3164,7 +3205,7 @@
         <div class="mtitle">参戦マップ</div>
         <div class="scopeseg" id="mapScopeSeg">
           <button data-scope="season" class="on">シーズン別</button>
-          <button data-scope="all">全シーズン通算</button>
+          <button data-scope="all">通算</button>
         </div>
       </div>
     </div>
@@ -5465,8 +5506,30 @@ function groupErrJa(e){
   if(/failed to fetch|network|failed to load|load failed|timeout|dynamically imported/i.test(s)) return "通信できませんでした。電波状況を確認して、もう一度お試しください";
   return s;
 }
+/* ヘッダーのシーズンフィルター(グループ側)を組み立てる。
+   グループ有無にかかわらず常に描画し、ヘッダーの高さを一定に保つ。 */
+function buildGroupSeasonHeader(){
+  var sel = document.getElementById("grpSeasonSelHd");
+  if(!sel) return;
+  if(!groupSeasonId || !SEASONS.some(function(s){return s.id===groupSeasonId;})){
+    groupSeasonId = (typeof curSeasonId!=="undefined" && curSeasonId) ? curSeasonId : SEASONS[0].id;
+  }
+  sel.innerHTML = SEASONS.map(function(s){
+    return '<option value="'+s.id+'"'+(groupSeasonId===s.id?" selected":"")+'>'+esc(s.label)+'</option>';
+  }).join("");
+  sel.value = groupSeasonId;
+  // 配線は一度だけ(再描画のたびに重複登録しない)
+  if(!sel._wired){
+    sel._wired = true;
+    sel.onchange = function(){
+      groupSeasonId = this.value;
+      if(typeof paintMatches === "function" && (_groupList||[]).length) paintMatches();
+    };
+  }
+}
 function renderGroup(force){
   var body = document.getElementById("groupBody");
+  buildGroupSeasonHeader();
   loadSupabase().then(function(){
     if(!SYNC || !SYNC.myGroups){ body.innerHTML='<div class="grpempty">同期機能の初期化中です。少し待って再度お試しください。</div>'; return; }
     return SYNC.myGroups().then(function(res){
@@ -5485,6 +5548,7 @@ function renderGroup(force){
 
 function paintGroup(){
   var body = document.getElementById("groupBody");
+  buildGroupSeasonHeader();
   var groups = _groupList || [];
   if(!groups.length){ paintGroupOnboard(); return; }
 
@@ -5530,18 +5594,10 @@ function paintGroup(){
   // 別のグループへ(このグループには紐づかない操作なのでカードの外に)
   html += '<button class="gjoinother" id="grpNewBtn">＋ 別のグループを作成／参加</button>';
 
-  // タブ
+  // シーズンの選択はヘッダーのフィルター(grpSeasonSelHd)に移設済み
   if(!groupSeasonId || !SEASONS.some(function(s){return s.id===groupSeasonId;})){
     groupSeasonId = (typeof curSeasonId!=="undefined" && curSeasonId) ? curSeasonId : SEASONS[0].id;
   }
-  html += '<div class="grpseason">'
-    + '<span class="grpseasonlbl">シーズン</span>'
-    + '<select id="grpSeasonSel">'
-    + SEASONS.map(function(s){
-        return '<option value="'+s.id+'"'+(groupSeasonId===s.id?" selected":"")+'>'+esc(s.label)+'</option>';
-      }).join("")
-    + '</select></div>';
-
 
   html += '<div id="grpMatches"><div class="grpempty">予定を読み込んでいます…</div></div>';
   html += '<p class="grpnote">自分の予定は同期のたびに自動で共有されます。<br>表示名やコードは仲間だけに見えます。</p>';
@@ -5628,11 +5684,7 @@ function paintGroup(){
       if(_groupList.length) paintGroup(); else paintGroupOnboard();
     });
   };
-  var seasonSel = document.getElementById("grpSeasonSel");
-  if(seasonSel) seasonSel.onchange = function(){
-    groupSeasonId = this.value;
-    paintMatches();
-  };
+  // シーズンフィルターはヘッダーに移設済み(buildGroupSeasonHeaderで配線)
 
   // 自分の最新予定を書き出してから取得（アクティブグループとして）
   setActiveGroup(_groupViewId);
