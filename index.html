@@ -2,6 +2,7 @@
 <html><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<script>/* 自分自身の再取得を止める（未定義だとランタイムが location.href を fetch し直す） */window.__resources = window.__resources || {};</script>
 <script>
 /**
  * @license React
@@ -1976,7 +1977,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           console.error(
             '[dc-runtime] sibling fetch for "' + name + '":',
             url,
-            "has no <x-dc> block \u2014 not a Design Component."
+            "has no <x-" + "dc> block \u2014 not a Design Component."
           );
           return;
         }
