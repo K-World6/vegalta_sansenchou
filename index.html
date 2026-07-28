@@ -3625,7 +3625,7 @@ input::placeholder{color:rgba(255,255,255,.3)}
 
 </helmet>
 
-<div style="position:fixed;inset:0;height:100vh;height:100dvh;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 80% at 50% -10%,#12203c 0%,#0a1527 42%,#05080f 100%);overflow:hidden">
+<div style="position:fixed;top:0;left:0;right:0;bottom:auto;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 80% at 50% -10%,#12203c 0%,#0a1527 42%,#05080f 100%);overflow:hidden">
 
 <div style="position:absolute;top:-18%;left:50%;width:min(760px,150vw);height:60vh;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(240,198,74,.16),transparent 72%);filter:blur(12px);pointer-events:none"></div>
 
@@ -4276,11 +4276,7 @@ input::placeholder{color:rgba(255,255,255,.3)}
           <div style="padding:11px 12px;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.04));border-bottom:.5px solid rgba(255,255,255,.12)">
             <div style="font-size:9px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.5)">GROUP — 参戦グループ</div>
             <div style="position:relative;display:flex;align-items:center;margin-top:3px">
-              <sc-raw-select value="{{ grp.viewId }}" sc-camel-on-change="{{ grp.select }}" style="flex:1;min-width:0;height:34px;padding:0 26px 0 2px;border:0;background:transparent;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:17px;font-weight:700;color:#ffe9ac;appearance:none;-webkit-appearance:none;outline:none;cursor:pointer">
-                <sc-for list="{{ grp.opts }}" as="op" hint-placeholder-count="1">
-                  <option value="{{ op.v }}">{{ op.lbl }}</option>
-                </sc-for>
-              </sc-raw-select>
+              <button sc-camel-on-click="{{ grp.openPicker }}" style="flex:1;min-width:0;height:34px;padding:0 26px 0 2px;border:0;background:transparent;text-align:left;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:17px;font-weight:700;color:#ffe9ac;outline:none;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" style-active="opacity:.6">{{ grp.name }}</button>
               <span style="position:absolute;right:2px;font-size:10px;color:rgba(255,233,172,.7);pointer-events:none">▼</span>
             </div>
             <div style="display:flex;align-items:center;gap:7px;margin-top:6px">
@@ -4428,7 +4424,7 @@ input::placeholder{color:rgba(255,255,255,.3)}
   </main>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-  <div style="position:absolute;right:10px;bottom:84px;z-index:35;display:flex;flex-direction:row;align-items:center;gap:8px">
+  <div style="position:absolute;right:10px;bottom:calc(88px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
     <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;border-radius:15px;display:flex;align-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);box-shadow:inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.94)">{{ bulkLabel }}</button>
     <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.9)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 14.5 12 8l7 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -4492,8 +4488,7 @@ input::placeholder{color:rgba(255,255,255,.3)}
                 <svg sc-camel-view-box="0 0 44 44" width="22" height="22" aria-hidden="true" style="position:absolute;inset:0;color:{{ pr.sRing }}"><use href="#ballSeal"></use></svg>
                 <b style="position:relative;top:-.5px;font-family:'Yuji Syuku','Hiragino Mincho ProN',serif;font-size:11px;font-weight:700;color:#fff;text-shadow:0 0 3px rgba(6,12,24,.95),0 0 7px rgba(6,12,24,.7)">{{ pr.glyph }}</b>
               </span>
-              <span style="flex:none;width:56px;text-align:left;font-size:10.5px;font-weight:800;color:rgba(255,255,255,.72);font-variant-numeric:tabular-nums;white-space:nowrap">{{ pr.when }}<span style="margin-left:2px;font-size:8.5px;color:rgba(255,255,255,.5)">{{ pr.dow }}</span></span>
-              <span style="flex:none;width:11px;text-align:center;font-size:9px;font-weight:800;color:{{ pr.haC }}">{{ pr.ha }}</span>
+              <span style="flex:none;width:78px;text-align:left;font-size:10.5px;font-weight:800;color:rgba(255,255,255,.72);font-variant-numeric:tabular-nums;white-space:nowrap">{{ pr.when }}<span style="margin-left:2px;font-size:8.5px;color:rgba(255,255,255,.5)">{{ pr.dow }}</span></span>
               <span role="img" style="flex:none;width:22px;height:22px;background-image:{{ pr.crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
               <span style="flex:1;min-width:0;font-size:11.5px;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ pr.opp }}</span>
               <span style="flex:none;width:30px;text-align:right;font-size:12px;font-weight:800;color:{{ pr.scoreC }};font-variant-numeric:tabular-nums">{{ pr.score }}</span>
@@ -4716,7 +4711,7 @@ input::placeholder{color:rgba(255,255,255,.3)}
   </sc-if>
 
   <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;left:0;right:0;bottom:92px;z-index:60;display:flex;justify-content:center;pointer-events:none">
+    <div style="position:absolute;left:0;right:0;bottom:calc(92px + env(safe-area-inset-bottom, 0px));z-index:60;display:flex;justify-content:center;pointer-events:none">
       <div style="padding:11px 18px;border-radius:18px;background:rgba(20,30,50,.86);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 12px 30px -14px rgba(0,0,0,1);color:#fff;font-size:12.5px;font-weight:600;animation:toastIn .4s cubic-bezier(.32,1.4,.5,1) both">{{ toast }}</div>
     </div>
   </sc-if>
@@ -5016,7 +5011,7 @@ class Component extends DCLogic {
       calMonth: null,
       prefSheet: null,
       mapZoom: 100, mapPanX: 0, mapPanY: 0,
-      commView: "social",
+      commView: "group",
       commTab: "visitors",
       wall: {filter:true, density:"normal", result:true, title:true},
       grp: {list:[], viewId:null, nick:"", onboard:false, memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""},
@@ -5121,8 +5116,13 @@ class Component extends DCLogic {
   componentDidMount(){
     var g0=this.loadGrp(), nk="";
     try{ nk=localStorage.getItem(this.NKEY())||""; }catch(e){}
-    this.setState({grp:{list:g0.list, viewId:g0.viewId, nick:nk, onboard:g0.list.length===0,
-      memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""}});
+    var inv=this.takeInvite();
+    this.setState({grp:{list:g0.list, viewId:g0.viewId, nick:nk, onboard:(g0.list.length===0 || !!inv),
+      memOpen:false, renameOpen:false, nameInp:"", codeInp:inv, renameInp:"", errC:"", errJ:"", errR:""}});
+    if(inv){
+      this.setState({tab:"comm", commView:"group"});
+      this.toast("招待コードを読み込みました");
+    }
 
     this._touch = this.onTouchFx.bind(this);
     document.addEventListener("pointerdown", this._touch, {passive:true});
@@ -5867,6 +5867,23 @@ class Component extends DCLogic {
     try{ var s=localStorage.getItem(this.GKEY()); if(s){ var o=JSON.parse(s); if(o && o.list) return o; } }catch(e){}
     return { list:[], viewId:null };
   }
+  inviteUrl(code){
+    try{
+      var base=location.origin+location.pathname;
+      return base+"?g="+encodeURIComponent(code);
+    }catch(e){ return ""; }
+  }
+  /* 招待リンク（?g=CODE）で開かれたらコードを取り込み、URLからは消す */
+  takeInvite(){
+    try{
+      var sp=new URLSearchParams(location.search);
+      var c=sp.get("g"); if(!c) return "";
+      sp.delete("g");
+      var q=sp.toString();
+      history.replaceState(null, "", location.pathname + (q?("?"+q):"") + location.hash);
+      return String(c).toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);
+    }catch(e){ return ""; }
+  }
   saveGrp(g){ try{ localStorage.setItem(this.GKEY(), JSON.stringify({list:g.list, viewId:g.viewId})); }catch(e){} }
   gset(patch, save){
     var self=this;
@@ -6022,6 +6039,7 @@ class Component extends DCLogic {
         self.gset({list:list.concat([ng]), viewId:ng.group_id, onboard:false, codeInp:"", errJ:""}, true);
         self.toast("グループに参加しました");
       },
+      openPicker: function(){ self.haptic(8); self.setState({sheet:"group"}); },
       select: function(e){
         self.haptic(8);
         var gid=e.target.value;
@@ -6040,7 +6058,8 @@ class Component extends DCLogic {
       share: function(){
         if(!cur) return;
         self.haptic(8);
-        var msg="ベガルタ仙台 参戦帳のグループ「"+cur.name+"」に参加しませんか？\n招待コード: "+cur.invite_code;
+        var url=self.inviteUrl(cur.invite_code);
+        var msg="ベガルタ仙台 参戦帳のグループ「"+cur.name+"」に参加しませんか？\n招待コード: "+cur.invite_code+(url?("\n"+url):"");
         if(navigator.share) navigator.share({title:"参戦帳グループ招待", text:msg}).catch(function(){});
         else { if(navigator.clipboard) navigator.clipboard.writeText(msg).catch(function(){}); self.toast("招待メッセージをコピーしました"); }
       },
@@ -6576,7 +6595,10 @@ class Component extends DCLogic {
         stColor: e ? this.PREF_STATUS_COLOR[e.st] : "rgba(255,255,255,.3)",
         rows: e ? e.matches.map(function(pr){
           var s=pr.r.s, oc=self.outcome(pr.m);
-          return {when:(pr.m.year!=null?(pr.m.year+"/"):"")+pr.m.date, dow:"("+pr.m.dow+")", opp:pr.m.opp, venue:pr.m.venue,
+          var pad2=function(v){ return ("0"+String(v==null?"":v).trim()).slice(-2); };
+          var md=String(pr.m.date||"").split("/");
+          var ymd=(pr.m.year!=null?(pad2(pr.m.year%100)+"/"):"")+pad2(md[0])+"/"+pad2(md[1]);
+          return {when:ymd, dow:"("+pr.m.dow+")", opp:pr.m.opp, venue:pr.m.venue,
             glyph: s?self.STATUS_GLYPH[s]:"未", gcolor: s?self.STATUS_COLOR[s]:"rgba(255,255,255,.3)",
             sFill: self.sealStyle(s?self.STATUS_COLOR[s]:"rgba(255,255,255,.3)").fill,
             sRing: self.sealStyle(s?self.STATUS_COLOR[s]:"rgba(255,255,255,.3)").ring,
@@ -6584,8 +6606,7 @@ class Component extends DCLogic {
             crestBg: self.CREST[pr.m.opp] ? ("url('"+self.CREST[pr.m.opp]+"')") : "none",
             hasScore: !!oc,
             score: oc ? (pr.m.result.gf+"-"+pr.m.result.ga) : "",
-            scoreC: oc ? {win:"#ffdf8a",draw:"#cfd8e6",lose:"#e79b95"}[oc] : "rgba(255,255,255,.6)",
-            ha: pr.m.home?"H":"A", haC: pr.m.home?"#f0c64a":"#a8c8f0"};
+            scoreC: oc ? {win:"#ffdf8a",draw:"#cfd8e6",lose:"#e79b95"}[oc] : "rgba(255,255,255,.6)"};
         }) : []
       };
     }
@@ -7034,8 +7055,7 @@ class Component extends DCLogic {
     var self=this;
     var u=Math.max(bb.width, bb.height);
     var vb={x:bb.x-pad, y:bb.y-pad, w:bb.width+pad*2, h:bb.height+pad*2};
-    /* 県の形だけを見せる（会場マーカーとチーム名は出さない） */
-    var marks=[];
+    var marks=this.stadiumMarks(name, this._prefMap||{});
     if(!marks.length) return;
     var fs=u*0.062, cs=fs*1.9;
     var placedRects=[], placedLinks=[];
@@ -7059,83 +7079,14 @@ class Component extends DCLogic {
       m.px=bb.x + m.fx*bb.width;
       m.py=bb.y + m.fy*bb.height;
       var ps=u*0.15;
+      /* エンブレムのみ。無い会場は何も置かない（丸いピンは出さない） */
       if(m.crest){
         svg.appendChild(self.svgEl("image",{class:"pz-pin", href:m.crest, x:m.px-ps/2, y:m.py-ps/2,
           width:ps, height:ps, preserveAspectRatio:"xMidYMid meet"}));
-      } else {
-        svg.appendChild(self.svgEl("circle",{class:"pz-pin", cx:m.px, cy:m.py, r:u*0.03, fill:"#f0c64a", stroke:"#0a1220", "stroke-width":u*0.008}));
       }
       placedRects.push({x:m.px-ps*0.62, y:m.py-ps*0.62, w:ps*1.24, h:ps*1.24});
     });
-    /* ラベル配置：他マーカーの重心から自分へ向かう向きを基準に、左右へ振りながら探索 */
-    marks.forEach(function(m){
-      var w=m.label.length*fs*1.04;
-      var ox=0, oy=0, on=0;
-      marks.forEach(function(o){ if(o!==m){ ox+=o.px; oy+=o.py; on++; } });
-      var baseAng = on>0 ? Math.atan2(m.py-(oy/on), m.px-(ox/on))
-                         : Math.atan2(m.py-(bb.y+bb.height/2), m.px-(bb.x+bb.width/2));
-      var offs=[0,18,-18,36,-36,54,-54,72,-72,90,-90,120,-120,150,-150,180];
-      var best=null, fallback=null, fbScore=Infinity;
-      for(var oi=0; oi<offs.length; oi++){
-        var ang=baseAng + offs[oi]*Math.PI/180;
-        var nx=Math.cos(ang), ny=Math.sin(ang);
-        for(var d=u*0.24; d<=u*1.05; d+=u*0.045){
-          var ax=m.px + nx*d, ay=m.py + ny*d;
-          var anchor, rx;
-          if(nx>0.2){ anchor="start"; rx=ax; }
-          else if(nx<-0.2){ anchor="end"; rx=ax-w; }
-          else { anchor="middle"; rx=ax-w/2; }
-          var rect={x:rx, y:ay-fs*0.85, w:w, h:fs*1.15};
-          var mgn=u*0.015, oob=0;
-          var minX=vb.x+mgn, minY=vb.y+mgn, maxX=vb.x+vb.w-mgn-rect.w, maxY=vb.y+vb.h-mgn-rect.h;
-          if(maxX<minX){ maxX=minX; }
-          if(maxY<minY){ maxY=minY; }
-          if(rect.x<minX){ oob+=minX-rect.x; ax+=minX-rect.x; rect.x=minX; }
-          else if(rect.x>maxX){ oob+=rect.x-maxX; ax-=rect.x-maxX; rect.x=maxX; }
-          if(rect.y<minY){ oob+=minY-rect.y; ay+=minY-rect.y; rect.y=minY; }
-          else if(rect.y>maxY){ oob+=rect.y-maxY; ay-=rect.y-maxY; rect.y=maxY; }
-          var cand1={x:ax,y:ay}, cand2={x:m.px,y:m.py}, crossed=false;
-          for(var lq=0; lq<placedLinks.length; lq++){
-            if(segCross(cand1,cand2,placedLinks[lq].a,placedLinks[lq].b)){ crossed=true; break; }
-            if(segRect(placedLinks[lq].a, placedLinks[lq].b, rect)){ crossed=true; break; }
-          }
-          var pen = (crossed ? 100000 : 0) + oob*30;
-          for(var q=0; q<placedRects.length; q++){
-            pen += overlapArea(rect, placedRects[q])*20;
-            if(segRect(cand1,cand2,placedRects[q])) pen += u*u*0.02;
-          }
-          var score = pen + d*0.0015 + Math.abs(offs[oi])*0.00002;
-          if(pen===0){ best={ax:ax, ay:ay, anchor:anchor, rect:rect, nx:nx, ny:ny}; break; }
-          if(score<fbScore){ fbScore=score; fallback={ax:ax, ay:ay, anchor:anchor, rect:rect, nx:nx, ny:ny}; }
-        }
-        if(best) break;
-      }
-      if(!best) best=fallback;
-      if(!best){
-        var fw=m.label.length*fs*1.04, fx=Math.min(Math.max(m.px-fw/2, vb.x+u*0.015), vb.x+vb.w-u*0.015-fw);
-        var fy=Math.min(m.py+u*0.22, vb.y+vb.h-u*0.03);
-        best={ax:fx+fw/2, ay:fy, anchor:"middle", rect:{x:fx,y:fy-fs*0.85,w:fw,h:fs*1.15}, nx:0, ny:1};
-      }
-      placedRects.push(best.rect);
-      placedLinks.push({a:{x:best.ax,y:best.ay}, b:{x:m.px,y:m.py}});
-
-      var sx=best.ax - best.nx*u*0.02, sy=best.ay - best.ny*u*0.02;
-      var ex=m.px + best.nx*u*0.075, ey=m.py + best.ny*u*0.075;
-      svg.appendChild(self.svgEl("line",{class:"pz-link", x1:sx, y1:sy, x2:ex, y2:ey, "stroke-width":u*0.009}));
-      var lineLen=Math.sqrt((ex-sx)*(ex-sx)+(ey-sy)*(ey-sy));
-      var seg=Math.max(lineLen*0.28, u*0.02), cycle=seg+lineLen+seg;
-      var pulse=self.svgEl("line",{class:"pz-pulse", x1:sx, y1:sy, x2:ex, y2:ey, "stroke-width":u*0.013});
-      pulse.style.strokeDasharray = seg+" "+(cycle-seg);
-      pulse.style.setProperty("--flow", (-cycle)+"px");
-      svg.appendChild(pulse);
-
-      var tx=self.svgEl("text",{class:"pz-label",
-        x: best.ax + (best.anchor==="start" ? u*0.02 : (best.anchor==="end" ? -u*0.02 : 0)),
-        y: best.ay + fs*0.32, "font-size":fs, fill:"#f4f4f3", stroke:"#0a1220",
-        "stroke-width":fs*0.28, "paint-order":"stroke", "text-anchor":best.anchor, "font-weight":"700"});
-      tx.textContent=m.label;
-      svg.appendChild(tx);
-    });
+    /* チーム名ラベルと引き出し線は表示しない */
   }
 
   /* 地図SVGを注入して塗る */
@@ -7400,6 +7351,27 @@ class Component extends DCLogic {
           bg: on ? "rgba(240,198,74,.16)" : "rgba(255,255,255,.055)",
           bd: on ? "rgba(240,198,74,.36)" : "rgba(255,255,255,.1)",
           onTap: function(){ self.haptic(8); self.setState({filter:f[0], sheet:null}); }
+        };
+      });
+    } else if(this.state.sheet==="group"){
+      sheetTitle = "グループ";
+      var glist = (this.state.grp && this.state.grp.list) || [];
+      var gNameCount={}; glist.forEach(function(x){ gNameCount[x.name]=(gNameCount[x.name]||0)+1; });
+      sheetItems = glist.map(function(x){
+        var on = x.group_id===self.state.grp.viewId;
+        var lbl = x.name; if(gNameCount[x.name]>1 && x.invite_code) lbl += "（"+x.invite_code+"）";
+        return {
+          label: lbl, count: ((x.members&&x.members.length) ? (x.members.length+1)+"名" : ""),
+          check: on ? "✓" : "",
+          bg: on ? "rgba(240,198,74,.16)" : "rgba(255,255,255,.055)",
+          bd: on ? "rgba(240,198,74,.36)" : "rgba(255,255,255,.1)",
+          onTap: function(){
+            self.haptic(8);
+            self._detailFor=null;
+            self.setState({sheet:null});
+            self.gset({viewId:x.group_id, memOpen:false, renameOpen:false}, true);
+            if(window.VGSync && self.state.user) self.loadGroupDetail(x.group_id);
+          }
         };
       });
     }
