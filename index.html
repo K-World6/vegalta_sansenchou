@@ -2256,8 +2256,21 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
 
   function load(){
     if(ready) return ready;
-    var timeout = new Promise(function(_,rej){ setTimeout(function(){ rej(new Error("timeout")); }, 15000); });
-    var task = import("https://esm.sh/@supabase/supabase-js@2").then(function(mod){
+    var timeout = new Promise(function(_,rej){ setTimeout(function(){ rej(new Error("timeout")); }, 25000); });
+    /* 1つのCDNが落ちてもログインできなくならないよう順に試す */
+    var CDN = [
+      "https://esm.sh/@supabase/supabase-js@2",
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm",
+      "https://esm.run/@supabase/supabase-js@2",
+      "https://unpkg.com/@supabase/supabase-js@2/dist/module/index.js"
+    ];
+    function pickCdn(i){
+      return import(CDN[i]).catch(function(e){
+        if(i+1 < CDN.length) return pickCdn(i+1);
+        throw e;
+      });
+    }
+    var task = pickCdn(0).then(function(mod){
       sb = mod.createClient(SUPABASE_URL, SUPABASE_ANON);
       sb.auth.onAuthStateChange(function(_e, session){
         user = session ? session.user : null;
@@ -3572,6 +3585,13 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
 </style>
 <style>
 *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+button{touch-action:manipulation}
+button:focus{outline:none}
+button:focus-visible{outline:2px solid rgba(240,198,74,.85);outline-offset:2px}
+::selection{background:rgba(240,198,74,.3)}
 html,body{margin:0;height:100%;background:#05080f;overscroll-behavior:none}
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Sans","Yu Gothic UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#f0c64a;text-decoration:none}a:hover{color:#ffd96b}
@@ -3866,7 +3886,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                         <button sc-camel-on-click="{{ c.onTap }}" style="height:31px;padding:0 8px;border-radius:3px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }};transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.92)">{{ c.q }}</button>
                       </sc-for>
                     </div>
-                    <input value="{{ row.tn }}" sc-camel-on-change="{{ row.onTn }}" placeholder="補足）新幹線 やまびこ など" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
+                    <input value="{{ row.tn }}" sc-camel-on-change="{{ row.onTn }}" placeholder="補足）新幹線 やまびこ など" autocapitalize="off" autocorrect="off" enterkeyhint="done" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
                   </div>
 
                   <div style="min-width:0;padding-left:11px;border-left:1px dashed {{ row.rule }}">
@@ -3878,7 +3898,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                         <button sc-camel-on-click="{{ c.onTap }}" style="height:31px;padding:0 8px;border-radius:3px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }};transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.92)">{{ c.q }}</button>
                       </sc-for>
                     </div>
-                    <input value="{{ row.hn }}" sc-camel-on-change="{{ row.onHn }}" placeholder="補足）〇〇ホテル 前泊 など" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
+                    <input value="{{ row.hn }}" sc-camel-on-change="{{ row.onHn }}" placeholder="補足）〇〇ホテル 前泊 など" autocapitalize="off" autocorrect="off" enterkeyhint="done" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
                   </div>
                 </div>
 
@@ -3894,7 +3914,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                       <span style="font-size:10px;font-weight:700;color:{{ row.inkSub }};white-space:nowrap;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ cf.label }}</span>
                       <span style="display:flex;align-items:center;height:31px;padding:0 2px;border-bottom:1px dotted {{ row.perf }}" style-focus-within="border-bottom-color:{{ row.ink }}">
                         <span style="flex:none;font-size:11.5px;color:{{ row.inkFaint }};margin-right:3px;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">¥</span>
-                        <input value="{{ cf.value }}" sc-camel-on-change="{{ cf.onInput }}" inputmode="numeric" maxlength="8" placeholder="{{ cf.ph }}" style="flex:1;min-width:0;background:transparent;border:0;outline:none;color:{{ row.ink }};font-size:16px;font-family:inherit;font-variant-numeric:tabular-nums">
+                        <input value="{{ cf.value }}" sc-camel-on-change="{{ cf.onInput }}" inputmode="numeric" maxlength="8" placeholder="{{ cf.ph }}" enterkeyhint="done" style="flex:1;min-width:0;background:transparent;border:0;outline:none;color:{{ row.ink }};font-size:16px;font-family:inherit;font-variant-numeric:tabular-nums">
                       </span>
                     </div>
                   </sc-for>
@@ -4319,7 +4339,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <sc-if value="{{ grp.renameOpen }}" hint-placeholder-val="{{ false }}">
             <div style="padding:0 12px 11px">
               <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">グループ名を変更</label>
-              <input value="{{ grp.renameInp }}" sc-camel-on-change="{{ grp.onRenameInp }}" maxlength="30" style="width:100%;height:40px;margin-top:6px;padding:0 11px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+              <input value="{{ grp.renameInp }}" sc-camel-on-change="{{ grp.onRenameInp }}" maxlength="30" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:40px;margin-top:6px;padding:0 11px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
               <div style="display:flex;gap:6px;margin-top:8px">
                 <button sc-camel-on-click="{{ grp.renameSave }}" style="flex:1;height:36px;border-radius:11px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.12));color:#ffe9ac;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">保存する</button>
                 <button sc-camel-on-click="{{ grp.renameCancel }}" style="flex:1;height:36px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">キャンセル</button>
@@ -4406,20 +4426,20 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-if>
           <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">あなたの表示名（ニックネーム）</label>
-            <input value="{{ grp.nick }}" sc-camel-on-change="{{ grp.onNick }}" maxlength="20" placeholder="例：ベガッ太" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+            <input value="{{ grp.nick }}" sc-camel-on-change="{{ grp.onNick }}" maxlength="20" placeholder="例：ベガッ太" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
             <p style="margin:7px 0 0;font-size:9.5px;line-height:1.6;color:rgba(255,255,255,.4)">この名前は参加中のすべてのグループで共通です。変更すると全グループに反映されます。</p>
           </section>
           <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
             <h3 style="margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#ffe9ac">グループを作る</h3>
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">グループ名</label>
-            <input value="{{ grp.nameInp }}" sc-camel-on-change="{{ grp.onName }}" maxlength="30" placeholder="例：ベガサポ仲間" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+            <input value="{{ grp.nameInp }}" sc-camel-on-change="{{ grp.onName }}" maxlength="30" placeholder="例：ベガサポ仲間" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
             <button sc-camel-on-click="{{ grp.create }}" style="width:100%;height:44px;margin-top:9px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">作成する</button>
             <div style="margin-top:7px;font-size:10.5px;line-height:1.5;font-weight:700;color:#f0a89f">{{ grp.errC }}</div>
           </section>
           <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
             <h3 style="margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#ffe9ac">招待コードで参加</h3>
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">招待コード</label>
-            <input value="{{ grp.codeInp }}" sc-camel-on-change="{{ grp.onCode }}" maxlength="6" placeholder="6文字のコード" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;text-transform:uppercase;letter-spacing:.15em;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+            <input value="{{ grp.codeInp }}" sc-camel-on-change="{{ grp.onCode }}" maxlength="6" placeholder="6文字のコード" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;text-transform:uppercase;letter-spacing:.15em;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
             <button sc-camel-on-click="{{ grp.join }}" style="width:100%;height:44px;margin-top:9px;border-radius:13px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">参加する</button>
             <div style="margin-top:7px;font-size:10.5px;line-height:1.5;font-weight:700;color:#f0a89f">{{ grp.errJ }}</div>
           </section>
@@ -4581,7 +4601,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
               <span style="font-size:10px;color:rgba(255,255,255,.45)">グループで仲間に表示される名前</span>
             </div>
             <div style="display:flex;gap:8px;margin-top:9px">
-              <input value="{{ nickDraft }}" sc-camel-on-change="{{ onNick }}" maxlength="20" placeholder="例：ベガッ太" style="flex:1;min-width:0;height:40px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.5)">
+              <input value="{{ nickDraft }}" sc-camel-on-change="{{ onNick }}" maxlength="20" placeholder="例：ベガッ太" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="flex:1;min-width:0;height:40px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.5)">
               <button sc-camel-on-click="{{ saveNick }}" style="flex:none;height:40px;padding:0 18px;white-space:nowrap;border-radius:13px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);color:#fff;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.95)">保存</button>
             </div>
           </section>
@@ -4762,7 +4782,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <sc-if value="{{ gateHasForm }}" hint-placeholder-val="{{ false }}">
             <div style="animation:panelIn .32s cubic-bezier(.32,.72,0,1) both">
               <sc-for list="{{ gateFields }}" as="f" hint-placeholder-count="2">
-                <input value="{{ f.value }}" sc-camel-on-change="{{ f.onInput }}" type="{{ f.type }}" placeholder="{{ f.ph }}" autocapitalize="off" spellcheck="false" style="width:100%;background:#0c1424;color:#e6ddc4;border:1px solid rgba(240,198,74,.34);border-radius:8px;padding:13px 14px;font-size:16px;font-family:inherit;letter-spacing:.02em;margin-bottom:12px;outline:none" style-focus="border-color:rgba(240,198,74,.7)">
+                <input value="{{ f.value }}" sc-camel-on-change="{{ f.onInput }}" type="{{ f.type }}" placeholder="{{ f.ph }}" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="{{ f.ac }}" inputmode="{{ f.im }}" enterkeyhint="go" style="width:100%;background:#0c1424;color:#e6ddc4;border:1px solid rgba(240,198,74,.34);border-radius:8px;padding:13px 14px;font-size:16px;font-family:inherit;letter-spacing:.02em;margin-bottom:12px;outline:none" style-focus="border-color:rgba(240,198,74,.7)">
               </sc-for>
               <button sc-camel-on-click="{{ gateSubmit }}" style="width:100%;position:relative;padding:14px 12px;border-radius:6px;font-weight:800;letter-spacing:.1em;font-size:14.5px;font-family:inherit;cursor:pointer;overflow:hidden;background:linear-gradient(180deg,#e6c574,#c39c3c);color:#181101;border:1px solid #8a6612;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3),inset 0 -1px 0 rgba(110,78,10,.45),0 4px 14px rgba(0,0,0,.4);text-shadow:0 1px 0 rgba(255,255,255,.32);transition:transform .09s cubic-bezier(.32,.72,0,1)" style-active="transform:translateY(1px)">{{ gateCta }}</button>
               <div style="margin-top:11px;min-height:17px;font-size:12px;font-weight:600;text-align:left;color:{{ gateMsgColor }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ gateMsg }}</div>
@@ -7489,13 +7509,14 @@ class Component extends DCLogic {
     var gateFields = [];
     if(g==="reg" || g==="login"){
       gateFields = [
-        {type:"email", ph:"メールアドレス", value:this.state.gateEmail, onInput:function(ev){ self.setState({gateEmail:ev.target.value}); }},
-        {type:"password", ph: g==="reg" ? "パスワード（8文字以上）" : "パスワード", value:this.state.gatePass, onInput:function(ev){ self.setState({gatePass:ev.target.value}); }}
+        {type:"email", ac:"username", im:"email", ph:"メールアドレス", value:this.state.gateEmail, onInput:function(ev){ self.setState({gateEmail:ev.target.value}); }},
+        {type:"password", ac:(g==="reg"?"new-password":"current-password"), im:"text",
+         ph: g==="reg" ? "パスワード（8文字以上）" : "パスワード", value:this.state.gatePass, onInput:function(ev){ self.setState({gatePass:ev.target.value}); }}
       ];
     } else if(g==="forgot"){
-      gateFields = [{type:"email", ph:"メールアドレス", value:this.state.gateEmail, onInput:function(ev){ self.setState({gateEmail:ev.target.value}); }}];
+      gateFields = [{type:"email", ac:"username", im:"email", ph:"メールアドレス", value:this.state.gateEmail, onInput:function(ev){ self.setState({gateEmail:ev.target.value}); }}];
     } else if(g==="reset"){
-      gateFields = [{type:"password", ph:"新しいパスワード（8文字以上）", value:this.state.gatePass, onInput:function(ev){ self.setState({gatePass:ev.target.value}); }}];
+      gateFields = [{type:"password", ac:"new-password", im:"text", ph:"新しいパスワード（8文字以上）", value:this.state.gatePass, onInput:function(ev){ self.setState({gatePass:ev.target.value}); }}];
     }
 
     var tabs = this.TABS.map(function(t,i){
@@ -7726,7 +7747,9 @@ class Component extends DCLogic {
           });
         }).catch(function(e){
           var msg = String((e && e.message) || e);
-          if(/timeout|Failed to fetch|NetworkError|no-sync/i.test(msg)) msg = "通信に失敗しました。電波状況をご確認のうえ、もう一度お試しください。";
+          if(/module script|Importing a module|dynamically imported|imported module script/i.test(msg))
+            msg = "同期プログラムを読み込めませんでした。通信環境の良い場所で、もう一度お試しください。";
+          else if(/timeout|Failed to fetch|NetworkError|no-sync/i.test(msg)) msg = "通信に失敗しました。電波状況をご確認のうえ、もう一度お試しください。";
           else if(/Invalid login credentials/i.test(msg)) msg = "メールアドレスまたはパスワードが違うようです。";
           else if(/already registered|User already/i.test(msg)) msg = "このメールアドレスはすでに登録されています。ログインをお試しください。";
           else if(/error sending|^\{\}$/i.test(msg)) msg = "メールの送信サーバーでエラーが発生しました。しばらくしてからお試しください。";
