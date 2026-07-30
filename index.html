@@ -3585,6 +3585,7 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
 </style>
 <style>
 *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+:root{--pop:linear(0, 0.0348, 0.1184, 0.2265, 0.3429, 0.4567, 0.5617, 0.6544, 0.7337, 0.7996, 0.853, 0.8953, 0.9281, 0.9529, 0.9711, 0.9842, 0.9933, 0.9993, 1.003, 1.0051, 1.0061, 1.0063, 1.006, 1.0054, 1.0047, 1.004, 1)}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
@@ -3598,9 +3599,11 @@ a{color:#f0c64a;text-decoration:none}a:hover{color:#ffd96b}
 input{font-family:inherit}
 input::placeholder{color:rgba(255,255,255,.3)}
 ::-webkit-scrollbar{width:0;height:0}
-@keyframes rowIn{from{opacity:0;max-height:0;transform:translateY(-8px)}to{opacity:1;max-height:1000px;transform:none}}
+@keyframes rowIn{from{opacity:0;grid-template-rows:0fr;transform:translateY(-6px)}to{opacity:1;grid-template-rows:1fr;transform:none}}
 @keyframes sealPop{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.18)}100%{transform:scale(1);opacity:1}}
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes sheetDown{from{transform:translateY(0)}to{transform:translateY(102%)}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes cardInA{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes cardInB{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -3686,10 +3689,12 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </symbol>
   </svg>
 
-  <div style="flex:none;height:calc(env(safe-area-inset-top, 0px) + 10px);pointer-events:none"></div>
+  
 
-  <header style="flex:none;position:relative;z-index:30;margin:0 12px;padding:7px 14px 7px;border-radius:21px;background:linear-gradient(165deg,rgba(255,255,255,.13),rgba(255,255,255,.045));backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(0,0,0,.25),0 12px 32px -18px rgba(0,0,0,.9)">
-    <div style="position:absolute;inset:0;z-index:0;border-radius:21px;overflow:hidden;pointer-events:none">
+  <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:var(--edge, 118px);z-index:29;pointer-events:none;background:linear-gradient(to bottom,rgba(5,9,17,.30),rgba(5,9,17,.16) 55%,rgba(5,9,17,0) 100%)"></div>
+
+  <header style="position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top, 0px) + 4px);z-index:30;padding:7px 14px 7px;border-radius:21px;clip-path:inset(0 round 21px);background:linear-gradient(165deg,rgba(255,255,255,.24),rgba(255,255,255,.10));backdrop-filter:blur(45px) saturate(190%);-webkit-backdrop-filter:blur(45px) saturate(190%);border:1px solid rgba(255,255,255,.32);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.20)">
+    <div style="position:absolute;inset:0;z-index:0;border-radius:21px;overflow:hidden;pointer-events:none;clip-path:inset(0 round 21px)">
       <div style="position:absolute;inset:-20px;background-image:{{ headerBg }};background-size:cover;background-position:center 35%;filter:blur(1px)"></div>
       <span style="position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(224,185,74,.55),transparent)"></span>
     </div>
@@ -3704,25 +3709,25 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <span style="font-size:13px;color:rgba(255,255,255,.4)">/</span>
         <span style="font-size:13px;color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums">{{ goD }}</span>
       </div>
-      <button sc-camel-on-click="{{ openAcct }}" aria-label="マイページ" style="flex:none;width:32px;height:32px;display:grid;place-items:center;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);color:#f0c64a;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.92);background:rgba(255,255,255,.16)">
+      <button sc-camel-on-click="{{ openAcct }}" aria-label="マイページ" style="flex:none;width:32px;height:32px;display:grid;place-items:center;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);color:#f0c64a;cursor:pointer;transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.95);background:rgba(255,255,255,.16);transition:transform .09s cubic-bezier(.32,.72,0,1)">
         <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><circle cx="12" cy="8.4" r="3.7" stroke="currentColor" stroke-width="1.8"></circle><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
       </button>
     </div>
     <div style="position:relative;z-index:1;display:flex;gap:7px;margin-top:6px">
-      <button sc-camel-on-click="{{ openSeason }}" style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:6px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.96);background:rgba(255,255,255,.13)">
+      <button sc-camel-on-click="{{ openSeason }}" style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:6px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.965);background:rgba(255,255,255,.13);transition:transform .09s cubic-bezier(.32,.72,0,1)">
         <svg sc-camel-view-box="0 0 24 24" width="15" height="15" fill="none" style="flex:none"><rect x="3.4" y="5.2" width="17.2" height="15.2" rx="4" stroke="#f0c64a" stroke-width="1.7"></rect><path d="M3.6 10h16.8M8 3.2v3.6M16 3.2v3.6" stroke="#f0c64a" stroke-width="1.7" stroke-linecap="round"></path></svg>
         <span style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ seasonLabel }}</span>
         <span style="flex:none;font-size:10px;color:rgba(255,255,255,.4)">▾</span>
       </button>
       <sc-if value="{{ showMonthBtn }}" hint-placeholder-val="{{ false }}">
-        <button sc-camel-on-click="{{ openMonth }}" style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:6px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.96);background:rgba(255,255,255,.13)">
+        <button sc-camel-on-click="{{ openMonth }}" style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:6px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.965);background:rgba(255,255,255,.13);transition:transform .09s cubic-bezier(.32,.72,0,1)">
           <svg sc-camel-view-box="0 0 24 24" width="15" height="15" fill="none" style="flex:none"><rect x="3.4" y="5.2" width="17.2" height="15.2" rx="4" stroke="#f0c64a" stroke-width="1.7"></rect><path d="M3.6 10h16.8" stroke="#f0c64a" stroke-width="1.7" stroke-linecap="round"></path><circle cx="8.4" cy="14.2" r="1.5" fill="#f0c64a"></circle></svg>
           <span style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ monthLabel }}</span>
           <span style="flex:none;font-size:10px;color:rgba(255,255,255,.4)">▾</span>
         </button>
       </sc-if>
       <sc-if value="{{ showFilterBtn }}" hint-placeholder-val="{{ true }}">
-        <button sc-camel-on-click="{{ openFilter }}" style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:6px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.96);background:rgba(255,255,255,.13)">
+        <button sc-camel-on-click="{{ openFilter }}" style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:6px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.965);background:rgba(255,255,255,.13);transition:transform .09s cubic-bezier(.32,.72,0,1)">
           <svg sc-camel-view-box="0 0 24 24" width="15" height="15" fill="none" style="flex:none"><path d="M4 5.6h16l-6.2 7.3v6.1l-3.6 1.9v-8L4 5.6Z" stroke="#f0c64a" stroke-width="1.7" stroke-linejoin="round"></path></svg>
           <span style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ filterLabel }}</span>
           <span style="flex:none;font-size:10px;color:rgba(255,255,255,.4)">▾</span>
@@ -3731,34 +3736,34 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       <sc-if value="{{ hasScope }}" hint-placeholder-val="{{ false }}">
         <div style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:3px;padding:2.5px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07)">
           <sc-for list="{{ scopeBtns }}" as="sb" hint-placeholder-count="2">
-            <button sc-camel-on-click="{{ sb.onTap }}" style="flex:1;min-width:0;height:100%;border-radius:11px;border:1px solid {{ sb.bd }};background:{{ sb.bg }};color:{{ sb.fg }};font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .22s,color .22s,transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">{{ sb.lbl }}</button>
+            <button sc-camel-on-click="{{ sb.onTap }}" style="flex:1;min-width:0;height:100%;border-radius:11px;border:1px solid {{ sb.bd }};background:{{ sb.bg }};color:{{ sb.fg }};font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .22s, color .22s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .22s, color .22s, transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ sb.lbl }}</button>
           </sc-for>
         </div>
       </sc-if>
     </div>
   </header>
 
-  <main ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;padding:14px 12px 0;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;--ta:{{ tabAnimName }}">
+  <main ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;padding:var(--padt, 112px) 12px 0;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;--ta:{{ tabAnimName }}">
 
 
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <sc-for list="{{ rows }}" as="row" hint-placeholder-count="6">
       <article style="flex:none;position:relative;display:flex;flex-direction:column;background:transparent">
-        <div style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:inset 0 0 0 1px {{ row.tkEdge }},0 10px 22px -14px rgba(0,0,0,.7);-webkit-mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);mask-composite:intersect;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+        <div style-active="transform:scale(.98);transition:transform .09s cubic-bezier(.32,.72,0,1)" style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop);text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:inset 0 0 0 1px {{ row.tkEdge }},0 10px 22px -14px rgba(0,0,0,.7);-webkit-mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);mask-composite:intersect;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
 
         <sc-if value="{{ row.hasCrest }}" hint-placeholder-val="{{ false }}">
           <span role="img" aria-label="{{ row.crestLabel }}" style="position:absolute;top:50%;margin-top:-31px;height:62px;right:73px;width:120px;background-image:{{ row.crestBg }};background-size:{{ row.crestSize }};background-position:center;background-repeat:no-repeat;pointer-events:none;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.4;mix-blend-mode:luminosity"></span>
         </sc-if>
 
         <div sc-camel-on-click="{{ row.onExp }}" role="button" style="position:relative;min-height:62px;display:flex;align-items:center;gap:9px;cursor:pointer">
-          <div style="flex:none;width:54px;position:relative;padding:3px 0 3px;border-radius:10px;text-align:center;background:rgba(255,255,255,.11);box-shadow:inset 0 .5px 0 rgba(255,255,255,.4),inset 0 0 0 .5px rgba(255,255,255,.16)" style-before="content:'';position:absolute;inset:3px;border:.5px solid rgba(255,255,255,.14);border-radius:8px;pointer-events:none">
+          <div style="flex:none;width:54px;position:relative;padding:3px 0 3px;border-radius:10px;text-align:center;background:rgba(255,255,255,.11);box-shadow:inset 0 .5px 0 rgba(255,255,255,.4),inset 0 0 0 .5px rgba(255,255,255,.16)" style-before="content:'';position:absolute;inset:3px;border:.5px solid rgba(255,255,255,.20);border-radius:8px;pointer-events:none">
             <div style="display:flex;align-items:baseline;justify-content:center;color:{{ row.dateColor }};line-height:1.1;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
               <b style="font-size:17px;font-weight:800;font-variant-numeric:tabular-nums">{{ row.mo }}</b>
               <i style="font-size:11px;font-style:normal;opacity:.5">/</i>
               <b style="font-size:17px;font-weight:800;font-variant-numeric:tabular-nums">{{ row.day }}</b>
             </div>
             <div style="font-size:9.5px;font-weight:700;color:{{ row.dateColor }};margin-top:1px;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.dowS }}</div>
-            <div style="width:72%;margin:2px auto 0;padding-top:2px;border-top:.5px solid rgba(255,255,255,.2);font-size:10.5px;font-weight:700;color:{{ row.inkSub }};font-variant-numeric:tabular-nums;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.ko }}</div>
+            <div style="width:72%;margin:2px auto 0;padding-top:2px;border-top:.5px solid rgba(255,255,255,.2);font-size:10.5px;font-weight:700;color:{{ row.dateColor }};font-variant-numeric:tabular-nums;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.ko }}</div>
           </div>
 
           <div style="flex:1;min-width:0">
@@ -3835,43 +3840,12 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </div>
 
         <sc-if value="{{ row.expanded }}" hint-placeholder-val="{{ false }}">
-          <div style="position:relative;overflow:hidden;animation:rowIn .44s cubic-bezier(.32,.72,0,1) both;transform-origin:top">
+          <div style="display:grid;grid-template-rows:1fr;min-height:0;animation:rowIn .44s cubic-bezier(.32,.72,0,1) both;transform-origin:top">
+          <div style="position:relative;overflow:hidden;min-height:0">
             <div style="position:relative;margin-top:6px;padding:13px 16px 14px;border-radius:13px;background-image:{{ row.tkPanel }};box-shadow:inset 0 0 0 1px {{ row.tkEdge }},0 10px 22px -14px rgba(0,0,0,.7);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
-              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+              <div style="display:flex;flex-wrap:wrap;gap:5px">
                 <sc-for list="{{ row.stats }}" as="st" hint-placeholder-count="4">
-                  <button sc-camel-on-click="{{ st.onTap }}" style="min-height:62px;padding:7px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:12px;font-family:inherit;cursor:pointer;background:{{ st.bg }};border:1px solid {{ st.bd }};box-shadow:{{ st.sh }};transition:transform .2s cubic-bezier(.32,.72,0,1),background .2s,box-shadow .2s" style-active="transform:scale(.93)">
-                    <span aria-hidden="true" style="position:relative;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background-image:{{ st.ballFill }};box-shadow:inset 0 0 0 .6px {{ st.ring }},{{ st.ballGlow }};opacity:{{ st.gOp }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
-                      <svg sc-camel-view-box="0 0 44 44" width="30" height="30" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">
-                        <defs><clipPath id="ballClipB"><circle cx="22" cy="22" r="19.4"></circle></clipPath></defs>
-                        <g clip-path="url(#ballClipB)" stroke="{{ st.ring }}" stroke-opacity=".85" stroke-width=".45" stroke-linejoin="round">
-                          <g fill="{{ st.ring }}" fill-opacity=".1">
-                            <polygon points="36.60,30.99 36.60,35.23 39.09,31.80 41.59,24.12 41.59,19.88 39.09,23.31"></polygon>
-                            <polygon points="13.93,39.97 17.96,41.29 26.04,41.29 30.07,39.97 26.04,38.66 17.96,38.66"></polygon>
-                            <polygon points="35.06,10.89 39.09,12.20 36.60,8.77 30.07,4.03 26.04,2.71 28.53,6.15"></polygon>
-                            <polygon points="7.40,8.77 4.91,12.20 8.94,10.89 15.47,6.15 17.96,2.71 13.93,4.03"></polygon>
-                            <polygon points="4.91,31.80 7.40,35.23 7.40,30.99 4.91,23.31 2.41,19.88 2.41,24.12"></polygon>
-                          </g>
-                          <g fill="{{ st.ring }}" fill-opacity=".78">
-                            <polygon points="15.47,6.15 22.00,8.27 28.53,6.15 26.04,2.71 17.96,2.71"></polygon>
-                            <polygon points="26.04,38.66 30.07,39.97 36.60,35.23 36.60,30.99 30.07,33.11"></polygon>
-                            <polygon points="35.06,17.76 39.09,23.31 41.59,19.88 39.09,12.20 35.06,10.89"></polygon>
-                            <polygon points="2.41,19.88 4.91,23.31 8.94,17.76 8.94,10.89 4.91,12.20"></polygon>
-                            <polygon points="13.93,39.97 17.96,38.66 13.93,33.11 7.40,30.99 7.40,35.23"></polygon>
-                          </g>
-                          <g fill="{{ st.ring }}" fill-opacity=".1">
-                            <polygon points="22.00,15.13 28.53,19.88 35.06,17.76 35.06,10.89 28.53,6.15 22.00,8.27"></polygon>
-                            <polygon points="8.94,17.76 15.47,19.88 22.00,15.13 22.00,8.27 15.47,6.15 8.94,10.89"></polygon>
-                            <polygon points="26.04,27.55 30.07,33.11 36.60,30.99 39.09,23.31 35.06,17.76 28.53,19.88"></polygon>
-                            <polygon points="13.93,33.11 17.96,38.66 26.04,38.66 30.07,33.11 26.04,27.55 17.96,27.55"></polygon>
-                            <polygon points="7.40,30.99 13.93,33.11 17.96,27.55 15.47,19.88 8.94,17.76 4.91,23.31"></polygon>
-                          </g>
-                          <polygon points="17.96,27.55 26.04,27.55 28.53,19.88 22.00,15.13 15.47,19.88" fill="{{ st.ring }}" fill-opacity=".9"></polygon>
-                        </g>
-                      </svg>
-                      <b style="position:relative;top:-1px;font-family:'Yuji Syuku','Shippori Mincho','Hiragino Mincho ProN',serif;font-size:15px;font-weight:700;color:#fff;letter-spacing:.04em;text-shadow:0 0 4px rgba(6,12,24,.95),0 0 9px rgba(6,12,24,.75)">{{ st.glyph }}</b>
-                    </span>
-                    <span style="font-size:10px;font-weight:800;letter-spacing:.02em;color:{{ st.fg }};white-space:nowrap;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ st.label }}</span>
-                  </button>
+                  <button sc-camel-on-click="{{ st.onTap }}" style="height:31px;padding:0 8px;border-radius:3px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.95);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ st.label }}</button>
                 </sc-for>
               </div>
 
@@ -3883,10 +3857,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                     </div>
                     <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">
                       <sc-for list="{{ row.tchips }}" as="c" hint-placeholder-count="9">
-                        <button sc-camel-on-click="{{ c.onTap }}" style="height:31px;padding:0 8px;border-radius:3px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }};transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.92)">{{ c.q }}</button>
+                        <button sc-camel-on-click="{{ c.onTap }}" style="height:31px;padding:0 8px;border-radius:3px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }};transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.95);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ c.q }}</button>
                       </sc-for>
                     </div>
-                    <input value="{{ row.tn }}" sc-camel-on-change="{{ row.onTn }}" placeholder="補足）新幹線 やまびこ など" autocapitalize="off" autocorrect="off" enterkeyhint="done" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
+                    <input value="{{ row.tn }}" sc-camel-on-change="{{ row.onTn }}" placeholder="補足）新幹線 やまびこ など" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="off" autocorrect="off" enterkeyhint="done" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
                   </div>
 
                   <div style="min-width:0;padding-left:11px;border-left:1px dashed {{ row.rule }}">
@@ -3895,10 +3869,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                     </div>
                     <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">
                       <sc-for list="{{ row.hchips }}" as="c" hint-placeholder-count="6">
-                        <button sc-camel-on-click="{{ c.onTap }}" style="height:31px;padding:0 8px;border-radius:3px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }};transition:transform .18s cubic-bezier(.32,.72,0,1),background .18s" style-active="transform:scale(.92)">{{ c.q }}</button>
+                        <button sc-camel-on-click="{{ c.onTap }}" style="height:31px;padding:0 8px;border-radius:3px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }};transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.95);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ c.q }}</button>
                       </sc-for>
                     </div>
-                    <input value="{{ row.hn }}" sc-camel-on-change="{{ row.onHn }}" placeholder="補足）〇〇ホテル 前泊 など" autocapitalize="off" autocorrect="off" enterkeyhint="done" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
+                    <input value="{{ row.hn }}" sc-camel-on-change="{{ row.onHn }}" placeholder="補足）〇〇ホテル 前泊 など" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="off" autocorrect="off" enterkeyhint="done" style="width:100%;height:31px;margin-top:8px;padding:0 2px;background:transparent;border:0;border-bottom:1px dotted {{ row.perf }};color:{{ row.ink }};font-size:16px;font-family:inherit;outline:none" style-focus="border-bottom-color:{{ row.ink }}">
                   </div>
                 </div>
 
@@ -3914,7 +3888,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                       <span style="font-size:10px;font-weight:700;color:{{ row.inkSub }};white-space:nowrap;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ cf.label }}</span>
                       <span style="display:flex;align-items:center;height:31px;padding:0 2px;border-bottom:1px dotted {{ row.perf }}" style-focus-within="border-bottom-color:{{ row.ink }}">
                         <span style="flex:none;font-size:11.5px;color:{{ row.inkFaint }};margin-right:3px;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">¥</span>
-                        <input value="{{ cf.value }}" sc-camel-on-change="{{ cf.onInput }}" inputmode="numeric" maxlength="8" placeholder="{{ cf.ph }}" enterkeyhint="done" style="flex:1;min-width:0;background:transparent;border:0;outline:none;color:{{ row.ink }};font-size:16px;font-family:inherit;font-variant-numeric:tabular-nums">
+                        <input value="{{ cf.value }}" sc-camel-on-change="{{ cf.onInput }}" inputmode="numeric" maxlength="8" placeholder="{{ cf.ph }}" enterkeyhint="done" sc-camel-on-key-down="{{ onDoneKey }}" style="flex:1;min-width:0;background:transparent;border:0;outline:none;color:{{ row.ink }};font-size:16px;font-family:inherit;font-variant-numeric:tabular-nums">
                       </span>
                     </div>
                   </sc-for>
@@ -3923,6 +3897,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
               <div sc-camel-on-click="{{ row.onExp }}" style="margin-top:13px;padding-top:11px;border-top:1px dashed {{ row.rule }};text-align:center;font-size:11px;font-weight:800;letter-spacing:.1em;color:{{ row.inkFaint }};cursor:pointer;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">閉じる ▲</div>
             </div>
+          </div>
           </div>
         </sc-if>
       </article>
@@ -3939,13 +3914,13 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </sc-if>
 
     <sc-if value="{{ isDash }}" hint-placeholder-val="{{ false }}">
-      <div style="flex:none;display:flex;align-items:center;justify-content:center;gap:14px;padding:5px 11px;border-radius:13px;background:rgba(255,255,255,.06);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid rgba(255,255,255,.11)">
+      <div style="flex:none;display:flex;align-items:center;justify-content:center;gap:14px;padding:5px 11px;border-radius:13px;background:rgba(255,255,255,.06);backdrop-filter:blur(33px) saturate(190%);-webkit-backdrop-filter:blur(33px) saturate(190%);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#f0c64a"></span>HOME</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#5b9bf0"></span>AWAY</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#fff"></span>通算</span>
       </div>
       <sc-for list="{{ dashSecs }}" as="sec" hint-placeholder-count="3">
-        <section style="flex:none;padding:8px 10px 9px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 .5px 0 rgba(255,255,255,.3),0 10px 24px -18px rgba(0,0,0,.8)">
+        <section style="flex:none;padding:8px 10px 9px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.3),0 10px 24px -18px rgba(0,0,0,.8)">
           <h3 style="margin:0 0 7px;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:rgba(255,255,255,.96);text-shadow:0 1px 3px rgba(0,0,0,.5)">{{ sec.title }}</h3>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
             <sc-for list="{{ sec.rings }}" as="r" hint-placeholder-count="3">
@@ -4002,9 +3977,9 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
     <sc-if value="{{ isCal }}" hint-placeholder-val="{{ false }}">
       <sc-for list="{{ calMonths }}" as="cm" hint-placeholder-count="3">
-        <section style="flex:none;padding:9px 9px 10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.03));backdrop-filter:blur(12px) saturate(1.3);-webkit-backdrop-filter:blur(12px) saturate(1.3);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 .5px 0 rgba(255,255,255,.28),0 10px 24px -18px rgba(0,0,0,.8)">
+        <section style="flex:none;padding:9px 9px 10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.03));backdrop-filter:blur(12px) saturate(1.3);-webkit-backdrop-filter:blur(12px) saturate(1.3);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 .5px 0 rgba(255,255,255,.28),0 10px 24px -18px rgba(0,0,0,.8)">
           <h3 style="margin:0 0 7px 2px;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:#f2d79c">{{ cm.label }}</h3>
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0;border-left:1px solid rgba(255,255,255,.34);border-top:1px solid rgba(255,255,255,.34);border-radius:7px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0;border-left:1px solid rgba(255,255,255,.34);border-top:1px solid rgba(255,255,255,.34);border-radius:7px;overflow:hidden;clip-path:inset(0 round 7px)">
             <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);text-shadow:0 1px 3px rgba(0,0,0,.8);color:#ff9d92">日</span>
             <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">月</span>
             <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">火</span>
@@ -4013,7 +3988,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">金</span>
             <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);text-shadow:0 1px 3px rgba(0,0,0,.8);color:#a3c6ff">土</span>
             <sc-for list="{{ cm.cells }}" as="cell" hint-placeholder-count="35">
-              <div sc-camel-on-click="{{ cell.onTap }}" style="position:relative;aspect-ratio:1;padding:2px 3px;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.93)">
+              <div sc-camel-on-click="{{ cell.onTap }}" style="position:relative;aspect-ratio:1;padding:2px 3px;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">
                 <sc-if value="{{ cell.hasM }}" hint-placeholder-val="{{ false }}">
                   <span style="position:absolute;inset:0.5px;border-radius:5px;background:{{ cell.bg }};border:1px solid {{ cell.bd }};pointer-events:none;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)"></span>
                 </sc-if>
@@ -4035,7 +4010,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </sc-if>
 
     <sc-if value="{{ isMap }}" hint-placeholder-val="{{ false }}">
-      <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 .5px 0 rgba(255,255,255,.28)">
+      <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.28)">
         <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:8px">
           <sc-for list="{{ mapLegend }}" as="lg" hint-placeholder-count="4">
             <span style="display:flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.72)"><span style="width:9px;height:9px;border-radius:3px;background:{{ lg.c }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)"></span>{{ lg.lbl }}</span>
@@ -4045,12 +4020,12 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <div ref="{{ mapRef }}" style="width:100%;height:340px;transform:{{ mapTransform }};transform-origin:0 0;transition:{{ mapTrans }};will-change:transform"></div>
         </div>
         <div style="display:flex;align-items:center;gap:7px;margin-top:9px">
-          <button sc-camel-on-click="{{ mapZoomOut }}" aria-label="縮小" style="flex:none;width:34px;height:34px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.92)">−</button>
+          <button sc-camel-on-click="{{ mapZoomOut }}" aria-label="縮小" style="flex:none;width:34px;height:34px;border-radius:11px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.07);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.95);transition:transform .09s cubic-bezier(.32,.72,0,1)">−</button>
           <input type="range" min="100" max="400" step="1" value="{{ mapZoom }}" sc-camel-on-change="{{ onMapZoom }}" aria-label="地図の拡大率" style="flex:1;min-width:0;accent-color:#f0c64a">
-          <button sc-camel-on-click="{{ mapZoomIn }}" aria-label="拡大" style="flex:none;width:34px;height:34px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.92)">＋</button>
-          <button sc-camel-on-click="{{ mapZoomReset }}" style="flex:none;height:34px;padding:0 10px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:rgba(255,255,255,.86);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.94)">{{ mapZoomLbl }}</button>
+          <button sc-camel-on-click="{{ mapZoomIn }}" aria-label="拡大" style="flex:none;width:34px;height:34px;border-radius:11px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.07);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.95);transition:transform .09s cubic-bezier(.32,.72,0,1)">＋</button>
+          <button sc-camel-on-click="{{ mapZoomReset }}" style="flex:none;height:34px;padding:0 10px;border-radius:11px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.07);color:rgba(255,255,255,.86);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ mapZoomLbl }}</button>
         </div>
-        <button sc-camel-on-click="{{ mapSave }}" style="width:100%;height:42px;margin-top:8px;border-radius:14px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.12));color:#ffe9ac;font-size:12.5px;font-weight:800;letter-spacing:.06em;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">画像で保存</button>
+        <button sc-camel-on-click="{{ mapSave }}" style="width:100%;height:42px;margin-top:8px;border-radius:14px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.12));color:#ffe9ac;font-size:12.5px;font-weight:800;letter-spacing:.06em;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">画像で保存</button>
       </section>
       <p style="margin:2px 4px 0;font-size:9.5px;line-height:1.7;color:rgba(255,255,255,.36)">県をタップすると、その県の試合一覧が開きます。2本指でピンチ、拡大中はドラッグで移動できます。宮城＝HOME。会場・相手から都道府県を推定しています。</p>
     </sc-if>
@@ -4060,14 +4035,14 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <p style="margin:48px 8px;text-align:center;font-size:12.5px;line-height:1.9;color:rgba(255,255,255,.45)">まだ支出が記録されていません。<br>各試合の券をひらいて「かかった費用」を入力できます。</p>
       </sc-if>
       <sc-if value="{{ costHasData }}" hint-placeholder-val="{{ true }}">
-      <section style="flex:none;padding:12px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.05));backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border:1px solid rgba(240,198,74,.28);box-shadow:inset 0 .5px 0 rgba(255,255,255,.34),0 12px 28px -18px rgba(0,0,0,.85)">
+      <section style="flex:none;padding:12px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.05));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(240,198,74,.28);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),0 12px 28px -18px rgba(0,0,0,.85)">
         <div style="font-size:10px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">{{ costTotalLbl }}</div>
         <div style="margin-top:3px;font-size:30px;font-weight:800;color:#ffe9ac;font-variant-numeric:tabular-nums;line-height:1.1;animation:numPop 1s cubic-bezier(.2,1.4,.4,1) both">{{ costTotal }}</div>
         <div style="margin-top:2px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.6)">{{ costSpentN }}</div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">内訳</h3>
-        <div style="display:flex;height:13px;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.07)">
+        <div style="display:flex;height:13px;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.07);clip-path:inset(0 round 7px)">
           <sc-for list="{{ costCats }}" as="c" hint-placeholder-count="3">
             <span style="width:{{ c.w }};background:{{ c.color }};transition:width .8s cubic-bezier(.22,1,.36,1)"></span>
           </sc-for>
@@ -4083,7 +4058,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-for>
         </div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">平均支出</h3>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
           <sc-for list="{{ costAvgs }}" as="a" hint-placeholder-count="3">
@@ -4095,7 +4070,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </div>
         <p style="margin:7px 0 0;font-size:9.5px;color:rgba(255,255,255,.4)">{{ costAvgNote }}</p>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">結果別の平均支出</h3>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
           <sc-for list="{{ costOc }}" as="oc" hint-placeholder-count="3">
@@ -4108,13 +4083,13 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </div>
         <p style="margin:7px 0 0;font-size:9.5px;color:rgba(255,255,255,.4)">支出を入力した試合のうち、結果入力済みの試合を母数に算出</p>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">月別の支出</h3>
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;align-items:end;height:132px">
           <sc-for list="{{ costMonthsA }}" as="mn" hint-placeholder-count="6">
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%">
               <small style="font-size:9px;font-weight:800;color:#e6ddc4;font-variant-numeric:tabular-nums">{{ mn.amt }}</small>
-              <div style="width:70%;height:{{ mn.h }};display:flex;flex-direction:column;justify-content:flex-end;border-radius:3px 3px 0 0;overflow:hidden;transition:height .8s cubic-bezier(.22,1,.36,1)">
+              <div style="width:70%;height:{{ mn.h }};display:flex;flex-direction:column;justify-content:flex-end;border-radius:3px 3px 0 0;overflow:hidden;transition:height .8s cubic-bezier(.22,1,.36,1);clip-path:inset(0 round 3px)">
                 <sc-for list="{{ mn.segs }}" as="sg" hint-placeholder-count="2">
                   <span style="width:100%;height:{{ sg.h }};background:{{ sg.color }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)"></span>
                 </sc-for>
@@ -4127,7 +4102,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <sc-for list="{{ costMonthsB }}" as="mn" hint-placeholder-count="6">
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%">
               <small style="font-size:9px;font-weight:800;color:#e6ddc4;font-variant-numeric:tabular-nums">{{ mn.amt }}</small>
-              <div style="width:70%;height:{{ mn.h }};display:flex;flex-direction:column;justify-content:flex-end;border-radius:3px 3px 0 0;overflow:hidden;transition:height .8s cubic-bezier(.22,1,.36,1)">
+              <div style="width:70%;height:{{ mn.h }};display:flex;flex-direction:column;justify-content:flex-end;border-radius:3px 3px 0 0;overflow:hidden;transition:height .8s cubic-bezier(.22,1,.36,1);clip-path:inset(0 round 3px)">
                 <sc-for list="{{ mn.segs }}" as="sg" hint-placeholder-count="2">
                   <span style="width:100%;height:{{ sg.h }};background:{{ sg.color }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)"></span>
                 </sc-for>
@@ -4144,14 +4119,14 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       </section>
       <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <sc-for list="{{ costHa }}" as="h" hint-placeholder-count="2">
-          <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(24px);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+          <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(35px) saturate(190%);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:{{ h.c }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ h.tag }}</div>
             <div style="margin-top:2px;font-size:19px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.15">{{ h.v }}</div>
             <div style="margin-top:2px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.5">{{ h.avg }}<br>{{ h.n }}</div>
           </div>
         </sc-for>
       </div>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">遠征先（都道府県）別</h3>
         <div style="display:flex;flex-direction:column;gap:6px">
           <sc-for list="{{ costPrefs }}" as="p" hint-placeholder-count="5">
@@ -4165,7 +4140,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-for>
         </div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">支出の多い試合</h3>
         <div style="display:flex;flex-direction:column;gap:6px">
           <sc-for list="{{ costTop }}" as="t" hint-placeholder-count="5">
@@ -4184,24 +4159,30 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </sc-if>
 
     <sc-if value="{{ isWall }}" hint-placeholder-val="{{ false }}">
-      <section style="flex:none;padding:4px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+      <section style="flex:none;padding:4px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:44px;border-bottom:.5px solid rgba(255,255,255,.1)">
-          <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.88)">余白</span>
-          <div style="flex:none;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)">
-            <sc-for list="{{ wallDens }}" as="d" hint-placeholder-count="3">
-              <button sc-camel-on-click="{{ d.onTap }}" style="height:26px;padding:0 11px;border-radius:9px;border:1px solid {{ d.bd }};background:{{ d.bg }};color:{{ d.fg }};font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .22s,color .22s" style-active="transform:scale(.94)">{{ d.lbl }}</button>
+          <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.88)">チーム名</span>
+          <div style="flex:none;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18)">
+            <sc-for list="{{ wallDens }}" as="d" hint-placeholder-count="2">
+              <button sc-camel-on-click="{{ d.onTap }}" style="height:26px;padding:0 11px;border-radius:9px;border:1px solid {{ d.bd }};background:{{ d.bg }};color:{{ d.fg }};font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .22s, color .22s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .22s, color .22s, transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ d.lbl }}</button>
             </sc-for>
           </div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:44px;border-bottom:.5px solid rgba(255,255,255,.1)">
           <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.88)">試合結果を表示</span>
-          <button sc-camel-on-click="{{ wallToggleResult }}" role="switch" aria-checked="{{ wallResultOn }}" style="flex:none;width:50px;height:30px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:{{ wallResultTrack }};position:relative;cursor:pointer;padding:0;transition:background .28s" style-active="transform:scale(.95)">
+          <button sc-camel-on-click="{{ wallToggleResult }}" role="switch" aria-checked="{{ wallResultOn }}" style="flex:none;width:50px;height:30px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:{{ wallResultTrack }};position:relative;cursor:pointer;padding:0;transition:background .28s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .28s, transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">
             <span style="position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px -2px rgba(0,0,0,.7);transform:{{ wallResultKnob }};transition:transform .3s cubic-bezier(.32,.72,0,1)"></span>
+          </button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:44px;border-bottom:.5px solid rgba(255,255,255,.1)">
+          <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.88)">参戦スタンプを表示</span>
+          <button sc-camel-on-click="{{ wallToggleStamp }}" role="switch" aria-checked="{{ wallStampOn }}" style="flex:none;width:50px;height:30px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:{{ wallStampTrack }};position:relative;cursor:pointer;padding:0;transition:background .28s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .28s, transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">
+            <span style="position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px -2px rgba(0,0,0,.7);transform:{{ wallStampKnob }};transition:transform .3s cubic-bezier(.32,.72,0,1)"></span>
           </button>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:44px">
           <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.88)">タイトル・凡例を表示</span>
-          <button sc-camel-on-click="{{ wallToggleTitle }}" role="switch" aria-checked="{{ wallTitleOn }}" style="flex:none;width:50px;height:30px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:{{ wallTitleTrack }};position:relative;cursor:pointer;padding:0;transition:background .28s" style-active="transform:scale(.95)">
+          <button sc-camel-on-click="{{ wallToggleTitle }}" role="switch" aria-checked="{{ wallTitleOn }}" style="flex:none;width:50px;height:30px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:{{ wallTitleTrack }};position:relative;cursor:pointer;padding:0;transition:background .28s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .28s, transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">
             <span style="position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px -2px rgba(0,0,0,.7);transform:{{ wallTitleKnob }};transition:transform .3s cubic-bezier(.32,.72,0,1)"></span>
           </button>
         </div>
@@ -4210,54 +4191,54 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       <section style="flex:none;padding:9px;border-radius:18px;background:linear-gradient(180deg,rgba(9,14,26,.86),rgba(5,8,15,.92));border:1px solid rgba(240,198,74,.22);box-shadow:inset 0 .5px 0 rgba(255,255,255,.2),0 14px 30px -20px rgba(0,0,0,.9)">
         <canvas ref="{{ wallCanvasRef }}" style="display:block;width:100%;height:auto;border-radius:11px"></canvas>
       </section>
-      <button sc-camel-on-click="{{ wallSave }}" style="flex:none;width:100%;height:46px;border-radius:15px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;letter-spacing:.08em;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">画像を保存</button>
+      <button sc-camel-on-click="{{ wallSave }}" style="flex:none;width:100%;height:46px;border-radius:15px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;letter-spacing:.08em;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">画像を保存</button>
       <p style="margin:0 4px;font-size:9.5px;color:rgba(255,255,255,.36)">画像を長押しでも保存できます</p>
     </sc-if>
 
     <sc-if value="{{ isComm }}" hint-placeholder-val="{{ false }}">
       <div style="flex:none;display:flex;gap:6px">
         <sc-for list="{{ commViewBtns }}" as="v" hint-placeholder-count="2">
-          <button sc-camel-on-click="{{ v.onTap }}" style="flex:1;height:40px;border-radius:14px;border:1px solid {{ v.bd }};background:{{ v.bg }};color:{{ v.fg }};font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .22s,color .22s" style-active="transform:scale(.97)">{{ v.lbl }}</button>
+          <button sc-camel-on-click="{{ v.onTap }}" style="flex:1;height:40px;border-radius:14px;border:1px solid {{ v.bd }};background:{{ v.bg }};color:{{ v.fg }};font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .22s, color .22s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .22s, color .22s, transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ v.lbl }}</button>
         </sc-for>
       </div>
 
       <sc-if value="{{ commIsSocial }}" hint-placeholder-val="{{ true }}">
         <sc-if value="{{ commNeedLogin }}" hint-placeholder-val="{{ false }}">
-          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
             <div style="font-size:13.5px;font-weight:800;color:#ffe9ac;letter-spacing:.03em">みんなの集計はログインすると見られます</div>
             <p style="margin:9px 0 0;font-size:11px;line-height:1.85;color:rgba(255,255,255,.58);text-wrap:pretty">全国の参戦人数や経済効果は、記録を共有した人たちの匿名集計です。ログインすると集計を見られるようになり、あなたの記録も匿名で反映されます。</p>
-            <button sc-camel-on-click="{{ commToLogin }}" style="width:100%;height:44px;margin-top:14px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">ログイン / 新規登録</button>
+            <button sc-camel-on-click="{{ commToLogin }}" style="width:100%;height:44px;margin-top:14px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログイン / 新規登録</button>
           </section>
         </sc-if>
         <sc-if value="{{ commLoading }}" hint-placeholder-val="{{ false }}">
-          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
             <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.72)">みんなの集計を読み込んでいます…</div>
           </section>
         </sc-if>
         <sc-if value="{{ commHasData }}" hint-placeholder-val="{{ true }}">
         <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(24px)">
+          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(35px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">参加者</div>
             <div style="margin-top:1px;font-size:22px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.1">{{ commUsers }}<small style="font-size:11px;margin-left:2px;color:rgba(255,255,255,.6)">人</small></div>
             <div style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45)">記録を共有した人</div>
           </div>
-          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(24px)">
+          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(35px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">カバー県数</div>
             <div style="margin-top:1px;font-size:22px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.1">{{ commCovered }}<small style="font-size:11px;margin-left:2px;color:rgba(255,255,255,.6)">/47</small></div>
             <div style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45)">{{ commCoverPct }}</div>
           </div>
         </div>
-        <div style="flex:none;padding:10px 12px;border-radius:15px;background:linear-gradient(165deg,rgba(240,198,74,.18),rgba(240,198,74,.05));border:1px solid rgba(240,198,74,.26);backdrop-filter:blur(24px)">
+        <div style="flex:none;padding:10px 12px;border-radius:15px;background:linear-gradient(165deg,rgba(240,198,74,.18),rgba(240,198,74,.05));border:1px solid rgba(240,198,74,.26);backdrop-filter:blur(35px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
           <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.6)">みんなの総支出（経済効果）</div>
           <div style="margin-top:2px;font-size:26px;font-weight:800;color:#ffe9ac;font-variant-numeric:tabular-nums;line-height:1.1">{{ commSpend }}</div>
           <div style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45)">全員・全県の合計</div>
         </div>
-        <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
-          <div style="position:relative;height:290px;border-radius:12px;overflow:hidden;background:rgba(5,9,17,.5);border:1px solid rgba(255,255,255,.08);touch-action:pan-y">
+        <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+          <div style="position:relative;height:290px;border-radius:12px;overflow:hidden;background:rgba(5,9,17,.5);border:1px solid rgba(255,255,255,.08);touch-action:pan-y;clip-path:inset(0 round 12px)">
             <div ref="{{ commHeatRef }}" style="position:absolute;inset:0;touch-action:pan-y"></div>
-            <div style="position:absolute;left:8px;top:8px;z-index:2;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(10,16,28,.62);backdrop-filter:blur(18px) saturate(1.8);-webkit-backdrop-filter:blur(18px) saturate(1.8);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 .5px 0 rgba(255,255,255,.28),0 6px 16px -8px rgba(0,0,0,.8)">
+            <div style="position:absolute;left:8px;top:8px;z-index:2;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(10,16,28,.62);backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.28),0 6px 16px -8px rgba(0,0,0,.8)">
               <sc-for list="{{ commTabs }}" as="t" hint-placeholder-count="2">
-                <button sc-camel-on-click="{{ t.onTap }}" style="height:28px;padding:0 12px;border-radius:9px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-size:11px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:background .22s,color .22s" style-active="transform:scale(.95)">{{ t.lbl }}</button>
+                <button sc-camel-on-click="{{ t.onTap }}" style="height:28px;padding:0 12px;border-radius:9px;border:1px solid {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-size:11px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:background .22s, color .22s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .22s, color .22s, transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ t.lbl }}</button>
               </sc-for>
             </div>
           </div>
@@ -4267,7 +4248,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <span>多</span>
           </div>
         </section>
-        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
           <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">{{ commRankTitle }}</h3>
           <div style="display:flex;flex-direction:column;gap:6px">
             <sc-for list="{{ commRows }}" as="r" hint-placeholder-count="10">
@@ -4289,15 +4270,15 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       <sc-if value="{{ commIsGroup }}" hint-placeholder-val="{{ false }}">
 
         <sc-if value="{{ grp.needLogin }}" hint-placeholder-val="{{ false }}">
-          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
             <div style="font-size:13.5px;font-weight:800;color:#ffe9ac;letter-spacing:.03em">グループはログインすると使えます</div>
             <p style="margin:9px 0 0;font-size:11px;line-height:1.85;color:rgba(255,255,255,.58);text-wrap:pretty">仲間と参戦予定を共有する機能です。招待コードでグループに参加したり、自分でグループを作ったりできます。共有には端末をまたいだ保存が必要なため、ログインが必要です。</p>
-            <button sc-camel-on-click="{{ grp.toLogin }}" style="width:100%;height:44px;margin-top:14px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">ログイン / 新規登録</button>
+            <button sc-camel-on-click="{{ grp.toLogin }}" style="width:100%;height:44px;margin-top:14px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログイン / 新規登録</button>
           </section>
         </sc-if>
 
         <sc-if value="{{ grp.hasGroups }}" hint-placeholder-val="{{ true }}">
-        <section style="flex:none;border-radius:18px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+        <section style="flex:none;border-radius:18px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
           <div style="padding:11px 12px;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.04));border-bottom:.5px solid rgba(255,255,255,.12)">
             <div style="font-size:9px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.5)">GROUP — 参戦グループ</div>
             <div style="position:relative;display:flex;align-items:center;margin-top:3px">
@@ -4307,7 +4288,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <div style="display:flex;align-items:center;gap:7px;margin-top:6px">
               <span style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.5)">招待コード</span>
               <span style="font-size:13px;font-weight:800;letter-spacing:.14em;color:#fff;font-variant-numeric:tabular-nums">{{ grp.code }}</span>
-              <button sc-camel-on-click="{{ grp.copy }}" style="height:26px;padding:0 10px;border-radius:9px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.09);color:rgba(255,255,255,.9);font-size:10.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.94)">コピー</button>
+              <button sc-camel-on-click="{{ grp.copy }}" style="height:26px;padding:0 10px;border-radius:9px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.09);color:rgba(255,255,255,.9);font-size:10.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">コピー</button>
             </div>
           </div>
           <div style="padding:10px 12px;border-bottom:.5px solid rgba(255,255,255,.1)">
@@ -4325,33 +4306,33 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                 </span>
               </sc-for>
               <sc-if value="{{ grp.moreShow }}" hint-placeholder-val="{{ false }}">
-                <button sc-camel-on-click="{{ grp.moreTap }}" style="height:26px;padding:0 10px;border-radius:8px;border:1px dashed rgba(255,255,255,.22);background:transparent;color:rgba(255,255,255,.66);font-size:10.5px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.94)">{{ grp.moreLabel }}</button>
+                <button sc-camel-on-click="{{ grp.moreTap }}" style="height:26px;padding:0 10px;border-radius:8px;border:1px dashed rgba(255,255,255,.22);background:transparent;color:rgba(255,255,255,.66);font-size:10.5px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ grp.moreLabel }}</button>
               </sc-if>
             </div>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:6px;padding:9px 12px">
-            <button sc-camel-on-click="{{ grp.share }}" style="flex:1;min-width:96px;height:36px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">招待を送る</button>
+            <button sc-camel-on-click="{{ grp.share }}" style="flex:1;min-width:96px;height:36px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">招待を送る</button>
             <sc-if value="{{ grp.isOwner }}" hint-placeholder-val="{{ false }}">
-              <button sc-camel-on-click="{{ grp.renameToggle }}" style="flex:1;min-width:96px;height:36px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">名前を変更</button>
+              <button sc-camel-on-click="{{ grp.renameToggle }}" style="flex:1;min-width:96px;height:36px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">名前を変更</button>
             </sc-if>
-            <button sc-camel-on-click="{{ grp.del }}" style="flex:1;min-width:96px;height:36px;border-radius:11px;border:1px solid rgba(224,120,110,.34);background:rgba(224,120,110,.14);color:#f0a89f;font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">{{ grp.delLabel }}</button>
+            <button sc-camel-on-click="{{ grp.del }}" style="flex:1;min-width:96px;height:36px;border-radius:11px;border:1px solid rgba(224,120,110,.34);background:rgba(224,120,110,.14);color:#f0a89f;font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ grp.delLabel }}</button>
           </div>
           <sc-if value="{{ grp.renameOpen }}" hint-placeholder-val="{{ false }}">
             <div style="padding:0 12px 11px">
               <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">グループ名を変更</label>
-              <input value="{{ grp.renameInp }}" sc-camel-on-change="{{ grp.onRenameInp }}" maxlength="30" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:40px;margin-top:6px;padding:0 11px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+              <input value="{{ grp.renameInp }}" sc-camel-on-change="{{ grp.onRenameInp }}" sc-camel-on-key-down="{{ onDoneKey }}" maxlength="30" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:40px;margin-top:6px;padding:0 11px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
               <div style="display:flex;gap:6px;margin-top:8px">
-                <button sc-camel-on-click="{{ grp.renameSave }}" style="flex:1;height:36px;border-radius:11px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.12));color:#ffe9ac;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">保存する</button>
-                <button sc-camel-on-click="{{ grp.renameCancel }}" style="flex:1;height:36px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">キャンセル</button>
+                <button sc-camel-on-click="{{ grp.renameSave }}" style="flex:1;height:36px;border-radius:11px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.12));color:#ffe9ac;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">保存する</button>
+                <button sc-camel-on-click="{{ grp.renameCancel }}" style="flex:1;height:36px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">キャンセル</button>
               </div>
               <div style="margin-top:6px;font-size:10.5px;font-weight:700;color:#f0a89f">{{ grp.errR }}</div>
             </div>
           </sc-if>
         </section>
 
-        <button sc-camel-on-click="{{ grp.newGroup }}" style="flex:none;height:40px;border-radius:14px;border:1px dashed rgba(255,255,255,.24);background:rgba(255,255,255,.04);color:rgba(255,255,255,.78);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">＋ 別のグループを作成／参加</button>
+        <button sc-camel-on-click="{{ grp.newGroup }}" style="flex:none;height:40px;border-radius:14px;border:1px dashed rgba(255,255,255,.24);background:rgba(255,255,255,.04);color:rgba(255,255,255,.78);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">＋ 別のグループを作成／参加</button>
 
-        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
           <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">仲間の参戦予定</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
             <sc-for list="{{ grp.rows }}" as="pl" hint-placeholder-count="6">
@@ -4422,25 +4403,25 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
         <sc-if value="{{ grp.onboard }}" hint-placeholder-val="{{ false }}">
           <sc-if value="{{ grp.backable }}" hint-placeholder-val="{{ false }}">
-            <button sc-camel-on-click="{{ grp.back }}" style="flex:none;align-self:flex-start;height:34px;padding:0 13px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">← グループ一覧へ戻る</button>
+            <button sc-camel-on-click="{{ grp.back }}" style="flex:none;align-self:flex-start;height:34px;padding:0 13px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">← グループ一覧へ戻る</button>
           </sc-if>
-          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">あなたの表示名（ニックネーム）</label>
-            <input value="{{ grp.nick }}" sc-camel-on-change="{{ grp.onNick }}" maxlength="20" placeholder="例：ベガッ太" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+            <input value="{{ grp.nick }}" sc-camel-on-change="{{ grp.onNick }}" maxlength="20" placeholder="例：ベガッ太" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
             <p style="margin:7px 0 0;font-size:9.5px;line-height:1.6;color:rgba(255,255,255,.4)">この名前は参加中のすべてのグループで共通です。変更すると全グループに反映されます。</p>
           </section>
-          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <h3 style="margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#ffe9ac">グループを作る</h3>
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">グループ名</label>
-            <input value="{{ grp.nameInp }}" sc-camel-on-change="{{ grp.onName }}" maxlength="30" placeholder="例：ベガサポ仲間" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
-            <button sc-camel-on-click="{{ grp.create }}" style="width:100%;height:44px;margin-top:9px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">作成する</button>
+            <input value="{{ grp.nameInp }}" sc-camel-on-change="{{ grp.onName }}" maxlength="30" placeholder="例：ベガサポ仲間" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+            <button sc-camel-on-click="{{ grp.create }}" style="width:100%;height:44px;margin-top:9px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">作成する</button>
             <div style="margin-top:7px;font-size:10.5px;line-height:1.5;font-weight:700;color:#f0a89f">{{ grp.errC }}</div>
           </section>
-          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);border:1px solid rgba(255,255,255,.12)">
+          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <h3 style="margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#ffe9ac">招待コードで参加</h3>
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">招待コード</label>
-            <input value="{{ grp.codeInp }}" sc-camel-on-change="{{ grp.onCode }}" maxlength="6" placeholder="6文字のコード" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;text-transform:uppercase;letter-spacing:.15em;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
-            <button sc-camel-on-click="{{ grp.join }}" style="width:100%;height:44px;margin-top:9px;border-radius:13px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">参加する</button>
+            <input value="{{ grp.codeInp }}" sc-camel-on-change="{{ grp.onCode }}" maxlength="6" placeholder="6文字のコード" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;text-transform:uppercase;letter-spacing:.15em;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
+            <button sc-camel-on-click="{{ grp.join }}" style="width:100%;height:44px;margin-top:9px;border-radius:13px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">参加する</button>
             <div style="margin-top:7px;font-size:10.5px;line-height:1.5;font-weight:700;color:#f0a89f">{{ grp.errJ }}</div>
           </section>
         </sc-if>
@@ -4452,11 +4433,11 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
   <div style="position:absolute;right:10px;bottom:calc(88px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
-    <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;border-radius:15px;display:flex;align-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);box-shadow:inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.94)">{{ bulkLabel }}</button>
-    <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.9)">
+    <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;border-radius:15px;display:flex;align-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
+    <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 14.5 12 8l7 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
     </button>
-    <button sc-camel-on-click="{{ jumpBottom }}" aria-label="一番下へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.9)">
+    <button sc-camel-on-click="{{ jumpBottom }}" aria-label="一番下へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 9.5 12 16l7-6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
     </button>
   </div>
@@ -4464,7 +4445,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
     <div sc-camel-on-click="{{ calClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(4,7,14,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fadeIn .22s cubic-bezier(.32,.72,0,1)">
-      <div style="width:100%;max-width:330px;padding:15px 16px 14px;border-radius:22px;background:{{ cd.panelBg }};backdrop-filter:blur(34px) saturate(1.9);-webkit-backdrop-filter:blur(34px) saturate(1.9);border:1px solid {{ cd.panelBd }};box-shadow:inset 0 .5px 0 rgba(255,255,255,.4),0 24px 50px -24px rgba(0,0,0,.95);animation:panelIn .3s cubic-bezier(.32,.72,0,1);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+      <div style="width:100%;max-width:330px;padding:15px 16px 14px;border-radius:22px;background:{{ cd.panelBg }};backdrop-filter:blur(50px) saturate(190%);-webkit-backdrop-filter:blur(50px) saturate(190%);border:1px solid {{ cd.panelBd }};box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.4),0 24px 50px -24px rgba(0,0,0,.95);animation:panelIn .3s cubic-bezier(.32,.72,0,1);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
         <div style="font-size:9.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.5)">{{ cd.comp }}</div>
         <div style="display:flex;align-items:center;gap:9px;margin-top:4px">
           <sc-if value="{{ cd.hasCrest }}" hint-placeholder-val="{{ false }}">
@@ -4492,8 +4473,8 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <div style="display:flex;gap:8px"><span style="flex:none;width:52px;font-weight:700;color:rgba(255,255,255,.5)">宿</span><span style="flex:1;min-width:0;font-weight:700;color:rgba(255,255,255,.86)">{{ cd.lodge }}</span></div>
         </div>
         <div style="display:flex;gap:7px;margin-top:13px">
-          <button sc-camel-on-click="{{ calClose }}" style="flex:none;height:42px;padding:0 16px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.86);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">閉じる</button>
-          <button sc-camel-on-click="{{ calGo }}" style="flex:1;height:42px;border-radius:14px;border:1px solid {{ cd.goBd }};background:{{ cd.goBg }};color:{{ cd.goFg }};font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1), opacity .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">参戦チケット入力</button>
+          <button sc-camel-on-click="{{ calClose }}" style="flex:none;height:42px;padding:0 16px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.86);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">閉じる</button>
+          <button sc-camel-on-click="{{ calGo }}" style="flex:1;height:42px;border-radius:14px;border:1px solid {{ cd.goBd }};background:{{ cd.goBg }};color:{{ cd.goFg }};font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">参戦チケット入力</button>
         </div>
       </div>
     </div>
@@ -4501,7 +4482,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ prefOpen }}" hint-placeholder-val="{{ false }}">
     <div sc-camel-on-click="{{ prefClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:flex-end;background:rgba(4,7,14,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .2s cubic-bezier(.32,.72,0,1)">
-      <div style="width:100%;max-height:72%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(34px) saturate(1.9);-webkit-backdrop-filter:blur(34px) saturate(1.9);border-top:1px solid rgba(255,255,255,.2);box-shadow:0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
+      <div style="width:100%;max-height:72%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(50px) saturate(190%);-webkit-backdrop-filter:blur(50px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
         <div style="display:flex;align-items:center;gap:9px;padding-bottom:9px;border-bottom:.5px solid rgba(255,255,255,.12)">
           <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:17px;font-weight:700;color:#fff">{{ ps.pref }}</span>
           <span style="flex:none;height:24px;padding:0 9px;display:flex;align-items:center;border-radius:8px;font-size:10.5px;font-weight:800;color:#fff;background:{{ ps.stColor }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ ps.stLabel }}</span>
@@ -4527,27 +4508,29 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </div>
   </sc-if>
 
-  <nav style="position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:36;height:66px;padding:5px;border-radius:26px;background:linear-gradient(165deg,rgba(255,255,255,.15),rgba(255,255,255,.055));backdrop-filter:blur(34px) saturate(190%);-webkit-backdrop-filter:blur(34px) saturate(190%);border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 -6px 28px -14px rgba(0,0,0,.9)">
+  <nav style="position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:36;height:66px;padding:5px;border-radius:26px;clip-path:inset(0 round 26px);background:linear-gradient(165deg,rgba(9,14,26,.80),rgba(5,9,19,.66));backdrop-filter:blur(45px) saturate(190%);-webkit-backdrop-filter:blur(45px) saturate(190%);border:1px solid rgba(255,255,255,.32);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.16)">
     <div style="position:relative;height:100%;display:grid;grid-template-columns:repeat(7,1fr)">
-      <span style="position:absolute;top:0;bottom:0;left:0;width:14.2857%;border-radius:20px;background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.10));border:1px solid rgba(240,198,74,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 4px 16px -8px rgba(240,198,74,.7);transform:translateX({{ pillX }}%);transition:transform .52s cubic-bezier(.34,1.42,.5,1)"></span>
+      <div aria-hidden="true" style="position:absolute;inset:-1px;border-radius:22px;overflow:hidden;clip-path:inset(0 round 22px);pointer-events:none">
+      <span style="position:absolute;top:0;bottom:0;left:0;width:14.2857%;border-radius:20px;background:linear-gradient(180deg,rgba(246,208,96,.52),rgba(214,168,50,.26));border:1px solid rgba(246,214,120,.62);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.62),inset 0 -1.2px 0 rgba(90,62,0,.34),inset 1px 0 0 rgba(255,255,255,.18),inset -1px 0 0 rgba(255,255,255,.18);transform:translateX({{ pillX }}%);transition:transform .52s cubic-bezier(.34,1.42,.5,1)"></span>
+      </div>
       <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="7">
-        <button sc-camel-on-click="{{ tab.onTap }}" style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:0;padding:0;font-family:inherit;cursor:pointer;color:{{ tab.color }};transition:color .3s,transform .2s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.9)">
+        <button sc-camel-on-click="{{ tab.onTap }}" style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:0;padding:0;font-family:inherit;cursor:pointer;color:{{ tab.color }};transition:color .3s, transform .2s cubic-bezier(.32,.72,0,1);transition:color .3s, transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
           <span sc-camel-dangerously-set-inner-h-t-m-l="{{ tab.icon }}" style="display:block;width:22px;height:22px"></span>
-          <span style="font-size:8.5px;font-weight:600;letter-spacing:.01em;white-space:nowrap">{{ tab.label }}</span>
+          <span style="font-size:9.5px;font-weight:700;letter-spacing:.005em;white-space:nowrap;text-shadow:0 1px 3px rgba(3,7,14,.8),0 0 1px rgba(3,7,14,.6)">{{ tab.label }}</span>
         </button>
       </sc-for>
     </div>
   </nav>
 
   <sc-if value="{{ sheet }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end">
-      <div sc-camel-on-click="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fadeIn .28s cubic-bezier(.32,.72,0,1) both"></div>
-      <div style="position:relative;margin:10px;padding:10px 10px 14px;border-radius:30px;background:linear-gradient(170deg,rgba(30,44,72,.92),rgba(12,20,36,.94));backdrop-filter:blur(40px) saturate(190%);-webkit-backdrop-filter:blur(40px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both;max-height:72%;display:flex;flex-direction:column">
-        <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 10px"></div>
-        <div style="flex:none;padding:0 8px 10px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em">{{ sheetTitle }}</div>
+    <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;pointer-events:{{ sheetPE }}">
+      <div sc-camel-on-click="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:{{ sheetVeil }}"></div>
+      <div data-sheet-panel="1" style="position:relative;margin:10px;padding:10px 10px 14px;border-radius:30px;background:linear-gradient(170deg,rgba(30,44,72,.92),rgba(12,20,36,.94));backdrop-filter:blur(59px) saturate(190%);-webkit-backdrop-filter:blur(59px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:{{ sheetAnim }};max-height:72%;display:flex;flex-direction:column">
+        <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 10px;touch-action:none"></div>
+        <div style="flex:none;padding:0 8px 10px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em;touch-action:none">{{ sheetTitle }}</div>
         <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:5px">
           <sc-for list="{{ sheetItems }}" as="it" hint-placeholder-count="5">
-            <button sc-camel-on-click="{{ it.onTap }}" style="display:flex;align-items:center;gap:10px;min-height:50px;padding:0 14px;border-radius:17px;background:{{ it.bg }};border:1px solid {{ it.bd }};color:#fff;font-size:14.5px;font-weight:600;font-family:inherit;text-align:left;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.975)">
+            <button sc-camel-on-click="{{ it.onTap }}" style="display:flex;align-items:center;gap:10px;min-height:50px;padding:0 14px;border-radius:17px;background:{{ it.bg }};border:1px solid {{ it.bd }};color:#fff;font-size:14.5px;font-weight:600;font-family:inherit;text-align:left;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.975);transition:transform .09s cubic-bezier(.32,.72,0,1)">
               <span style="flex:1">{{ it.label }}</span>
               <span style="flex:none;font-size:12px;color:rgba(255,255,255,.42);font-variant-numeric:tabular-nums">{{ it.count }}</span>
               <span style="flex:none;width:18px;font-size:14px;color:#f0c64a">{{ it.check }}</span>
@@ -4561,7 +4544,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
   <sc-if value="{{ acctOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:58;display:flex;flex-direction:column;justify-content:flex-end">
       <div sc-camel-on-click="{{ closeAcct }}" style="position:absolute;inset:0;background:rgba(4,7,14,.58);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .28s cubic-bezier(.32,.72,0,1) both"></div>
-      <div style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(40px) saturate(190%);-webkit-backdrop-filter:blur(40px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
+      <div style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(59px) saturate(190%);-webkit-backdrop-filter:blur(59px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 12px"></div>
         <div style="flex:none;display:flex;align-items:center;gap:10px;padding:0 2px 11px;border-bottom:.5px solid rgba(255,255,255,.12)">
           <span role="img" aria-label="ベガルタ仙台エンブレム" style="flex:none;width:30px;height:30px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
@@ -4569,7 +4552,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <div style="font-size:15px;font-weight:800;color:#fff;letter-spacing:.02em">マイページ</div>
             <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:1px">同期とアカウントの管理</div>
           </div>
-          <button sc-camel-on-click="{{ closeAcct }}" style="flex:none;height:30px;padding:0 14px;white-space:nowrap;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.82);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.94)">閉じる</button>
+          <button sc-camel-on-click="{{ closeAcct }}" style="flex:none;height:30px;padding:0 14px;white-space:nowrap;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.82);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">閉じる</button>
         </div>
 
         <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:9px;padding-top:11px">
@@ -4580,7 +4563,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             </div>
             <p style="margin:8px 0 0;font-size:11.5px;line-height:1.6;color:rgba(255,255,255,.72)">この端末は今、<b style="color:#fff">{{ acctState }}</b>。ログインすると記録がクラウドに保存され、別の端末でも同じ記録を見られます。</p>
             <sc-if value="{{ acctLoggedOut }}" hint-placeholder-val="{{ true }}">
-              <button sc-camel-on-click="{{ acctToLogin }}" style="width:100%;height:42px;margin-top:10px;border-radius:14px;border:1px solid rgba(240,198,74,.45);background:linear-gradient(180deg,rgba(240,198,74,.3),rgba(240,198,74,.12));color:#ffeaa8;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">ログイン / 新規登録</button>
+              <button sc-camel-on-click="{{ acctToLogin }}" style="width:100%;height:42px;margin-top:10px;border-radius:14px;border:1px solid rgba(240,198,74,.45);background:linear-gradient(180deg,rgba(240,198,74,.3),rgba(240,198,74,.12));color:#ffeaa8;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログイン / 新規登録</button>
             </sc-if>
             <sc-if value="{{ acctLoggedIn }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)">
@@ -4588,10 +4571,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                 <span style="flex:none;font-size:10px;color:rgba(255,255,255,.5)">{{ acctSyncAt }}</span>
               </div>
               <div style="display:flex;gap:7px;margin-top:9px">
-                <button sc-camel-on-click="{{ acctSyncNow }}" style="flex:1;height:40px;border-radius:13px;border:1px solid rgba(240,198,74,.4);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.1));color:#ffeaa8;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">{{ acctSyncLabel }}</button>
-                <button sc-camel-on-click="{{ acctLogout }}" style="flex:none;height:40px;padding:0 14px;border-radius:13px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:rgba(255,255,255,.86);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.95)">ログアウト</button>
+                <button sc-camel-on-click="{{ acctSyncNow }}" style="flex:1;height:40px;border-radius:13px;border:1px solid rgba(240,198,74,.4);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.1));color:#ffeaa8;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ acctSyncLabel }}</button>
+                <button sc-camel-on-click="{{ acctLogout }}" style="flex:none;height:40px;padding:0 14px;border-radius:13px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:rgba(255,255,255,.86);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログアウト</button>
               </div>
-              <button sc-camel-on-click="{{ acctDelete }}" style="width:100%;height:38px;margin-top:8px;border-radius:12px;border:1px solid rgba(192,87,79,.5);background:rgba(192,87,79,.14);color:#e2a09a;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.97)">アカウントと全記録を削除</button>
+              <button sc-camel-on-click="{{ acctDelete }}" style="width:100%;height:38px;margin-top:8px;border-radius:12px;border:1px solid rgba(192,87,79,.5);background:rgba(192,87,79,.14);color:#e2a09a;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">アカウントと全記録を削除</button>
             </sc-if>
           </section>
 
@@ -4601,8 +4584,8 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
               <span style="font-size:10px;color:rgba(255,255,255,.45)">グループで仲間に表示される名前</span>
             </div>
             <div style="display:flex;gap:8px;margin-top:9px">
-              <input value="{{ nickDraft }}" sc-camel-on-change="{{ onNick }}" maxlength="20" placeholder="例：ベガッ太" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="flex:1;min-width:0;height:40px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.5)">
-              <button sc-camel-on-click="{{ saveNick }}" style="flex:none;height:40px;padding:0 18px;white-space:nowrap;border-radius:13px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);color:#fff;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.95)">保存</button>
+              <input value="{{ nickDraft }}" sc-camel-on-change="{{ onNick }}" maxlength="20" placeholder="例：ベガッ太" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="flex:1;min-width:0;height:40px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.5)">
+              <button sc-camel-on-click="{{ saveNick }}" style="flex:none;height:40px;padding:0 18px;white-space:nowrap;border-radius:13px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.09);color:#fff;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">保存</button>
             </div>
           </section>
 
@@ -4630,18 +4613,18 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
   </sc-if>
 
   <sc-if value="{{ legalOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:80;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(16,26,44,.97),rgba(8,14,26,.985));backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);animation:sheetUp .42s cubic-bezier(.32,.72,0,1) both">
+    <div style="position:absolute;inset:0;z-index:80;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(16,26,44,.97),rgba(8,14,26,.985));backdrop-filter:blur(59px) saturate(190%);-webkit-backdrop-filter:blur(59px) saturate(190%);animation:sheetUp .42s cubic-bezier(.32,.72,0,1) both">
       <div style="flex:none;display:flex;align-items:center;gap:10px;padding:54px 14px 11px;border-bottom:.5px solid rgba(255,255,255,.12)">
         <span role="img" aria-label="ベガルタ仙台エンブレム" style="flex:none;width:28px;height:28px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
         <div style="flex:1;min-width:0">
           <div style="font-size:15px;font-weight:800;color:#fff;letter-spacing:.02em">規約・ポリシー</div>
           <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:1px">利用規約とプライバシーポリシー</div>
         </div>
-        <button sc-camel-on-click="{{ closeLegal }}" style="flex:none;height:32px;padding:0 14px;white-space:nowrap;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.82);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.94)">閉じる</button>
+        <button sc-camel-on-click="{{ closeLegal }}" style="flex:none;height:32px;padding:0 14px;white-space:nowrap;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.82);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">閉じる</button>
       </div>
       <div style="flex:none;display:flex;gap:6px;padding:11px 14px 0">
         <sc-for list="{{ legalTabs }}" as="lt" hint-placeholder-count="2">
-          <button sc-camel-on-click="{{ lt.onTap }}" style="flex:1;height:36px;border-radius:999px;border:1px solid {{ lt.bd }};background:{{ lt.bg }};color:{{ lt.fg }};font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:background .22s,color .22s,transform .18s cubic-bezier(.32,.72,0,1)" style-active="transform:scale(.96)">{{ lt.lbl }}</button>
+          <button sc-camel-on-click="{{ lt.onTap }}" style="flex:1;height:36px;border-radius:999px;border:1px solid {{ lt.bd }};background:{{ lt.bg }};color:{{ lt.fg }};font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:background .22s, color .22s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .22s, color .22s, transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ lt.lbl }}</button>
         </sc-for>
       </div>
       <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 16px 40px">
@@ -4739,7 +4722,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;left:0;right:0;bottom:calc(92px + env(safe-area-inset-bottom, 0px));z-index:60;display:flex;justify-content:center;pointer-events:none">
-      <div style="padding:11px 18px;border-radius:18px;background:rgba(20,30,50,.86);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 12px 30px -14px rgba(0,0,0,1);color:#fff;font-size:12.5px;font-weight:600;animation:toastIn .4s cubic-bezier(.32,1.4,.5,1) both">{{ toast }}</div>
+      <div style="padding:11px 18px;border-radius:18px;background:rgba(20,30,50,.86);backdrop-filter:blur(45px) saturate(190%);-webkit-backdrop-filter:blur(45px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.28),0 12px 30px -14px rgba(0,0,0,1);color:#fff;font-size:12.5px;font-weight:600;animation:toastIn .4s cubic-bezier(.32,1.4,.5,1) both">{{ toast }}</div>
     </div>
   </sc-if>
 
@@ -4782,7 +4765,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <sc-if value="{{ gateHasForm }}" hint-placeholder-val="{{ false }}">
             <div style="animation:panelIn .32s cubic-bezier(.32,.72,0,1) both">
               <sc-for list="{{ gateFields }}" as="f" hint-placeholder-count="2">
-                <input value="{{ f.value }}" sc-camel-on-change="{{ f.onInput }}" type="{{ f.type }}" placeholder="{{ f.ph }}" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="{{ f.ac }}" inputmode="{{ f.im }}" enterkeyhint="go" style="width:100%;background:#0c1424;color:#e6ddc4;border:1px solid rgba(240,198,74,.34);border-radius:8px;padding:13px 14px;font-size:16px;font-family:inherit;letter-spacing:.02em;margin-bottom:12px;outline:none" style-focus="border-color:rgba(240,198,74,.7)">
+                <input value="{{ f.value }}" sc-camel-on-change="{{ f.onInput }}" type="{{ f.type }}" placeholder="{{ f.ph }}" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="{{ f.ac }}" inputmode="{{ f.im }}" enterkeyhint="go" sc-camel-on-key-down="{{ onGateKey }}" style="width:100%;background:#0c1424;color:#e6ddc4;border:1px solid rgba(240,198,74,.34);border-radius:8px;padding:13px 14px;font-size:16px;font-family:inherit;letter-spacing:.02em;margin-bottom:12px;outline:none" style-focus="border-color:rgba(240,198,74,.7)">
               </sc-for>
               <button sc-camel-on-click="{{ gateSubmit }}" style="width:100%;position:relative;padding:14px 12px;border-radius:6px;font-weight:800;letter-spacing:.1em;font-size:14.5px;font-family:inherit;cursor:pointer;overflow:hidden;background:linear-gradient(180deg,#e6c574,#c39c3c);color:#181101;border:1px solid #8a6612;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3),inset 0 -1px 0 rgba(110,78,10,.45),0 4px 14px rgba(0,0,0,.4);text-shadow:0 1px 0 rgba(255,255,255,.32);transition:transform .09s cubic-bezier(.32,.72,0,1)" style-active="transform:translateY(1px)">{{ gateCta }}</button>
               <div style="margin-top:11px;min-height:17px;font-size:12px;font-weight:600;text-align:left;color:{{ gateMsgColor }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ gateMsg }}</div>
@@ -5038,7 +5021,7 @@ class Component extends DCLogic {
       calId: null,
       calMonth: null,
       prefSheet: null,
-      mapZoom: 100, mapPanX: 0, mapPanY: 0, tabSeq: 0,
+      mapZoom: 100, mapPanX: 0, mapPanY: 0, tabSeq: 0, sheetOut: false,
       commView: "group",
       commTab: "visitors",
       wall: {filter:true, density:"normal", result:true, title:true},
@@ -5173,7 +5156,9 @@ class Component extends DCLogic {
     this.paintMaps(); this.drawWall();
     this.pumpCloud();
     this.fitViewport();
+    this.fitTop();
     this.fitBottom();
+    if(this.state.sheet) this.bindSheetDrag();
   }
   /* レンダー中に取得を走らせないための集約点 */
   pumpCloud(){
@@ -5255,11 +5240,32 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v85",w.density,w.result,w.title,list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v86",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
-    Promise.all([this.wallImg(), this.crestImg(), this.loadCrests(list)]).then(function(im){ self.paintWall(cv, im[0], im[1], im[2], list, w); });
+    Promise.all([this.wallImg(), this.crestImg(), this.loadCrests(list), this.loadWallFonts(list)])
+      .then(function(im){ self.paintWall(cv, im[0], im[1], im[2], list, w); });
+  }
+  /* canvas は文字を描くだけではフォントを取りに行かないため、
+     使う文字を先に読み込ませてから描く（一部が別書体になるのを防ぐ） */
+  loadWallFonts(list){
+    try{
+      if(!document.fonts || !document.fonts.load) return Promise.resolve();
+      var txt = "ベガルタ仙台参戦帳勝分敗中止延期未定H A0123456789/年月日()";
+      list.forEach(function(m){
+        txt += (m.opp||"") + (m.venue||"") + (m.comp||"") + (m.round||"") + (m.date||"") + (m.dow||"");
+      });
+      var uniq = "";
+      var seen = {};
+      for(var i=0;i<txt.length;i++){ var c=txt.charAt(i); if(!seen[c]){ seen[c]=1; uniq+=c; } }
+      if(this._wallFontFor === uniq) return Promise.resolve();
+      this._wallFontFor = uniq;
+      return Promise.all([
+        document.fonts.load('700 40px "Yuji Syuku"', uniq),
+        document.fonts.load('800 40px "Yuji Syuku"', uniq)
+      ]).catch(function(){});
+    }catch(e){ return Promise.resolve(); }
   }
   roundRect(ctx,x,y,ww,hh,r){
     ctx.beginPath();
@@ -5335,8 +5341,9 @@ class Component extends DCLogic {
   }
   /* 元アプリ makeScheduleImage の移植（チケット意匠・2列・金属マテリアル） */
   paintWall(cv, bg, crest, crestMap, list, w){
-    var self=this, rec=this.state.rec, wallResult=!!w.result;
-    var paddingMode=w.density||"spacious", showTitle=(w.title!==false);
+    var self=this, rec=this.state.rec, wallResult=!!w.result, wallStamp=(w.stamp!==false);
+    var paddingMode=(w.density==="compact") ? "spacious" : (w.density||"spacious");
+    var showTitle=(w.title!==false);
     var PRESET={ spacious:{budget:1180,aspect:0.46}, normal:{budget:1680,aspect:0.46}, compact:{budget:800,aspect:0.46} }[paddingMode] || {budget:1680,aspect:0.46};
     var W=1080,P=18,G=20,footerH=54,STUBW=76,COLS=(paddingMode==="normal"?2:3);
     var headerH = showTitle ? 128 : 18;
@@ -5347,8 +5354,10 @@ class Component extends DCLogic {
     var allN=this.matches().length;
     var rowH, cardH, contentH, H;
     {
-      var GAPV={spacious:30, normal:20, compact:16}[paddingMode] || 24;
-      rowH=Math.max(42, Math.min(150, Math.floor(PRESET.budget/Math.ceil(allN/COLS))));
+      var GAPV={spacious:16, normal:11, compact:12}[paddingMode] || 14;
+      /* 券の大きさは常に40試合を基準にする。カップ戦で増えたぶんだけ小さくなる */
+      var sizeN=Math.max(40, allN);
+      rowH=Math.max(42, Math.min(150, Math.floor(PRESET.budget/Math.ceil(sizeN/COLS))));
       cardH=rowH-8;
       rowH=cardH+GAPV;
       contentH=headerH+rowH*rows+footerH;
@@ -5383,7 +5392,10 @@ class Component extends DCLogic {
       ctx.restore();
       var titleW=ctx.measureText("ベガルタ仙台 参戦帳").width+(titleX-P);
 
-      var leg=[["参戦済み","済",this.STATUS_COLOR["◎"]],["参戦予定","予",this.STATUS_COLOR["○"]],["検討中","検",this.STATUS_COLOR["△"]],["非参戦","非",this.STATUS_COLOR["×"]]];
+      var leg=[];
+      if(wallStamp){
+        leg=[["参戦済み","済",this.STATUS_COLOR["◎"]],["参戦予定","予",this.STATUS_COLOR["○"]],["検討中","検",this.STATUS_COLOR["△"]],["非参戦","非",this.STATUS_COLOR["×"]]];
+      }
       if(wallResult){ leg=leg.concat([["勝","勝","#d8a838"],["分","分","#5f7f88"],["負","敗","#9c4a4a"]]); }
       var legN=leg.length, ldL=legN>4?22:28, lfs=legN>4?15:19, lgap=legN>4?9:16;
       var lx=P+titleW+(legN>4?20:34);
@@ -5603,7 +5615,8 @@ class Component extends DCLogic {
       var plH=hh-10, plX=x+9;
       var dSize=(paddingMode==="normal") ? Math.min(60, Math.round(plH*0.58)) : Math.min(38, Math.round(plH*0.5));
       var dTxt=m.date, koTxt=(m.ko&&m.ko!=="未定")?m.ko:"未定";
-      var dFont=Math.round(dSize*0.92);
+      /* 正式表示は日付を控えめに（チーム名の場所を空ける） */
+      var dFont=Math.round(dSize*(paddingMode==="normal" ? 0.72 : 0.92));
       ctx.save();
       ctx.font="800 "+dFont+"px "+GK;
       var plW=Math.max(ctx.measureText("12/28").width, ctx.measureText(dTxt).width)+9;
@@ -5645,7 +5658,7 @@ class Component extends DCLogic {
       ctx.setLineDash([2,2]); ctx.strokeStyle="rgba(32,28,22,.9)"; ctx.lineWidth=1;
       ctx.beginPath(); ctx.moveTo(plX+3.5,sepY); ctx.lineTo(plX+plW-3.5,sepY); ctx.stroke();
       ctx.restore();
-      var kSize=self.fitFont(ctx,koTxt,plW-9,Math.round(dSize*0.64),8,"700",GK);
+      var kSize=self.fitFont(ctx,koTxt,plW-9,Math.round(dSize*(paddingMode==="normal"?0.52:0.64)),8,"700",GK);
       ctx.font="700 "+kSize+"px "+GK; ctx.fillStyle=inkD;
       ctx.fillText(koTxt, plX+plW/2, calY+calH*0.755);
       ctx.restore();
@@ -5678,16 +5691,14 @@ class Component extends DCLogic {
       var sd=Math.min(hh*0.66, 40), rr=sd/2;
       var scx=x+ww-rr+8, sy2=y+rr-13;
       if(wallResult && oc){
-        var scTxt=m.result.gf+"-"+m.result.ga;
-        var rcol={win:"#ffdf8a",draw:"#cfd8e6",lose:"#e79b95"}[oc];
-        ctx.font="800 "+Math.min(22,Math.round(hh*0.3))+"px "+GK; ctx.fillStyle=rcol;
-        ctx.textAlign="right";
-        ctx.fillText(scTxt, x+ww-10, y+hh/2);
-        ctx.textAlign="center";
-      } else if(s){
+        var rcol={win:"#d8a838",draw:"#5f7f88",lose:"#9c4a4a"}[oc];
+        var rgl={win:"勝",draw:"分",lose:"敗"}[oc];
+        self.drawBallSeal(ctx, scx, sy2, rr, rcol, rgl, -7);
+        ctx.textAlign="center"; ctx.textBaseline="middle";
+      } else if(wallStamp && s){
         self.drawBallSeal(ctx, scx, sy2, rr, self.STATUS_COLOR[s], self.STATUS_GLYPH[s], -7);
         ctx.textAlign="center"; ctx.textBaseline="middle";
-      } else {
+      } else if(wallStamp){
         ctx.save(); ctx.setLineDash([3,3]);
         ctx.strokeStyle="rgba(255,255,255,.45)"; ctx.lineWidth=1.4;
         ctx.beginPath(); ctx.arc(scx,sy2,rr,0,Math.PI*2); ctx.stroke(); ctx.restore();
@@ -5763,7 +5774,10 @@ class Component extends DCLogic {
   }
   componentWillUnmount(){
     clearInterval(this._t);
+    if(this._sheetT) clearTimeout(this._sheetT);
     document.removeEventListener("pointerdown", this._touch);
+    if(this._focIn) document.removeEventListener("focusin", this._focIn);
+    if(this._focOut) document.removeEventListener("focusout", this._focOut);
     if(this._fit){
       window.removeEventListener("resize", this._fit);
       window.removeEventListener("orientationchange", this._fit);
@@ -5772,6 +5786,87 @@ class Component extends DCLogic {
         window.visualViewport.removeEventListener("scroll", this._fit);
       }
     }
+  }
+
+  /* ══ シートを指で引き下げて閉じる ══ */
+  bindSheetDrag(){
+    var panel = document.querySelector('[data-sheet-panel]');
+    if(!panel || panel.__vgDrag) return;
+    panel.__vgDrag = true;
+    var self=this, veil = panel.previousElementSibling;
+    var y0=0, t0=0, dy=0, on=false, ly=0, lt=0, vel=0;
+
+    panel.addEventListener("pointerdown", function(e){
+      if(e.pointerType==="mouse" && e.button!==0) return;
+      var r = panel.getBoundingClientRect();
+      if(e.clientY - r.top > 56) return;          /* つまみ・見出しの帯だけ */
+      on=true; y0=e.clientY; t0=Date.now(); dy=0; ly=e.clientY; lt=t0; vel=0;
+      panel.style.animation="none"; panel.style.transition="none";
+      if(veil){ veil.style.animation="none"; veil.style.transition="none"; }
+      try{ panel.setPointerCapture(e.pointerId); }catch(_){}
+    });
+    panel.addEventListener("pointermove", function(e){
+      if(!on) return;
+      dy = e.clientY - y0;
+      if(dy < 0) dy = dy * 0.28;                  /* 上へは引っ張れないゴム感 */
+      var nt = Date.now();
+      if(nt - lt > 12){ vel = (e.clientY - ly) / (nt - lt); ly = e.clientY; lt = nt; }
+      panel.style.transform = "translateY(" + dy + "px)";
+      if(veil) veil.style.opacity = String(Math.max(0, 1 - Math.max(0,dy)/420));
+    });
+    var end = function(e){
+      if(!on) return;
+      on=false;
+      try{ panel.releasePointerCapture(e.pointerId); }catch(_){}
+      var EASE = "cubic-bezier(.32,.72,0,1)";
+      /* 十分に引いたか、下向きに払ったときだけ閉じる */
+      if(dy > 90 || (dy > 28 && vel > 0.45)){
+        panel.style.transition = "transform .22s " + EASE;
+        panel.style.transform = "translateY(102%)";
+        if(veil){ veil.style.transition = "opacity .22s " + EASE; veil.style.opacity = "0"; }
+        if(self._sheetT){ clearTimeout(self._sheetT); self._sheetT=null; }
+        self._sheetT = setTimeout(function(){
+          self._sheetT=null; self.setState({sheet:null, sheetOut:false});
+        }, 200);
+      }else{
+        panel.style.transition = "transform .34s " + EASE;
+        panel.style.transform = "translateY(0)";
+        if(veil){ veil.style.transition = "opacity .22s " + EASE; veil.style.opacity = "1"; }
+      }
+    };
+    panel.addEventListener("pointerup", end);
+    panel.addEventListener("pointercancel", end);
+  }
+
+  /* ══ シートを下へ滑らせてから閉じる ══ */
+  dismissSheet(){
+    if(this._sheetT || !this.state.sheet) return;
+    var self=this;
+    this.setState({sheetOut:true});
+    this._sheetT = setTimeout(function(){
+      self._sheetT = null;
+      self.setState({sheet:null, sheetOut:false});
+    }, 260);
+  }
+  openSheet(name){
+    if(this._sheetT){ clearTimeout(this._sheetT); this._sheetT=null; }
+    this.setState({sheet:name, sheetOut:false});
+  }
+
+  /* ══ ヘッダーの高さを測って本文の開始位置を決める ══ */
+  fitTop(){
+    var m = this.scrollRef && this.scrollRef.current;
+    if(!m || !m.parentElement) return;
+    var hd = m.parentElement.querySelector("header");
+    if(!hd) return;
+    var st = m.parentElement.getBoundingClientRect().top;
+    var need = Math.round(hd.getBoundingClientRect().bottom - st) + 12;
+    if(!isFinite(need) || need < 40) return;
+    var v = need + "px";
+    if(m.style.getPropertyValue("--padt") !== v) m.style.setProperty("--padt", v);
+    var shell = m.parentElement;
+    var e = (need + 12) + "px";
+    if(shell.style.getPropertyValue("--edge") !== e) shell.style.setProperty("--edge", e);
   }
 
   /* ══ メニューバーに隠れないよう、下余白を実測で決める ══ */
@@ -5834,6 +5929,9 @@ class Component extends DCLogic {
     var vv = window.visualViewport;
     var h = vv && vv.height ? vv.height : (window.innerHeight || 0);
     if(!h) return;
+    /* キーボード表示中は縮めない。縮めるとキーボードの上に地の色が出てしまう */
+    var full = window.innerHeight || h;
+    if(this._kb || (full - h) > 120) return;
     var next = Math.round(h) + "px";
     if(el.style.height !== next) el.style.height = next;
   }
@@ -5842,8 +5940,26 @@ class Component extends DCLogic {
     var self=this;
     this._fit = function(){
       if(self._fitRaf) cancelAnimationFrame(self._fitRaf);
-      self._fitRaf = requestAnimationFrame(function(){ self.fitViewport(); self.fitBottom(); });
+      self._fitRaf = requestAnimationFrame(function(){ self.fitViewport(); self.fitTop(); self.fitBottom(); });
     };
+    this._focIn = function(e){
+      var t=e.target;
+      if(!t || !t.tagName) return;
+      if(t.tagName!=="INPUT" && t.tagName!=="TEXTAREA") return;
+      self._kb = true;
+      /* キーボードに隠れないよう、少し待ってから見える位置へ寄せる */
+      setTimeout(function(){
+        try{ t.scrollIntoView({block:"center", behavior:"smooth"}); }catch(e2){
+          try{ t.scrollIntoView(); }catch(e3){}
+        }
+      }, 260);
+    };
+    this._focOut = function(){
+      self._kb = false;
+      setTimeout(function(){ self.fitViewport(); self.fitBottom(); }, 80);
+    };
+    document.addEventListener("focusin", this._focIn);
+    document.addEventListener("focusout", this._focOut);
     window.addEventListener("resize", this._fit);
     window.addEventListener("orientationchange", this._fit);
     if(window.visualViewport){
@@ -5862,9 +5978,14 @@ class Component extends DCLogic {
     if(t.closest("input")) return;
     var host = t.closest("button,[role=button],a");
     if(!host) return;
-    host.style.transition = "opacity .12s ease";
-    host.style.opacity = ".7";
-    setTimeout(function(){ host.style.opacity = ""; }, 130);
+    /* 既存の transition（バネの戻り）を潰さないよう、後ろに足すだけにする */
+    var prev = host.style.transition || "";
+    host.style.transition = (prev ? prev + ", " : "") + "opacity .1s cubic-bezier(.32,.72,0,1)";
+    host.style.opacity = ".82";
+    setTimeout(function(){
+      host.style.opacity = "";
+      host.style.transition = prev;
+    }, 120);
   }
   now(){
     var d = new Date();
@@ -5930,6 +6051,17 @@ class Component extends DCLogic {
   costNum(v){ var n=parseInt(String(v==null?"":v).replace(/[^0-9]/g,"").slice(0,8),10); return isNaN(n)?0:Math.min(n,99999999); }
   costTotal(r){ return this.costNum(r.ct)+this.costNum(r.cl)+this.costNum(r.co); }
   yen(n){ return n.toLocaleString("ja-JP"); }
+  /* 2色を混ぜる（t=1 で b 側） */
+  mixHex(h1,h2,t){
+    var p=function(h){ var s=String(h).replace("#",""); var n=parseInt(s,16);
+      return [(n>>16)&255,(n>>8)&255,n&255]; };
+    var a=p(h1), b=p(h2), o="#";
+    for(var i=0;i<3;i++){
+      var v=Math.round(a[i]+(b[i]-a[i])*t).toString(16);
+      o += (v.length<2?"0":"")+v;
+    }
+    return o;
+  }
   hexA(h,a){ var s=String(h).replace("#",""); var n=parseInt(s,16); return "rgba("+((n>>16)&255)+","+((n>>8)&255)+","+(n&255)+","+a+")"; }
   tList(r){ return Array.isArray(r.t) ? r.t : (r.t ? [r.t] : []); }
 
@@ -6159,7 +6291,7 @@ class Component extends DCLogic {
         self.gset({list:list.concat([ng]), viewId:ng.group_id, onboard:false, codeInp:"", errJ:""}, true);
         self.toast("グループに参加しました");
       },
-      openPicker: function(){ self.haptic(8); self.setState({sheet:"group"}); },
+      openPicker: function(){ self.haptic(8); self.openSheet("group"); },
       select: function(e){
         self.haptic(8);
         var gid=e.target.value;
@@ -6780,7 +6912,7 @@ class Component extends DCLogic {
     var all=this.matches();
     var list = this.filtered(all);
     var rec=this.state.rec;
-    var dens = {spacious:{gap:9,pad:"13px 14px",fs:13}, normal:{gap:6,pad:"9px 12px",fs:12.5}, compact:{gap:3,pad:"6px 11px",fs:12}}[w.density];
+    var dens = {spacious:{gap:9,pad:"13px 14px",fs:13}, normal:{gap:6,pad:"9px 12px",fs:12.5}, compact:{gap:3,pad:"6px 11px",fs:12}}[w.density] || {gap:9,pad:"13px 14px",fs:13};
     return {
       wallRows: list.map(function(m){
         var r=rec[m.id]||{}, s=r.s, oc=self.outcome(m);
@@ -6798,19 +6930,22 @@ class Component extends DCLogic {
       wallGap: dens.gap+"px",
       wallShowTitle: w.title,
       wallCount: list.length+"試合",
-      wallFilterOn: w.filter, wallResultOn: w.result, wallTitleOn: w.title,
+      wallFilterOn: w.filter, wallResultOn: w.result, wallTitleOn: w.title, wallStampOn: (w.stamp!==false),
       wallFilterKnob: w.filter ? "translateX(20px)" : "translateX(0)",
       wallResultKnob: w.result ? "translateX(20px)" : "translateX(0)",
       wallTitleKnob: w.title ? "translateX(20px)" : "translateX(0)",
+      wallStampKnob: (w.stamp!==false) ? "translateX(20px)" : "translateX(0)",
       wallFilterTrack: w.filter ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallResultTrack: w.result ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallTitleTrack: w.title ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
+      wallStampTrack: (w.stamp!==false) ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
+      wallToggleStamp: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.stamp=(n.stamp===false); return {wall:n}; }); },
       wallDensity: w.density,
       wallSwitch: function(k){ return function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n[k]=!n[k]; return {wall:n}; }); }; },
       wallToggleFilter: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.filter=!n.filter; return {wall:n}; }); },
       wallToggleResult: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.result=!n.result; return {wall:n}; }); },
       wallToggleTitle: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.title=!n.title; return {wall:n}; }); },
-      wallDens: [{k:"spacious",lbl:"多め"},{k:"normal",lbl:"普通"},{k:"compact",lbl:"少なめ"}].map(function(d){
+      wallDens: [{k:"spacious",lbl:"省略"},{k:"normal",lbl:"正式"}].map(function(d){
         var on = w.density===d.k;
         return {lbl:d.lbl, bg: on?"rgba(240,198,74,.22)":"transparent", fg: on?"#ffdf8a":"rgba(255,255,255,.72)",
           bd: on?"rgba(240,198,74,.42)":"transparent",
@@ -7338,7 +7473,7 @@ class Component extends DCLogic {
         tn: r.tn || "",
         hn: r.hn || "",
         total: self.yen(tot),
-        onExp: function(){
+        onExp: function(ev){
           self.haptic(6);
           self.setState(function(st){
             var e = {}; for(var k in st.exp) e[k]=st.exp[k];
@@ -7353,10 +7488,11 @@ class Component extends DCLogic {
           return {
             label: self.STATUS_LABEL[k],
             glyph: self.STATUS_GLYPH[k],
-            bg: on ? self.hexA(c,.16) : "rgba(255,255,255,.04)",
-            fg: on ? "#fff" : T.offInk,
-            bd: on ? self.hexA(c,.55) : T.offBd,
-            sh: on ? ("0 0 14px -6px "+self.hexA(c,.9)) : "none",
+            bg: on ? ("linear-gradient(180deg,"+self.mixHex(c,"#ffffff",.60)+","+self.mixHex(c,"#ffffff",.44)+")") : "rgba(255,255,255,.04)",
+            fg: on ? self.mixHex(c,"#0a1018",.80) : T.offInk,
+            bd: on ? self.mixHex(c,"#ffffff",.30) : T.offBd,
+            sh: (on ? ("0 0 14px -6px "+self.hexA(c,.9)+",") : "")
+              + "inset 0 1.2px 0 rgba(255,255,255,.34),inset 0 -1.2px 0 rgba(0,0,0,.22)",
             ring: on ? self.hexA(c,.92) : "rgba(255,255,255,.42)",
             ballFill: on ? ("radial-gradient(70% 60% at 66% 74%,rgba(0,0,0,.18),rgba(0,0,0,0) 62%),linear-gradient(180deg,"+self.hexA(c,.2)+","+self.hexA(c,.1)+"),linear-gradient(180deg,rgba(18,30,52,.5),rgba(12,22,40,.5))") : "linear-gradient(180deg,rgba(18,30,52,.35),rgba(12,22,40,.35))",
             ballGlow: on ? ("0 0 12px -5px "+self.hexA(c,.85)+",inset 0 0 10px -6px "+self.hexA(c,.9)) : "none",
@@ -7437,7 +7573,8 @@ class Component extends DCLogic {
           onTap: function(){
             self.haptic(10);
             self.lsSet("vegalta-season", s.id);
-            self.setState({seasonId:s.id, rec:self.recFor(s.id), filter:"all", exp:{}, sheet:null});
+            self.setState({seasonId:s.id, rec:self.recFor(s.id), filter:"all", exp:{}});
+            self.dismissSheet();
           }
         };
       });
@@ -7459,7 +7596,7 @@ class Component extends DCLogic {
           label: o.label, count: o.n+"試合", check: on ? "✓" : "",
           bg: on ? "rgba(240,198,74,.16)" : "rgba(255,255,255,.055)",
           bd: on ? "rgba(240,198,74,.36)" : "rgba(255,255,255,.1)",
-          onTap: function(){ self.haptic(8); self.setState({calMonth:o.key, sheet:null}); }
+          onTap: function(){ self.haptic(8); self.setState({calMonth:o.key}); self.dismissSheet(); }
         };
       });
     } else if(this.state.sheet==="filter"){
@@ -7470,7 +7607,7 @@ class Component extends DCLogic {
           label: f[1], count: f[2]+"件", check: on ? "✓" : "",
           bg: on ? "rgba(240,198,74,.16)" : "rgba(255,255,255,.055)",
           bd: on ? "rgba(240,198,74,.36)" : "rgba(255,255,255,.1)",
-          onTap: function(){ self.haptic(8); self.setState({filter:f[0], sheet:null}); }
+          onTap: function(){ self.haptic(8); self.setState({filter:f[0]}); self.dismissSheet(); }
         };
       });
     } else if(this.state.sheet==="group"){
@@ -7488,7 +7625,7 @@ class Component extends DCLogic {
           onTap: function(){
             self.haptic(8);
             self._detailFor=null;
-            self.setState({sheet:null});
+            self.dismissSheet();
             self.gset({viewId:x.group_id, memOpen:false, renameOpen:false}, true);
             if(window.VGSync && self.state.user) self.loadGroupDetail(x.group_id);
           }
@@ -7522,7 +7659,7 @@ class Component extends DCLogic {
     var tabs = this.TABS.map(function(t,i){
       return {
         label: t.label, icon: {__html: t.icon},
-        color: self.state.tab===t.id ? "#ffdf8a" : "rgba(255,255,255,.55)",
+        color: self.state.tab===t.id ? "#fff3d0" : "rgba(255,255,255,.95)",
         onTap: function(){
           self.haptic(8);
           /* マップは毎回等倍・中央から始める */
@@ -7562,7 +7699,7 @@ class Component extends DCLogic {
         if(!cm) return "すべての月";
         return Math.floor(cm/100)+"年"+(cm%100)+"月";
       })(),
-      openMonth: function(){ self.haptic(8); self.setState({sheet:"month"}); },
+      openMonth: function(){ self.haptic(8); self.openSheet("month"); },
       screenTitle: titles[tb]||"参戦帳",
       scopeBtns: scopeBtns,
       isEmpty: rows.length===0,
@@ -7622,9 +7759,10 @@ class Component extends DCLogic {
         var done=function(){
           self.lsSet("vegalta-mode","local");
           self._commWant=null; self._grpLoaded=false; self._detailFor=null; self._syncReady=null;
+          if(self._sheetT){ clearTimeout(self._sheetT); self._sheetT=null; }
           try{ localStorage.removeItem(self.GKEY()); }catch(e){}
           self.setState({
-            user:null, acct:false, syncState:null, commData:null, legal:null, sheet:null,
+            user:null, acct:false, syncState:null, commData:null, legal:null, sheet:null, sheetOut:false,
             gate:"pick", gateMsg:"", gateEmail:"", gatePass:"",
             grp:{list:[], viewId:null, nick:(self.state.grp&&self.state.grp.nick)||"", onboard:false,
               memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""}
@@ -7693,10 +7831,28 @@ class Component extends DCLogic {
       gateCta: this.state.gateBusy ? "通信中…" : (g==="reg" ? "この内容で登録する" : (g==="login" ? "ログイン" : (g==="reset" ? "パスワードを更新する" : "再設定リンクを送る"))),
       gateMsg: this.state.gateMsg,
       gateMsgColor: this.state.gateMsgOk ? "#6fd39b" : "#e8897f",
+      onGateKey: function(ev){
+        if(ev.key!=="Enter") return;
+        ev.preventDefault();
+        if(ev.target && ev.target.blur) ev.target.blur();
+        if(self._gateSubmit) self._gateSubmit();
+      },
+      onDoneKey: function(ev){
+        if(ev.key!=="Enter") return;
+        ev.preventDefault();
+        if(ev.target && ev.target.blur) ev.target.blur();
+      },
 
-      openSeason: function(){ self.haptic(8); self.setState({sheet:"season"}); },
-      openFilter: function(){ self.haptic(8); self.setState({sheet:"filter"}); },
-      closeSheet: function(){ self.setState({sheet:null}); },
+      sheetAnim: this.state.sheetOut
+        ? "sheetDown .26s cubic-bezier(.32,.72,0,1) both"
+        : "sheetUp .46s cubic-bezier(.32,.72,0,1) both",
+      sheetVeil: this.state.sheetOut
+        ? "fadeOut .26s cubic-bezier(.32,.72,0,1) both"
+        : "fadeIn .28s cubic-bezier(.32,.72,0,1) both",
+      sheetPE: this.state.sheetOut ? "none" : "auto",
+      openSeason: function(){ self.haptic(8); self.openSheet("season"); },
+      openFilter: function(){ self.haptic(8); self.openSheet("filter"); },
+      closeSheet: function(){ self.dismissSheet(); },
       toggleAll: function(){
         self.haptic(12);
         if(allExp){ self.setState({exp:{}}); }
@@ -7714,7 +7870,7 @@ class Component extends DCLogic {
         self.setState({gate:null});
       },
       gateBusy: !!this.state.gateBusy,
-      gateSubmit: function(){
+      gateSubmit: self._gateSubmit = function(){
         self.haptic(10);
         var em = self.state.gateEmail.trim(), pw = self.state.gatePass, mode = self.state.gate;
         if(mode==="reset"){
