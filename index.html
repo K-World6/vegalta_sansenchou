@@ -3757,14 +3757,14 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </sc-if>
 
         <div sc-camel-on-click="{{ row.onExp }}" role="button" style="position:relative;min-height:62px;display:flex;align-items:center;gap:9px;cursor:pointer">
-          <div style="flex:none;width:54px;position:relative;padding:3px 0 3px;border-radius:10px;text-align:center;background:rgba(255,255,255,.11);box-shadow:inset 0 .5px 0 rgba(255,255,255,.4),inset 0 0 0 .5px rgba(255,255,255,.16)" style-before="content:'';position:absolute;inset:3px;border:.5px solid rgba(255,255,255,.20);border-radius:8px;pointer-events:none">
-            <div style="display:flex;align-items:baseline;justify-content:center;color:{{ row.dateColor }};line-height:1.1;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+          <div style="flex:none;width:54px;position:relative;padding:4px 0 5px;text-align:center;background:linear-gradient(135deg,#fffef9 0%,#f6f0dd 50%,#e4d9bd 100%);border-radius:11px;box-shadow:0 2px 6px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(120,96,44,.18)" style-before="content:'';position:absolute;inset:3px;border:.5px solid rgba(162,129,47,.55);border-radius:8px;pointer-events:none">
+            <div style="display:flex;align-items:baseline;justify-content:center;color:{{ row.dateInk }};line-height:1.1;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
               <b style="font-size:17px;font-weight:800;font-variant-numeric:tabular-nums">{{ row.mo }}</b>
               <i style="font-size:11px;font-style:normal;opacity:.5">/</i>
               <b style="font-size:17px;font-weight:800;font-variant-numeric:tabular-nums">{{ row.day }}</b>
             </div>
-            <div style="font-size:9.5px;font-weight:700;color:{{ row.dateColor }};margin-top:1px;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.dowS }}</div>
-            <div style="width:72%;margin:2px auto 0;padding-top:2px;border-top:.5px solid rgba(255,255,255,.2);font-size:10.5px;font-weight:700;color:{{ row.dateColor }};font-variant-numeric:tabular-nums;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.ko }}</div>
+            <div style="font-size:9.5px;font-weight:800;color:{{ row.dateInk }};margin-top:0;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.dowS }}</div>
+            <div style="width:72%;margin:2px auto 0;padding-top:2px;border-top:.5px solid rgba(120,96,44,.45);font-size:10.5px;font-weight:800;color:{{ row.dateInk }};font-variant-numeric:tabular-nums;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.ko }}</div>
           </div>
 
           <div style="flex:1;min-width:0">
@@ -4038,6 +4038,15 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <p style="margin:48px 8px;text-align:center;font-size:12.5px;line-height:1.9;color:rgba(255,255,255,.45)">まだ支出が記録されていません。<br>各試合の券をひらいて「かかった費用」を入力できます。</p>
       </sc-if>
       <sc-if value="{{ costHasData }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <sc-for list="{{ costHa }}" as="h" hint-placeholder-count="2">
+          <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(24px) saturate(190%);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:{{ h.c }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ h.tag }}</div>
+            <div style="margin-top:2px;font-size:19px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.15">{{ h.v }}</div>
+            <div style="margin-top:2px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.5">{{ h.avg }}<br>{{ h.n }}</div>
+          </div>
+        </sc-for>
+      </div>
       <section style="flex:none;padding:12px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.05));backdrop-filter:blur(25px) saturate(190%);-webkit-backdrop-filter:blur(25px) saturate(190%);border:1px solid rgba(240,198,74,.28);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),0 12px 28px -18px rgba(0,0,0,.85)">
         <div style="font-size:10px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">{{ costTotalLbl }}</div>
         <div style="margin-top:3px;font-size:30px;font-weight:800;color:#ffe9ac;font-variant-numeric:tabular-nums;line-height:1.1;animation:numPop 1s cubic-bezier(.2,1.4,.4,1) both">{{ costTotal }}</div>
@@ -4128,15 +4137,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </p>
       </section>
         </div>
-      <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <sc-for list="{{ costHa }}" as="h" hint-placeholder-count="2">
-          <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(24px) saturate(190%);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-            <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:{{ h.c }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ h.tag }}</div>
-            <div style="margin-top:2px;font-size:19px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.15">{{ h.v }}</div>
-            <div style="margin-top:2px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.5">{{ h.avg }}<br>{{ h.n }}</div>
-          </div>
-        </sc-for>
-      </div>
+      
       <div style="flex:none">
         <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">遠征先（都道府県）別</h3>
         <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
@@ -4351,16 +4352,13 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
         <button sc-camel-on-click="{{ grp.newGroup }}" style="flex:none;height:40px;border-radius:14px;border:1px dashed rgba(255,255,255,.24);background:rgba(255,255,255,.04);color:rgba(255,255,255,.78);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">＋ 別のグループを作成／参加</button>
 
-        <div style="flex:none">
-        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">仲間の参戦予定</h3>
-        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <div style="display:flex;flex-direction:column;gap:8px">
-            <sc-for list="{{ grp.rows }}" as="pl" hint-placeholder-count="6">
+        <div style="flex:none;display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{ grp.rows }}" as="pl" hint-placeholder-count="6">
               <div style="padding:8px 9px;border-radius:12px;background-image:{{ pl.rowBg }};border:1px solid {{ pl.rowBd }};opacity:{{ pl.op }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
                 <div style="display:flex;align-items:center;gap:8px">
-                  <span style="flex:none;display:flex;flex-direction:column;line-height:1.15">
-                    <b style="font-size:13px;font-weight:800;color:{{ pl.dcol }};font-variant-numeric:tabular-nums">{{ pl.md }}</b>
-                    <span style="font-size:9px;font-weight:700;color:{{ pl.dcol }};opacity:.86">{{ pl.dowko }}</span>
+                  <span style="flex:none;position:relative;width:52px;padding:4px 0 5px;display:flex;flex-direction:column;align-items:center;line-height:1.15;background:linear-gradient(135deg,#fffef9 0%,#f6f0dd 50%,#e4d9bd 100%);border-radius:11px;box-shadow:0 2px 6px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(120,96,44,.18)" style-before="content:'';position:absolute;inset:3px;border:.5px solid rgba(162,129,47,.55);border-radius:8px;pointer-events:none">
+                    <b style="font-size:13px;font-weight:800;color:{{ pl.dink }};font-variant-numeric:tabular-nums">{{ pl.md }}</b>
+                    <span style="font-size:8.5px;font-weight:800;color:{{ pl.dink }};white-space:nowrap">{{ pl.dowko }}</span>
                   </span>
                   <sc-if value="{{ pl.hasCrest }}" hint-placeholder-val="{{ true }}">
                     <span role="img" style="flex:none;width:32px;height:30px;background-image:{{ pl.crestBg }};background-size:{{ pl.crestSize }};background-position:center;background-repeat:no-repeat"></span>
@@ -4420,6 +4418,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <p style="margin:8px 0 0;font-size:9.5px;line-height:1.7;color:rgba(255,255,255,.36)">自分の予定は同期のたびに自動で共有されます。<br>表示名やコードは仲間だけに見えます。</p>
         </section>
         </div>
+      </div>
         </sc-if>
 
         <sc-if value="{{ grp.onboard }}" hint-placeholder-val="{{ false }}">
@@ -4454,7 +4453,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
   <div style="position:absolute;right:10px;bottom:calc(88px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
-    <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;border-radius:15px;display:flex;align-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
+    <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;min-width:118px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
     <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 14.5 12 8l7 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
     </button>
@@ -5278,7 +5277,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v86",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v87",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5669,29 +5668,27 @@ class Component extends DCLogic {
       if(paddingMode==="normal") { calH=plH; calY=cyy-calH/2; plW+=4; }
       /* 日めくりカレンダー風の札：外枠＋クリーム地＋内罫 */
       ctx.save();
-      ctx.shadowColor="rgba(0,0,0,.55)"; ctx.shadowBlur=7; ctx.shadowOffsetY=3;
-      /* 角を斜めに落とした八角形の札（面取りエッジ） */
-      var ch=Math.min(9, calH*0.2), L=plX, T=calY, Rr=plX+plW, B=calY+calH;
+      ctx.shadowColor="rgba(0,0,0,.42)"; ctx.shadowBlur=6; ctx.shadowOffsetY=2;
+      /* 角丸の札（アプリ内の日付と同じ意匠） */
+      var ch=Math.min(11, calH*0.24), L=plX, T=calY, Rr=plX+plW, B=calY+calH;
       function calPath(){
         ctx.beginPath();
-        ctx.moveTo(L+ch,T); ctx.lineTo(Rr-ch,T); ctx.lineTo(Rr,T+ch);
-        ctx.lineTo(Rr,B-ch); ctx.lineTo(Rr-ch,B); ctx.lineTo(L+ch,B);
-        ctx.lineTo(L,B-ch); ctx.lineTo(L,T+ch); ctx.closePath();
+        if(ctx.roundRect){ ctx.roundRect(L, T, Rr-L, B-T, ch); return; }
+        ctx.moveTo(L+ch,T); ctx.lineTo(Rr-ch,T); ctx.quadraticCurveTo(Rr,T,Rr,T+ch);
+        ctx.lineTo(Rr,B-ch); ctx.quadraticCurveTo(Rr,B,Rr-ch,B);
+        ctx.lineTo(L+ch,B); ctx.quadraticCurveTo(L,B,L,B-ch);
+        ctx.lineTo(L,T+ch); ctx.quadraticCurveTo(L,T,L+ch,T); ctx.closePath();
       }
       calPath();
       var calG=ctx.createLinearGradient(plX,calY,plX+plW,calY+calH);
       calG.addColorStop(0,"#fffef9"); calG.addColorStop(.5,"#f6f0dd"); calG.addColorStop(1,"#e4d9bd");
       ctx.fillStyle=calG; ctx.fill();
       ctx.restore();
-      /* 外周：濃墨の太縁 → 内側に金の細罫 */
-      calPath();
-      ctx.strokeStyle="#191510"; ctx.lineWidth=3; ctx.stroke();
+      /* 縁：内側に金の細罫のみ（アプリ内と同じ控えめな仕上げ） */
       ctx.save();
-      ctx.translate(plX+plW/2, calY+calH/2); ctx.scale((plW-7)/plW,(calH-7)/calH); ctx.translate(-(plX+plW/2),-(calY+calH/2));
+      ctx.translate(plX+plW/2, calY+calH/2); ctx.scale((plW-6)/plW,(calH-6)/calH); ctx.translate(-(plX+plW/2),-(calY+calH/2));
       calPath();
-      var gl=ctx.createLinearGradient(plX,calY,plX+plW,calY+calH);
-      gl.addColorStop(0,"#e8c264"); gl.addColorStop(.5,"#a2812f"); gl.addColorStop(1,"#f0d68a");
-      ctx.strokeStyle=gl; ctx.lineWidth=1.6; ctx.stroke();
+      ctx.strokeStyle="rgba(162,129,47,.55)"; ctx.lineWidth=1; ctx.stroke();
       ctx.restore();
 
       ctx.textAlign="center"; ctx.textBaseline="middle";
@@ -6545,10 +6542,12 @@ class Component extends DCLogic {
       var dow0=String(m.dow).split("・")[0];
       var dcol=(dow0==="日"||String(m.dow).indexOf("祝")>=0)?"#ff9d92":(dow0==="土"?"#a3c6ff":"rgba(255,255,255,.92)");
       return {id:m.id, md:m.date, dowko:dow0+" "+(m.ko||""), dcol:dcol,
+        dink: (dcol==="#ff9d92" ? "#9c1f16" : (dcol==="#a3c6ff" ? "#1c68a8" : "#2a2a2e")),
         hasCrest:!!self.CREST[m.opp], crestBg:self.CREST[m.opp]?("url('"+self.CREST[m.opp]+"')"):"none", crestSize:self.crestSizeAt(m.opp,26),
         opp:m.opp, ha:m.home?"HOME":"AWAY", haC:m.home?"#f0c64a":"#a8c8f0",
-        rowBg: m.home?"linear-gradient(165deg,rgba(240,198,74,.16),rgba(240,198,74,.05))":"linear-gradient(165deg,rgba(120,170,240,.15),rgba(120,170,240,.045))",
-        rowBd: m.home?"rgba(240,198,74,.28)":"rgba(150,190,255,.26)",
+        /* 券と同じ濃さにして、背景がうっすら透けるようにする */
+        rowBg: m.home?"linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12))":"linear-gradient(180deg,rgba(138,182,246,.28),rgba(138,182,246,.12))",
+        rowBd: m.home?"rgba(240,198,74,.42)":"rgba(138,182,246,.42)",
         venue:m.venue?("・"+m.venue):"", going:String(going), lines:lines,
         hasMem:lines.length>0, noMem:lines.length===0,
         op: lines.length?"1":".55"};
@@ -7576,6 +7575,11 @@ class Component extends DCLogic {
         sealAnim: (self.state.justStamped===m.id) ? "sealPop .5s cubic-bezier(.32,1.5,.5,1) both" : "none",
         expanded: isExp,
         collapsed: !isExp,
+        /* クリームの札に載せる濃い文字色（壁紙と同じ対応） */
+        dateInk: (function(){
+          var c=self.dateTone(m);
+          return c==="#ff9d92" ? "#9c1f16" : (c==="#a3c6ff" ? "#1c68a8" : "#2a2a2e");
+        })(),
         /* 開いた券は一段持ち上げて、面として浮かせる */
         lift: isExp ? "translateY(-2px) scale(1.012)" : "none",
         liftSh: isExp
