@@ -3589,6 +3589,7 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+img[data-saveable]{-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto;pointer-events:auto}
 button{touch-action:manipulation}
 button:focus{outline:none}
 button:focus-visible{outline:2px solid rgba(240,198,74,.85);outline-offset:2px}
@@ -3691,14 +3692,14 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   
 
-  <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:var(--edge, 118px);z-index:29;pointer-events:none;background:linear-gradient(to bottom,rgba(5,9,17,.30),rgba(5,9,17,.16) 55%,rgba(5,9,17,0) 100%)"></div>
+  <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:var(--edge, 118px);z-index:29;pointer-events:none;background:linear-gradient(to bottom,rgba(5,9,17,var(--eg,0)),rgba(5,9,17,calc(var(--eg,0) * .55)) 55%,rgba(5,9,17,0) 100%)"></div>
 
-  <header style="position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top, 0px) + 4px);z-index:30;padding:7px 14px 7px;border-radius:21px;clip-path:inset(0 round 21px);background:linear-gradient(165deg,rgba(255,255,255,.24),rgba(255,255,255,.10));backdrop-filter:blur(45px) saturate(190%);-webkit-backdrop-filter:blur(45px) saturate(190%);border:1px solid rgba(255,255,255,.32);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.20)">
+  <header style="position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top, 0px) + 4px);z-index:30;padding:7px 14px 7px;border-radius:var(--hrad,21px);clip-path:inset(0 round var(--hrad,21px));transition:border-radius .34s cubic-bezier(.32,.72,0,1);background:linear-gradient(165deg,rgba(255,255,255,var(--hg1,.17)),rgba(255,255,255,var(--hg2,.065)));backdrop-filter:blur(var(--hbl,32px)) saturate(190%);-webkit-backdrop-filter:blur(var(--hbl,32px)) saturate(190%);border:1px solid rgba(255,255,255,var(--hb,.22));box-shadow:inset 0 1.4px 0 rgba(255,255,255,var(--hr,.52)),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.20)">
     <div style="position:absolute;inset:0;z-index:0;border-radius:21px;overflow:hidden;pointer-events:none;clip-path:inset(0 round 21px)">
       <div style="position:absolute;inset:-20px;background-image:{{ headerBg }};background-size:cover;background-position:center 35%;filter:blur(1px)"></div>
       <span style="position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(224,185,74,.55),transparent)"></span>
     </div>
-    <div style="position:relative;display:flex;align-items:center;gap:10px">
+    <div style="position:relative;display:flex;align-items:center;gap:10px;max-height:var(--h1,34px);opacity:var(--o1,1);overflow:hidden;pointer-events:var(--p1,auto);transition:max-height .34s cubic-bezier(.32,.72,0,1),opacity .24s cubic-bezier(.32,.72,0,1)">
       <span style="flex:none;position:relative;width:28px;height:28px;display:grid;place-items:center">
         <svg sc-camel-view-box="0 0 24 24" width="23" height="23" fill="none" style="position:absolute;inset:0;margin:auto"><circle cx="12" cy="12" r="9.4" stroke="#f0c64a" stroke-width="1.7"></circle><path d="M12 6.6l4.2 3.05-1.6 4.95H9.4L7.8 9.65 12 6.6Z" fill="#f0c64a"></path></svg>
         <span role="img" aria-label="ベガルタ仙台エンブレム" style="position:relative;width:28px;height:28px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
@@ -3713,7 +3714,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><circle cx="12" cy="8.4" r="3.7" stroke="currentColor" stroke-width="1.8"></circle><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
       </button>
     </div>
-    <div style="position:relative;z-index:1;display:flex;gap:7px;margin-top:6px">
+    <div style="position:relative;z-index:1;display:flex;gap:7px;margin-top:var(--m2,6px);transition:margin-top .34s cubic-bezier(.32,.72,0,1)">
       <button sc-camel-on-click="{{ openSeason }}" style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:6px;padding:0 11px;border-radius:13px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);color:#fff;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .18s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .18s, transform .42s var(--pop)" style-active="transform:scale(.965);background:rgba(255,255,255,.13);transition:transform .09s cubic-bezier(.32,.72,0,1)">
         <svg sc-camel-view-box="0 0 24 24" width="15" height="15" fill="none" style="flex:none"><rect x="3.4" y="5.2" width="17.2" height="15.2" rx="4" stroke="#f0c64a" stroke-width="1.7"></rect><path d="M3.6 10h16.8M8 3.2v3.6M16 3.2v3.6" stroke="#f0c64a" stroke-width="1.7" stroke-linecap="round"></path></svg>
         <span style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ seasonLabel }}</span>
@@ -3749,7 +3750,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <sc-for list="{{ rows }}" as="row" hint-placeholder-count="6">
       <article style="flex:none;position:relative;display:flex;flex-direction:column;background:transparent">
-        <div style-active="transform:scale(.98);transition:transform .09s cubic-bezier(.32,.72,0,1)" style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop);text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:inset 0 0 0 1px {{ row.tkEdge }},0 10px 22px -14px rgba(0,0,0,.7);-webkit-mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);mask-composite:intersect;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+        <div style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:{{ row.liftSh }};transform:{{ row.lift }};transform-origin:center top;transition:transform .46s var(--pop),box-shadow .4s cubic-bezier(.32,.72,0,1);-webkit-mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);mask-composite:intersect;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
 
         <sc-if value="{{ row.hasCrest }}" hint-placeholder-val="{{ false }}">
           <span role="img" aria-label="{{ row.crestLabel }}" style="position:absolute;top:50%;margin-top:-31px;height:62px;right:73px;width:120px;background-image:{{ row.crestBg }};background-size:{{ row.crestSize }};background-position:center;background-repeat:no-repeat;pointer-events:none;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.4;mix-blend-mode:luminosity"></span>
@@ -3914,14 +3915,15 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </sc-if>
 
     <sc-if value="{{ isDash }}" hint-placeholder-val="{{ false }}">
-      <div style="flex:none;display:flex;align-items:center;justify-content:center;gap:14px;padding:5px 11px;border-radius:13px;background:rgba(255,255,255,.06);backdrop-filter:blur(33px) saturate(190%);-webkit-backdrop-filter:blur(33px) saturate(190%);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <div style="flex:none;display:flex;align-items:center;justify-content:center;gap:14px;padding:5px 11px;border-radius:13px;background:rgba(255,255,255,.06);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#f0c64a"></span>HOME</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#5b9bf0"></span>AWAY</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#fff"></span>通算</span>
       </div>
       <sc-for list="{{ dashSecs }}" as="sec" hint-placeholder-count="3">
-        <section style="flex:none;padding:8px 10px 9px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.3),0 10px 24px -18px rgba(0,0,0,.8)">
-          <h3 style="margin:0 0 7px;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:rgba(255,255,255,.96);text-shadow:0 1px 3px rgba(0,0,0,.5)">{{ sec.title }}</h3>
+        <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:11.5px;font-weight:700;letter-spacing:.05em;color:rgba(255,255,255,.52)">{{ sec.title }}</h3>
+        <section style="flex:none;padding:10px 10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.3),0 10px 24px -18px rgba(0,0,0,.8)">
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
             <sc-for list="{{ sec.rings }}" as="r" hint-placeholder-count="3">
               <div style="display:flex;justify-content:center">
@@ -3972,6 +3974,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <p style="margin:6px 0 0;font-size:9.5px;color:rgba(255,255,255,.4)">{{ sec.note }}</p>
           </sc-if>
         </section>
+        </div>
       </sc-for>
     </sc-if>
 
@@ -4010,7 +4013,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </sc-if>
 
     <sc-if value="{{ isMap }}" hint-placeholder-val="{{ false }}">
-      <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.28)">
+      <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.28)">
         <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:8px">
           <sc-for list="{{ mapLegend }}" as="lg" hint-placeholder-count="4">
             <span style="display:flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.72)"><span style="width:9px;height:9px;border-radius:3px;background:{{ lg.c }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)"></span>{{ lg.lbl }}</span>
@@ -4035,12 +4038,12 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <p style="margin:48px 8px;text-align:center;font-size:12.5px;line-height:1.9;color:rgba(255,255,255,.45)">まだ支出が記録されていません。<br>各試合の券をひらいて「かかった費用」を入力できます。</p>
       </sc-if>
       <sc-if value="{{ costHasData }}" hint-placeholder-val="{{ true }}">
-      <section style="flex:none;padding:12px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.05));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(240,198,74,.28);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),0 12px 28px -18px rgba(0,0,0,.85)">
+      <section style="flex:none;padding:12px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.05));backdrop-filter:blur(25px) saturate(190%);-webkit-backdrop-filter:blur(25px) saturate(190%);border:1px solid rgba(240,198,74,.28);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),0 12px 28px -18px rgba(0,0,0,.85)">
         <div style="font-size:10px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">{{ costTotalLbl }}</div>
         <div style="margin-top:3px;font-size:30px;font-weight:800;color:#ffe9ac;font-variant-numeric:tabular-nums;line-height:1.1;animation:numPop 1s cubic-bezier(.2,1.4,.4,1) both">{{ costTotal }}</div>
         <div style="margin-top:2px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.6)">{{ costSpentN }}</div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">内訳</h3>
         <div style="display:flex;height:13px;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.07);clip-path:inset(0 round 7px)">
           <sc-for list="{{ costCats }}" as="c" hint-placeholder-count="3">
@@ -4058,7 +4061,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-for>
         </div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">平均支出</h3>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
           <sc-for list="{{ costAvgs }}" as="a" hint-placeholder-count="3">
@@ -4070,7 +4073,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </div>
         <p style="margin:7px 0 0;font-size:9.5px;color:rgba(255,255,255,.4)">{{ costAvgNote }}</p>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">結果別の平均支出</h3>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
           <sc-for list="{{ costOc }}" as="oc" hint-placeholder-count="3">
@@ -4083,7 +4086,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </div>
         <p style="margin:7px 0 0;font-size:9.5px;color:rgba(255,255,255,.4)">支出を入力した試合のうち、結果入力済みの試合を母数に算出</p>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">月別の支出</h3>
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;align-items:end;height:132px">
           <sc-for list="{{ costMonthsA }}" as="mn" hint-placeholder-count="6">
@@ -4119,14 +4122,14 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       </section>
       <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <sc-for list="{{ costHa }}" as="h" hint-placeholder-count="2">
-          <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(35px) saturate(190%);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+          <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(24px) saturate(190%);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:{{ h.c }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ h.tag }}</div>
             <div style="margin-top:2px;font-size:19px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.15">{{ h.v }}</div>
             <div style="margin-top:2px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.5">{{ h.avg }}<br>{{ h.n }}</div>
           </div>
         </sc-for>
       </div>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">遠征先（都道府県）別</h3>
         <div style="display:flex;flex-direction:column;gap:6px">
           <sc-for list="{{ costPrefs }}" as="p" hint-placeholder-count="5">
@@ -4140,7 +4143,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-for>
         </div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">支出の多い試合</h3>
         <div style="display:flex;flex-direction:column;gap:6px">
           <sc-for list="{{ costTop }}" as="t" hint-placeholder-count="5">
@@ -4159,7 +4162,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </sc-if>
 
     <sc-if value="{{ isWall }}" hint-placeholder-val="{{ false }}">
-      <section style="flex:none;padding:4px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+      <section style="flex:none;padding:4px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:44px;border-bottom:.5px solid rgba(255,255,255,.1)">
           <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.88)">チーム名</span>
           <div style="flex:none;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18)">
@@ -4189,7 +4192,9 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       </section>
 
       <section style="flex:none;padding:9px;border-radius:18px;background:linear-gradient(180deg,rgba(9,14,26,.86),rgba(5,8,15,.92));border:1px solid rgba(240,198,74,.22);box-shadow:inset 0 .5px 0 rgba(255,255,255,.2),0 14px 30px -20px rgba(0,0,0,.9)">
-        <canvas ref="{{ wallCanvasRef }}" style="display:block;width:100%;height:auto;border-radius:11px"></canvas>
+        <canvas ref="{{ wallCanvasRef }}" style="display:none"></canvas>
+        <img ref="{{ wallImgRef }}" alt="参戦帳の壁紙" data-saveable="1" style="display:block;width:100%;height:auto;border-radius:11px">
+        <p style="margin:7px 2px 1px;font-size:9.5px;line-height:1.6;color:rgba(255,255,255,.42);text-align:center">画像を長押しすると「写真に追加」で保存できます</p>
       </section>
       <button sc-camel-on-click="{{ wallSave }}" style="flex:none;width:100%;height:46px;border-radius:15px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;letter-spacing:.08em;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">画像を保存</button>
       <p style="margin:0 4px;font-size:9.5px;color:rgba(255,255,255,.36)">画像を長押しでも保存できます</p>
@@ -4204,36 +4209,36 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
       <sc-if value="{{ commIsSocial }}" hint-placeholder-val="{{ true }}">
         <sc-if value="{{ commNeedLogin }}" hint-placeholder-val="{{ false }}">
-          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(25px) saturate(190%);-webkit-backdrop-filter:blur(25px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
             <div style="font-size:13.5px;font-weight:800;color:#ffe9ac;letter-spacing:.03em">みんなの集計はログインすると見られます</div>
             <p style="margin:9px 0 0;font-size:11px;line-height:1.85;color:rgba(255,255,255,.58);text-wrap:pretty">全国の参戦人数や経済効果は、記録を共有した人たちの匿名集計です。ログインすると集計を見られるようになり、あなたの記録も匿名で反映されます。</p>
             <button sc-camel-on-click="{{ commToLogin }}" style="width:100%;height:44px;margin-top:14px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログイン / 新規登録</button>
           </section>
         </sc-if>
         <sc-if value="{{ commLoading }}" hint-placeholder-val="{{ false }}">
-          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(25px) saturate(190%);-webkit-backdrop-filter:blur(25px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
             <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.72)">みんなの集計を読み込んでいます…</div>
           </section>
         </sc-if>
         <sc-if value="{{ commHasData }}" hint-placeholder-val="{{ true }}">
         <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(35px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">参加者</div>
             <div style="margin-top:1px;font-size:22px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.1">{{ commUsers }}<small style="font-size:11px;margin-left:2px;color:rgba(255,255,255,.6)">人</small></div>
             <div style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45)">記録を共有した人</div>
           </div>
-          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(35px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+          <div style="padding:10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">カバー県数</div>
             <div style="margin-top:1px;font-size:22px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;line-height:1.1">{{ commCovered }}<small style="font-size:11px;margin-left:2px;color:rgba(255,255,255,.6)">/47</small></div>
             <div style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45)">{{ commCoverPct }}</div>
           </div>
         </div>
-        <div style="flex:none;padding:10px 12px;border-radius:15px;background:linear-gradient(165deg,rgba(240,198,74,.18),rgba(240,198,74,.05));border:1px solid rgba(240,198,74,.26);backdrop-filter:blur(35px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+        <div style="flex:none;padding:10px 12px;border-radius:15px;background:linear-gradient(165deg,rgba(240,198,74,.18),rgba(240,198,74,.05));border:1px solid rgba(240,198,74,.26);backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
           <div style="font-size:9.5px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.6)">みんなの総支出（経済効果）</div>
           <div style="margin-top:2px;font-size:26px;font-weight:800;color:#ffe9ac;font-variant-numeric:tabular-nums;line-height:1.1">{{ commSpend }}</div>
           <div style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.45)">全員・全県の合計</div>
         </div>
-        <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+        <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
           <div style="position:relative;height:290px;border-radius:12px;overflow:hidden;background:rgba(5,9,17,.5);border:1px solid rgba(255,255,255,.08);touch-action:pan-y;clip-path:inset(0 round 12px)">
             <div ref="{{ commHeatRef }}" style="position:absolute;inset:0;touch-action:pan-y"></div>
             <div style="position:absolute;left:8px;top:8px;z-index:2;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(10,16,28,.62);backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.28),0 6px 16px -8px rgba(0,0,0,.8)">
@@ -4248,7 +4253,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <span>多</span>
           </div>
         </section>
-        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
           <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">{{ commRankTitle }}</h3>
           <div style="display:flex;flex-direction:column;gap:6px">
             <sc-for list="{{ commRows }}" as="r" hint-placeholder-count="10">
@@ -4270,7 +4275,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       <sc-if value="{{ commIsGroup }}" hint-placeholder-val="{{ false }}">
 
         <sc-if value="{{ grp.needLogin }}" hint-placeholder-val="{{ false }}">
-          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+          <section style="flex:none;padding:20px 16px;border-radius:18px;text-align:center;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(25px) saturate(190%);-webkit-backdrop-filter:blur(25px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
             <div style="font-size:13.5px;font-weight:800;color:#ffe9ac;letter-spacing:.03em">グループはログインすると使えます</div>
             <p style="margin:9px 0 0;font-size:11px;line-height:1.85;color:rgba(255,255,255,.58);text-wrap:pretty">仲間と参戦予定を共有する機能です。招待コードでグループに参加したり、自分でグループを作ったりできます。共有には端末をまたいだ保存が必要なため、ログインが必要です。</p>
             <button sc-camel-on-click="{{ grp.toLogin }}" style="width:100%;height:44px;margin-top:14px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログイン / 新規登録</button>
@@ -4278,7 +4283,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </sc-if>
 
         <sc-if value="{{ grp.hasGroups }}" hint-placeholder-val="{{ true }}">
-        <section style="flex:none;border-radius:18px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(41px) saturate(190%);-webkit-backdrop-filter:blur(41px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
+        <section style="flex:none;border-radius:18px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.015));backdrop-filter:blur(25px) saturate(190%);-webkit-backdrop-filter:blur(25px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.32),0 12px 28px -18px rgba(0,0,0,.85)">
           <div style="padding:11px 12px;background:linear-gradient(165deg,rgba(240,198,74,.20),rgba(240,198,74,.04));border-bottom:.5px solid rgba(255,255,255,.12)">
             <div style="font-size:9px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.5)">GROUP — 参戦グループ</div>
             <div style="position:relative;display:flex;align-items:center;margin-top:3px">
@@ -4332,7 +4337,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
         <button sc-camel-on-click="{{ grp.newGroup }}" style="flex:none;height:40px;border-radius:14px;border:1px dashed rgba(255,255,255,.24);background:rgba(255,255,255,.04);color:rgba(255,255,255,.78);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">＋ 別のグループを作成／参加</button>
 
-        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
           <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">仲間の参戦予定</h3>
           <div style="display:flex;flex-direction:column;gap:8px">
             <sc-for list="{{ grp.rows }}" as="pl" hint-placeholder-count="6">
@@ -4340,7 +4345,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                 <div style="display:flex;align-items:center;gap:8px">
                   <span style="flex:none;display:flex;flex-direction:column;line-height:1.15">
                     <b style="font-size:13px;font-weight:800;color:{{ pl.dcol }};font-variant-numeric:tabular-nums">{{ pl.md }}</b>
-                    <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,.5)">{{ pl.dowko }}</span>
+                    <span style="font-size:9px;font-weight:700;color:{{ pl.dcol }};opacity:.86">{{ pl.dowko }}</span>
                   </span>
                   <sc-if value="{{ pl.hasCrest }}" hint-placeholder-val="{{ true }}">
                     <span role="img" style="flex:none;width:32px;height:30px;background-image:{{ pl.crestBg }};background-size:{{ pl.crestSize }};background-position:center;background-repeat:no-repeat"></span>
@@ -4405,19 +4410,19 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <sc-if value="{{ grp.backable }}" hint-placeholder-val="{{ false }}">
             <button sc-camel-on-click="{{ grp.back }}" style="flex:none;align-self:flex-start;height:34px;padding:0 13px;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">← グループ一覧へ戻る</button>
           </sc-if>
-          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">あなたの表示名（ニックネーム）</label>
             <input value="{{ grp.nick }}" sc-camel-on-change="{{ grp.onNick }}" maxlength="20" placeholder="例：ベガッ太" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
             <p style="margin:7px 0 0;font-size:9.5px;line-height:1.6;color:rgba(255,255,255,.4)">この名前は参加中のすべてのグループで共通です。変更すると全グループに反映されます。</p>
           </section>
-          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <h3 style="margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#ffe9ac">グループを作る</h3>
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">グループ名</label>
             <input value="{{ grp.nameInp }}" sc-camel-on-change="{{ grp.onName }}" maxlength="30" placeholder="例：ベガサポ仲間" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
             <button sc-camel-on-click="{{ grp.create }}" style="width:100%;height:44px;margin-top:9px;border-radius:13px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">作成する</button>
             <div style="margin-top:7px;font-size:10.5px;line-height:1.5;font-weight:700;color:#f0a89f">{{ grp.errC }}</div>
           </section>
-          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
+          <section style="flex:none;padding:12px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.015));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
             <h3 style="margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#ffe9ac">招待コードで参加</h3>
             <label style="display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,255,255,.55)">招待コード</label>
             <input value="{{ grp.codeInp }}" sc-camel-on-change="{{ grp.onCode }}" maxlength="6" placeholder="6文字のコード" sc-camel-on-key-down="{{ onDoneKey }}" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" style="width:100%;height:44px;margin-top:6px;padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;text-transform:uppercase;letter-spacing:.15em;outline:none" style-focus="border-color:rgba(240,198,74,.6)">
@@ -4433,11 +4438,11 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
   <div style="position:absolute;right:10px;bottom:calc(88px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
-    <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;border-radius:15px;display:flex;align-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
-    <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
+    <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;border-radius:15px;display:flex;align-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
+    <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 14.5 12 8l7 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
     </button>
-    <button sc-camel-on-click="{{ jumpBottom }}" aria-label="一番下へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(38px) saturate(190%);-webkit-backdrop-filter:blur(38px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
+    <button sc-camel-on-click="{{ jumpBottom }}" aria-label="一番下へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 9.5 12 16l7-6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
     </button>
   </div>
@@ -4445,7 +4450,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
     <div sc-camel-on-click="{{ calClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(4,7,14,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fadeIn .22s cubic-bezier(.32,.72,0,1)">
-      <div style="width:100%;max-width:330px;padding:15px 16px 14px;border-radius:22px;background:{{ cd.panelBg }};backdrop-filter:blur(50px) saturate(190%);-webkit-backdrop-filter:blur(50px) saturate(190%);border:1px solid {{ cd.panelBd }};box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.4),0 24px 50px -24px rgba(0,0,0,.95);animation:panelIn .3s cubic-bezier(.32,.72,0,1);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+      <div style="width:100%;max-width:330px;padding:15px 16px 14px;border-radius:22px;background:{{ cd.panelBg }};backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border:1px solid {{ cd.panelBd }};box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.4),0 24px 50px -24px rgba(0,0,0,.95);animation:panelIn .3s cubic-bezier(.32,.72,0,1);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
         <div style="font-size:9.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.5)">{{ cd.comp }}</div>
         <div style="display:flex;align-items:center;gap:9px;margin-top:4px">
           <sc-if value="{{ cd.hasCrest }}" hint-placeholder-val="{{ false }}">
@@ -4482,7 +4487,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ prefOpen }}" hint-placeholder-val="{{ false }}">
     <div sc-camel-on-click="{{ prefClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:flex-end;background:rgba(4,7,14,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .2s cubic-bezier(.32,.72,0,1)">
-      <div style="width:100%;max-height:72%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(50px) saturate(190%);-webkit-backdrop-filter:blur(50px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
+      <div style="width:100%;max-height:72%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
         <div style="display:flex;align-items:center;gap:9px;padding-bottom:9px;border-bottom:.5px solid rgba(255,255,255,.12)">
           <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:17px;font-weight:700;color:#fff">{{ ps.pref }}</span>
           <span style="flex:none;height:24px;padding:0 9px;display:flex;align-items:center;border-radius:8px;font-size:10.5px;font-weight:800;color:#fff;background:{{ ps.stColor }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ ps.stLabel }}</span>
@@ -4508,15 +4513,15 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </div>
   </sc-if>
 
-  <nav style="position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:36;height:66px;padding:5px;border-radius:26px;clip-path:inset(0 round 26px);background:linear-gradient(165deg,rgba(9,14,26,.80),rgba(5,9,19,.66));backdrop-filter:blur(45px) saturate(190%);-webkit-backdrop-filter:blur(45px) saturate(190%);border:1px solid rgba(255,255,255,.32);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.16)">
+  <nav style="position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:36;height:66px;padding:5px;border-radius:26px;clip-path:inset(0 round 26px);background:linear-gradient(165deg,rgba(9,14,26,var(--dg1,.70)),rgba(5,9,19,var(--dg2,.56)));backdrop-filter:blur(var(--dbl,34px)) saturate(190%);-webkit-backdrop-filter:blur(var(--dbl,34px)) saturate(190%);border:1px solid rgba(255,255,255,var(--db,.24));box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.16)">
     <div style="position:relative;height:100%;display:grid;grid-template-columns:repeat(7,1fr)">
       <div aria-hidden="true" style="position:absolute;inset:-1px;border-radius:22px;overflow:hidden;clip-path:inset(0 round 22px);pointer-events:none">
       <span style="position:absolute;top:0;bottom:0;left:0;width:14.2857%;border-radius:20px;background:linear-gradient(180deg,rgba(246,208,96,.52),rgba(214,168,50,.26));border:1px solid rgba(246,214,120,.62);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.62),inset 0 -1.2px 0 rgba(90,62,0,.34),inset 1px 0 0 rgba(255,255,255,.18),inset -1px 0 0 rgba(255,255,255,.18);transform:translateX({{ pillX }}%);transition:transform .52s cubic-bezier(.34,1.42,.5,1)"></span>
       </div>
       <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="7">
         <button sc-camel-on-click="{{ tab.onTap }}" style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:0;padding:0;font-family:inherit;cursor:pointer;color:{{ tab.color }};transition:color .3s, transform .2s cubic-bezier(.32,.72,0,1);transition:color .3s, transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
-          <span sc-camel-dangerously-set-inner-h-t-m-l="{{ tab.icon }}" style="display:block;width:22px;height:22px"></span>
-          <span style="font-size:9.5px;font-weight:700;letter-spacing:.005em;white-space:nowrap;text-shadow:0 1px 3px rgba(3,7,14,.8),0 0 1px rgba(3,7,14,.6)">{{ tab.label }}</span>
+          <span sc-camel-dangerously-set-inner-h-t-m-l="{{ tab.icon }}" style="display:block;width:22px;height:22px;transform:{{ tab.iconScale }};transition:transform .42s var(--pop)"></span>
+          <span style="font-size:9.5px;font-weight:700;letter-spacing:.005em;white-space:nowrap;text-shadow:0 1px 3px rgba(3,7,14,.8),0 0 1px rgba(3,7,14,.6);">{{ tab.label }}</span>
         </button>
       </sc-for>
     </div>
@@ -4525,7 +4530,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
   <sc-if value="{{ sheet }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;pointer-events:{{ sheetPE }}">
       <div sc-camel-on-click="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:{{ sheetVeil }}"></div>
-      <div data-sheet-panel="1" style="position:relative;margin:10px;padding:10px 10px 14px;border-radius:30px;background:linear-gradient(170deg,rgba(30,44,72,.92),rgba(12,20,36,.94));backdrop-filter:blur(59px) saturate(190%);-webkit-backdrop-filter:blur(59px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:{{ sheetAnim }};max-height:72%;display:flex;flex-direction:column">
+      <div data-sheet-panel="1" style="position:relative;margin:10px;padding:10px 10px 14px;border-radius:30px;background:linear-gradient(170deg,rgba(30,44,72,.92),rgba(12,20,36,.94));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:{{ sheetAnim }};max-height:72%;display:flex;flex-direction:column">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 10px;touch-action:none"></div>
         <div style="flex:none;padding:0 8px 10px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em;touch-action:none">{{ sheetTitle }}</div>
         <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:5px">
@@ -4544,7 +4549,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
   <sc-if value="{{ acctOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:58;display:flex;flex-direction:column;justify-content:flex-end">
       <div sc-camel-on-click="{{ closeAcct }}" style="position:absolute;inset:0;background:rgba(4,7,14,.58);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .28s cubic-bezier(.32,.72,0,1) both"></div>
-      <div style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(59px) saturate(190%);-webkit-backdrop-filter:blur(59px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
+      <div style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 12px"></div>
         <div style="flex:none;display:flex;align-items:center;gap:10px;padding:0 2px 11px;border-bottom:.5px solid rgba(255,255,255,.12)">
           <span role="img" aria-label="ベガルタ仙台エンブレム" style="flex:none;width:30px;height:30px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
@@ -4612,8 +4617,22 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </div>
   </sc-if>
 
+  <sc-if value="{{ shotOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:76;display:flex;flex-direction:column;animation:fadeIn .26s cubic-bezier(.32,.72,0,1) both">
+      <div sc-camel-on-click="{{ closeShot }}" style="position:absolute;inset:0;background:rgba(2,5,11,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)"></div>
+      <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:18px 16px">
+        <img src="{{ shotSrc }}" alt="参戦マップ" data-saveable="1" style="display:block;width:100%;max-height:62%;object-fit:contain;border-radius:14px;box-shadow:0 20px 50px -24px rgba(0,0,0,.95)">
+        <p style="margin:0;font-size:11px;line-height:1.7;color:rgba(255,255,255,.72);text-align:center;text-wrap:pretty">画像を長押しして「写真に追加」を選ぶと、iPhoneの写真に保存できます。</p>
+        <div style="display:flex;gap:8px">
+          <button sc-camel-on-click="{{ shotDownload }}" style="flex:1;height:44px;border-radius:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.92);font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">ファイルに保存</button>
+          <button sc-camel-on-click="{{ closeShot }}" style="flex:1;height:44px;border-radius:14px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.965);transition:transform .09s cubic-bezier(.32,.72,0,1)">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ legalOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:80;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(16,26,44,.97),rgba(8,14,26,.985));backdrop-filter:blur(59px) saturate(190%);-webkit-backdrop-filter:blur(59px) saturate(190%);animation:sheetUp .42s cubic-bezier(.32,.72,0,1) both">
+    <div style="position:absolute;inset:0;z-index:80;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(16,26,44,.97),rgba(8,14,26,.985));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);animation:sheetUp .42s cubic-bezier(.32,.72,0,1) both">
       <div style="flex:none;display:flex;align-items:center;gap:10px;padding:54px 14px 11px;border-bottom:.5px solid rgba(255,255,255,.12)">
         <span role="img" aria-label="ベガルタ仙台エンブレム" style="flex:none;width:28px;height:28px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
         <div style="flex:1;min-width:0">
@@ -4722,7 +4741,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;left:0;right:0;bottom:calc(92px + env(safe-area-inset-bottom, 0px));z-index:60;display:flex;justify-content:center;pointer-events:none">
-      <div style="padding:11px 18px;border-radius:18px;background:rgba(20,30,50,.86);backdrop-filter:blur(45px) saturate(190%);-webkit-backdrop-filter:blur(45px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.28),0 12px 30px -14px rgba(0,0,0,1);color:#fff;font-size:12.5px;font-weight:600;animation:toastIn .4s cubic-bezier(.32,1.4,.5,1) both">{{ toast }}</div>
+      <div style="padding:11px 18px;border-radius:18px;background:rgba(20,30,50,.86);backdrop-filter:blur(28px) saturate(190%);-webkit-backdrop-filter:blur(28px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.28),0 12px 30px -14px rgba(0,0,0,1);color:#fff;font-size:12.5px;font-weight:600;animation:toastIn .4s cubic-bezier(.32,1.4,.5,1) both">{{ toast }}</div>
     </div>
   </sc-if>
 
@@ -5003,6 +5022,7 @@ class Component extends DCLogic {
     this.mapWrapRef = React.createRef();
     this.heatRef = React.createRef();
     this.wallRef = React.createRef();
+    this.wallImgRef = React.createRef();
     this.prefShapeRef = React.createRef();
     this.state = {
       seasonId: sid,
@@ -5021,7 +5041,7 @@ class Component extends DCLogic {
       calId: null,
       calMonth: null,
       prefSheet: null,
-      mapZoom: 100, mapPanX: 0, mapPanY: 0, tabSeq: 0, sheetOut: false,
+      mapZoom: 100, mapPanX: 0, mapPanY: 0, tabSeq: 0, sheetOut: false, shot: null,
       commView: "group",
       commTab: "visitors",
       wall: {filter:true, density:"normal", result:true, title:true},
@@ -5158,6 +5178,8 @@ class Component extends DCLogic {
     this.fitViewport();
     this.fitTop();
     this.fitBottom();
+    this.bindScrollFx();
+    this.bindHeaderTap();
     if(this.state.sheet) this.bindSheetDrag();
   }
   /* レンダー中に取得を走らせないための集約点 */
@@ -5245,7 +5267,14 @@ class Component extends DCLogic {
     cv.__sig=sig;
     var self=this;
     Promise.all([this.wallImg(), this.crestImg(), this.loadCrests(list), this.loadWallFonts(list)])
-      .then(function(im){ self.paintWall(cv, im[0], im[1], im[2], list, w); });
+      .then(function(im){
+        self.paintWall(cv, im[0], im[1], im[2], list, w);
+        /* 長押しで写真に保存できるよう、結果を img に流し込む */
+        try{
+          var el = self.wallImgRef && self.wallImgRef.current;
+          if(el) el.src = cv.toDataURL("image/png");
+        }catch(e){}
+      });
   }
   /* canvas は文字を描くだけではフォントを取りに行かないため、
      使う文字を先に読み込ませてから描く（一部が別書体になるのを防ぐ） */
@@ -5853,10 +5882,79 @@ class Component extends DCLogic {
     this.setState({sheet:name, sheetOut:false});
   }
 
+  /* ══ ヘッダー2段目の開閉を画面へ反映 ══ */
+  paintFold(){
+    var m = this.scrollRef && this.scrollRef.current;
+    if(!m || !m.parentElement) return;
+    var f = !!this._folded, e = m.parentElement.style;
+    e.setProperty("--h1", f ? "0px" : "34px");
+    e.setProperty("--o1", f ? "0" : "1");
+    e.setProperty("--p1", f ? "none" : "auto");
+    e.setProperty("--m2", f ? "0px" : "6px");
+    e.setProperty("--hrad", f ? "15px" : "21px");
+
+  }
+  /* ヘッダーをタップしたら開く */
+  bindHeaderTap(){
+    var m = this.scrollRef && this.scrollRef.current;
+    if(!m || !m.parentElement) return;
+    var hd = m.parentElement.querySelector("header");
+    if(!hd || hd.__vgTap) return;
+    hd.__vgTap = true;
+    var self=this;
+    hd.addEventListener("click", function(ev){
+      if(!self._folded) return;
+      var t = ev.target;
+      if(t && t.closest && t.closest("button,a,[role=button]")) return;
+      self.haptic(6);
+      self._folded = false;
+      self.paintFold();
+    });
+  }
+
+  /* ══ 内容が流れている間だけガラスを締める（iOSのバーに近い挙動） ══ */
+  bindScrollFx(){
+    var m = this.scrollRef && this.scrollRef.current;
+    if(!m || m.__vgFx) return;
+    m.__vgFx = true;
+    var self=this, raf=0, lastY=0;
+    self._folded=false;
+    var apply=function(){
+      raf=0;
+      var shell = m.parentElement; if(!shell) return;
+      var y = m.scrollTop;
+      var t = Math.max(0, Math.min(1, y/64));
+      /* 下へ送ると2段目を畳み、上へ戻すか最上部で開く */
+      var dy = y - lastY;
+      if(!self._folded && dy > 2 && y > 48) self._folded = true;
+      else if(self._folded && (dy < -6 || y < 16)) self._folded = false;
+      lastY = y;
+      self.paintFold();
+      var e = shell.style;
+      var set=function(k,v){ if(e.getPropertyValue(k)!==v) e.setProperty(k,v); };
+      set("--hg1", (0.17+0.11*t).toFixed(3));
+      set("--hg2", (0.065+0.055*t).toFixed(3));
+      set("--hb",  (0.22+0.14*t).toFixed(3));
+      set("--hr",  (0.52+0.18*t).toFixed(3));
+      set("--hbl", (30+10*t).toFixed(1)+"px");
+      set("--dg1", (0.70+0.16*t).toFixed(3));
+      set("--dg2", (0.56+0.16*t).toFixed(3));
+      set("--db",  (0.24+0.10*t).toFixed(3));
+      set("--dbl", (32+8*t).toFixed(1)+"px");
+      set("--eg",  (0.32*t).toFixed(3));
+
+    };
+    this._fx = function(){ if(!raf) raf=requestAnimationFrame(apply); };
+    m.addEventListener("scroll", this._fx, {passive:true});
+    apply();
+  }
+
   /* ══ ヘッダーの高さを測って本文の開始位置を決める ══ */
   fitTop(){
     var m = this.scrollRef && this.scrollRef.current;
     if(!m || !m.parentElement) return;
+    /* 畳んでいる間に測ると本文が跳ねるので、開いているときだけ測る */
+    if(m.parentElement.style.getPropertyValue("--h1")==="0px" && m.style.getPropertyValue("--padt")) return;
     var hd = m.parentElement.querySelector("header");
     if(!hd) return;
     var st = m.parentElement.getBoundingClientRect().top;
@@ -5873,6 +5971,7 @@ class Component extends DCLogic {
   fitBottom(){
     var m = this.scrollRef && this.scrollRef.current;
     if(!m || !m.parentElement) return;
+
     var shell = m.parentElement;
     var sb = shell.getBoundingClientRect().bottom;
     var nav = shell.querySelector("nav");
@@ -6952,6 +7051,7 @@ class Component extends DCLogic {
           onTap: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.density=d.k; return {wall:n}; }); }};
       }),
       wallCanvasRef: this.wallRef,
+      wallImgRef: this.wallImgRef,
       wallSave: function(){
         self.haptic(14);
         var cv=self.wallRef.current; if(!cv){ return; }
@@ -7215,15 +7315,8 @@ class Component extends DCLogic {
         ctx.font="600 22px 'Hiragino Kaku Gothic ProN',sans-serif";
         ctx.textAlign="right";
         ctx.fillText(self.state.scope==="all" ? "全シーズン通算" : self.seasonById(self.state.seasonId).label, W-40, 40);
-        cv.toBlob(function(b){
-          if(!b){ self.toast("画像の生成に失敗しました"); return; }
-          var a=document.createElement("a");
-          a.href=URL.createObjectURL(b);
-          a.download="vegalta-map.png";
-          document.body.appendChild(a); a.click(); a.remove();
-          setTimeout(function(){ URL.revokeObjectURL(a.href); },4000);
-          self.toast("マップを画像で保存しました");
-        },"image/png");
+        try{ self.setState({shot: cv.toDataURL("image/png")}); }
+        catch(e){ self.toast("画像の生成に失敗しました"); }
       };
       im.onerror=function(){ self.toast("画像の生成に失敗しました"); };
       im.src=src;
@@ -7467,6 +7560,11 @@ class Component extends DCLogic {
         sealAnim: (self.state.justStamped===m.id) ? "sealPop .5s cubic-bezier(.32,1.5,.5,1) both" : "none",
         expanded: isExp,
         collapsed: !isExp,
+        /* 開いた券は一段持ち上げて、面として浮かせる */
+        lift: isExp ? "translateY(-2px) scale(1.012)" : "none",
+        liftSh: isExp
+          ? ("inset 0 0 0 1px "+T.edge+",0 22px 40px -18px rgba(0,0,0,.92),0 4px 12px -6px rgba(0,0,0,.55)")
+          : ("inset 0 0 0 1px "+T.edge+",0 10px 22px -14px rgba(0,0,0,.7)"),
         sumT: bt || "未入力",
         sumH: bh || "未入力",
         sumC: "¥"+self.yen(tot),
@@ -7660,6 +7758,7 @@ class Component extends DCLogic {
       return {
         label: t.label, icon: {__html: t.icon},
         color: self.state.tab===t.id ? "#fff3d0" : "rgba(255,255,255,.95)",
+        iconScale: self.state.tab===t.id ? "scale(1.08)" : "scale(1)",
         onTap: function(){
           self.haptic(8);
           /* マップは毎回等倍・中央から始める */
@@ -7710,6 +7809,18 @@ class Component extends DCLogic {
       bulkLabel: allExp ? "すべて閉じる ▲" : "すべて開く ▼",
       scrollRef: this.scrollRef,
       rootRef: this.rootRef,
+      shotOpen: !!this.state.shot,
+      shotSrc: this.state.shot || "",
+      closeShot: function(){ self.haptic(6); self.setState({shot:null}); },
+      shotDownload: function(){
+        self.haptic(8);
+        try{
+          var a=document.createElement("a");
+          a.href=self.state.shot; a.download="vegalta-map.png";
+          document.body.appendChild(a); a.click(); a.remove();
+          self.toast("画像を保存しました");
+        }catch(e){}
+      },
       /* タブが変わるたびに名前を入れ替えて再生させる */
       /* 参戦帳は券が個別に動くので対象外 */
       tabAnimName: (tb==="home") ? "none" : (((this.state.tabSeq||0)%2) ? "cardInB" : "cardInA"),
