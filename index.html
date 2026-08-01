@@ -3915,14 +3915,14 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
     </sc-if>
 
     <sc-if value="{{ isDash }}" hint-placeholder-val="{{ false }}">
-      <div style="flex:none;display:flex;align-items:center;justify-content:center;gap:14px;padding:5px 11px;border-radius:13px;background:rgba(255,255,255,.06);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#f0c64a"></span>HOME</span>
-        <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#5b9bf0"></span>AWAY</span>
-        <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.78)"><span style="width:9px;height:9px;border-radius:50%;background:#fff"></span>通算</span>
+      <div style="flex:none;display:flex;align-items:center;justify-content:center;gap:16px;padding:0 2px;margin:-1px 0 -5px">
+        <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)"><span style="width:9px;height:9px;border-radius:50%;background:#f0c64a"></span>HOME</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)"><span style="width:9px;height:9px;border-radius:50%;background:#5b9bf0"></span>AWAY</span>
+        <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)"><span style="width:9px;height:9px;border-radius:50%;background:#fff"></span>通算</span>
       </div>
       <sc-for list="{{ dashSecs }}" as="sec" hint-placeholder-count="3">
         <div style="flex:none">
-        <h3 style="margin:0 0 6px 15px;font-size:11.5px;font-weight:700;letter-spacing:.05em;color:rgba(255,255,255,.52)">{{ sec.title }}</h3>
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">{{ sec.title }}</h3>
         <section style="flex:none;padding:10px 10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.3),0 10px 24px -18px rgba(0,0,0,.8)">
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
             <sc-for list="{{ sec.rings }}" as="r" hint-placeholder-count="3">
@@ -4043,8 +4043,9 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <div style="margin-top:3px;font-size:30px;font-weight:800;color:#ffe9ac;font-variant-numeric:tabular-nums;line-height:1.1;animation:numPop 1s cubic-bezier(.2,1.4,.4,1) both">{{ costTotal }}</div>
         <div style="margin-top:2px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.6)">{{ costSpentN }}</div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">内訳</h3>
+      <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">内訳</h3>
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:flex;height:13px;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.07);clip-path:inset(0 round 7px)">
           <sc-for list="{{ costCats }}" as="c" hint-placeholder-count="3">
             <span style="width:{{ c.w }};background:{{ c.color }};transition:width .8s cubic-bezier(.22,1,.36,1)"></span>
@@ -4061,8 +4062,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-for>
         </div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">平均支出</h3>
+        </div>
+      <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">平均支出</h3>
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
           <sc-for list="{{ costAvgs }}" as="a" hint-placeholder-count="3">
             <div style="display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 2px;border-radius:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09)">
@@ -4073,8 +4076,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </div>
         <p style="margin:7px 0 0;font-size:9.5px;color:rgba(255,255,255,.4)">{{ costAvgNote }}</p>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">結果別の平均支出</h3>
+        </div>
+      <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">結果別の平均支出</h3>
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
           <sc-for list="{{ costOc }}" as="oc" hint-placeholder-count="3">
             <div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 7px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">
@@ -4086,8 +4091,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         </div>
         <p style="margin:7px 0 0;font-size:9.5px;color:rgba(255,255,255,.4)">支出を入力した試合のうち、結果入力済みの試合を母数に算出</p>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">月別の支出</h3>
+        </div>
+      <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">月別の支出</h3>
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;align-items:end;height:132px">
           <sc-for list="{{ costMonthsA }}" as="mn" hint-placeholder-count="6">
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%">
@@ -4120,6 +4127,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#9b7ed0"></span>その他</span>
         </p>
       </section>
+        </div>
       <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <sc-for list="{{ costHa }}" as="h" hint-placeholder-count="2">
           <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(24px) saturate(190%);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
@@ -4129,8 +4137,9 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </div>
         </sc-for>
       </div>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">遠征先（都道府県）別</h3>
+      <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">遠征先（都道府県）別</h3>
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:flex;flex-direction:column;gap:6px">
           <sc-for list="{{ costPrefs }}" as="p" hint-placeholder-count="5">
             <div style="display:flex;align-items:center;gap:7px">
@@ -4143,8 +4152,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-for>
         </div>
       </section>
-      <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-        <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">支出の多い試合</h3>
+        </div>
+      <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">支出の多い試合</h3>
+        <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
         <div style="display:flex;flex-direction:column;gap:6px">
           <sc-for list="{{ costTop }}" as="t" hint-placeholder-count="5">
             <div style="display:flex;align-items:center;gap:8px">
@@ -4158,6 +4169,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </sc-for>
         </div>
       </section>
+        </div>
       </sc-if>
     </sc-if>
 
@@ -4253,9 +4265,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <span>多</span>
           </div>
         </section>
+        <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">{{ commRankTitle }}</h3>
         <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-          <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">{{ commRankTitle }}</h3>
-          <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;flex-direction:column;gap:6px">
             <sc-for list="{{ commRows }}" as="r" hint-placeholder-count="10">
               <div style="display:flex;align-items:center;gap:7px">
                 <span style="flex:none;width:16px;text-align:center;font-size:10px;font-weight:800;color:rgba(255,255,255,.5);font-variant-numeric:tabular-nums">{{ r.rank }}</span>
@@ -4268,6 +4281,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             </sc-for>
           </div>
         </section>
+        </div>
         <p style="margin:0 4px;font-size:9.5px;line-height:1.75;color:rgba(255,255,255,.36);text-wrap:pretty">{{ commNote }}</p>
         </sc-if>
       </sc-if>
@@ -4337,9 +4351,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
         <button sc-camel-on-click="{{ grp.newGroup }}" style="flex:none;height:40px;border-radius:14px;border:1px dashed rgba(255,255,255,.24);background:rgba(255,255,255,.04);color:rgba(255,255,255,.78);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">＋ 別のグループを作成／参加</button>
 
+        <div style="flex:none">
+        <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">仲間の参戦予定</h3>
         <section style="flex:none;padding:10px 11px 11px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
-          <h3 style="margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.62)">仲間の参戦予定</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;flex-direction:column;gap:8px">
             <sc-for list="{{ grp.rows }}" as="pl" hint-placeholder-count="6">
               <div style="padding:8px 9px;border-radius:12px;background-image:{{ pl.rowBg }};border:1px solid {{ pl.rowBd }};opacity:{{ pl.op }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
                 <div style="display:flex;align-items:center;gap:8px">
@@ -4404,6 +4419,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           </div>
           <p style="margin:8px 0 0;font-size:9.5px;line-height:1.7;color:rgba(255,255,255,.36)">自分の予定は同期のたびに自動で共有されます。<br>表示名やコードは仲間だけに見えます。</p>
         </section>
+        </div>
         </sc-if>
 
         <sc-if value="{{ grp.onboard }}" hint-placeholder-val="{{ false }}">
