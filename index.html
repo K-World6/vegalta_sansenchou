@@ -3601,7 +3601,7 @@ input{font-family:inherit}
 input::placeholder{color:rgba(255,255,255,.3)}
 ::-webkit-scrollbar{width:0;height:0}
 @keyframes rowIn{from{opacity:0;grid-template-rows:0fr;transform:translateY(-6px)}to{opacity:1;grid-template-rows:1fr;transform:none}}
-@keyframes sealPop{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.18)}100%{transform:scale(1);opacity:1}}
+@keyframes sealPop{0%{transform:rotate(var(--sr,0deg)) scale(.4);opacity:0}55%{transform:rotate(var(--sr,0deg)) scale(1.18)}100%{transform:rotate(var(--sr,0deg)) scale(1);opacity:1}}
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @keyframes sheetDown{from{transform:translateY(0)}to{transform:translateY(102%)}}
 @keyframes fadeOut{from{opacity:1}to{opacity:0}}
@@ -3802,7 +3802,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
               </span>
             </sc-if>
             <sc-if value="{{ row.hasStamp }}" hint-placeholder-val="{{ false }}">
-              <span aria-hidden="true" style="position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background-image:{{ row.sealFill }};box-shadow:inset 0 0 0 .6px {{ row.sealRing }},{{ row.sealGlow }};transform:rotate(-7deg);animation:{{ row.sealAnim }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+              <span aria-hidden="true" style="position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background-image:{{ row.sealFill }};box-shadow:inset 0 0 0 .6px {{ row.sealRing }},{{ row.sealGlow }};--sr:{{ row.sealRot }};transform:rotate({{ row.sealRot }});animation:{{ row.sealAnim }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
                 <svg sc-camel-view-box="0 0 44 44" width="44" height="44" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">
                   <defs><clipPath id="ballClipL"><circle cx="22" cy="22" r="19.4"></circle></clipPath></defs>
                   <g clip-path="url(#ballClipL)" stroke="{{ row.sealRing }}" stroke-opacity=".85" stroke-width=".34" stroke-linejoin="round">
@@ -4448,7 +4448,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
       </sc-if>
     </sc-if>
 
-    <div aria-hidden="true" style="flex:none;height:var(--padb, {{ mainPadB }});pointer-events:none"></div>
+    
   </main>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -5033,6 +5033,7 @@ class Component extends DCLogic {
 
     this.scrollRef = React.createRef();
     this.rootRef = React.createRef();
+    this.padRef = React.createRef();
     this.mapRef = React.createRef();
     this.mapWrapRef = React.createRef();
     this.heatRef = React.createRef();
@@ -5277,7 +5278,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v87",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v89",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5735,10 +5736,10 @@ class Component extends DCLogic {
       if(wallResult && oc){
         var rcol={win:"#d8a838",draw:"#5f7f88",lose:"#9c4a4a"}[oc];
         var rgl={win:"勝",draw:"分",lose:"敗"}[oc];
-        self.drawBallSeal(ctx, scx, sy2, rr, rcol, rgl, -7);
+        self.drawBallSeal(ctx, scx, sy2, rr, rcol, rgl, self.sealTilt(m.id, "r"));
         ctx.textAlign="center"; ctx.textBaseline="middle";
       } else if(wallStamp && s){
-        self.drawBallSeal(ctx, scx, sy2, rr, self.STATUS_COLOR[s], self.STATUS_GLYPH[s], -7);
+        self.drawBallSeal(ctx, scx, sy2, rr, self.STATUS_COLOR[s], self.STATUS_GLYPH[s], self.sealTilt(m.id, s));
         ctx.textAlign="center"; ctx.textBaseline="middle";
       } else if(wallStamp){
         ctx.save(); ctx.setLineDash([3,3]);
@@ -5987,15 +5988,25 @@ class Component extends DCLogic {
 
     var shell = m.parentElement;
     var sb = shell.getBoundingClientRect().bottom;
-    var nav = shell.querySelector("nav");
+    /* ドックは別の枝にあることがあるので、文書全体から探す */
+    var nav = document.querySelector("nav");
     var need = 96;
     if(nav){
       var nt = nav.getBoundingClientRect().top;
-      if(isFinite(nt) && nt > 0) need = Math.max(48, Math.round(sb - nt) + 16);
+      if(isFinite(nt) && nt > 0) need = Math.max(48, Math.round(sb - nt) + 40);
     }
     if(this.state.tab === "home") need += 56;   /* 一括開閉ボタンのぶん */
+    /* 末尾に実体のある余白を置く。padding では Safari がスクロール範囲に数えないため */
+    var pad = m.__vgPad;
+    if(!pad || pad.parentNode !== m){
+      pad = document.createElement("div");
+      pad.setAttribute("aria-hidden","true");
+      pad.style.cssText = "flex:none;width:100%;pointer-events:none";
+      m.__vgPad = pad;
+    }
+    if(m.lastElementChild !== pad) m.appendChild(pad);
     var v = need + "px";
-    if(m.style.getPropertyValue("--padb") !== v) m.style.setProperty("--padb", v);
+    if(pad.style.height !== v) pad.style.height = v;
   }
 
   /* ══ 採寸表示（URLに ?debug=1 を付けたときだけ出る） ══ */
@@ -6536,7 +6547,7 @@ class Component extends DCLogic {
           ring:self.hexA(self.STATUS_COLOR[st],.92), ring2:self.hexA(self.STATUS_COLOR[st],.5),
           ink:self.lighten(self.STATUS_COLOR[st],.45), halo:self.hexA(self.STATUS_COLOR[st],.55),
           glow:"0 0 9px -4px "+self.hexA(self.STATUS_COLOR[st],.7),
-          rot:({"◎":"-7deg","○":"5deg","△":"-4deg","×":"8deg"})[st]||"0deg",
+          rot: self.sealTilt(m.id, st)+"deg",
           names:grp2.map(function(x){ return x.nm; }).join("、"), n:"（"+grp2.length+"名）"};
       }).filter(Boolean);
       var dow0=String(m.dow).split("・")[0];
@@ -6565,6 +6576,16 @@ class Component extends DCLogic {
       glow: isHex ? ("0 0 12px -5px "+this.hexA(c,.8)+",inset 0 0 10px -6px "+this.hexA(c,.9)) : "none"
     };
   }
+  /* 試合ごとに決まる、わずかな傾き（-9〜+9度）。毎回同じ角度になるよう id から導く */
+  sealTilt(key, extra){
+    var s = String(key||"") + (extra||"");
+    var h = 2166136261;
+    for(var i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = (h * 16777619) >>> 0; }
+    var v = (h % 2401) / 100 - 12;                 /* -12.0〜+12.0 */
+    if(Math.abs(v) < 4) v = v < 0 ? v - 4 : v + 4;  /* 真っ直ぐに近い角度は避ける */
+    return Math.round(v * 10) / 10;
+  }
+
   /* canvas版サッカーボール印 */
   drawBallSeal(ctx, cx, cy, r, col, glyph, rot){
     var s=r/20, PENT=[
@@ -7573,6 +7594,7 @@ class Component extends DCLogic {
         crestOp: (r.s==="◎") ? "1" : (r.s ? ".92" : ".42"),
         glyph: r.s ? self.STATUS_GLYPH[r.s] : "未",
         sealAnim: (self.state.justStamped===m.id) ? "sealPop .5s cubic-bezier(.32,1.5,.5,1) both" : "none",
+        sealRot: self.sealTilt(m.id, r.s||"")+"deg",
         expanded: isExp,
         collapsed: !isExp,
         /* クリームの札に載せる濃い文字色（壁紙と同じ対応） */
