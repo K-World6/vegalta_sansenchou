@@ -5273,7 +5273,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v119",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v121",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5616,10 +5616,10 @@ class Component extends DCLogic {
       var dSize=(paddingMode==="normal") ? Math.min(50, Math.round(plH*0.48)) : Math.min(30, Math.round(plH*0.39));
       var dTxt=m.date, koTxt=(m.ko&&m.ko!=="未定")?m.ko:"未定";
       /* 正式表示は日付を控えめに（チーム名の場所を空ける） */
-      var dFont=Math.round(dSize*(paddingMode==="normal" ? 0.72 : 0.92));
+      var dFont=Math.round(dSize*(paddingMode==="normal" ? 0.84 : 1.06));
       ctx.save();
       ctx.font="800 "+dFont+"px "+GK;
-      var plW=Math.max(ctx.measureText("12/28").width, ctx.measureText(dTxt).width)+9;
+      var plW=Math.max(ctx.measureText("12/28").width, ctx.measureText(dTxt).width)+3;
       var calH=Math.min(plH, dSize*2.1), calY=cyy-calH/2;
       if(paddingMode==="normal") { calH=plH; calY=cyy-calH/2; plW+=4; }
       /* 日めくりカレンダー風の札：外枠＋クリーム地＋内罫 */
@@ -5656,7 +5656,7 @@ class Component extends DCLogic {
       ctx.setLineDash([2,2]); ctx.strokeStyle="rgba(32,28,22,.9)"; ctx.lineWidth=1;
       ctx.beginPath(); ctx.moveTo(plX+3.5,sepY); ctx.lineTo(plX+plW-3.5,sepY); ctx.stroke();
       ctx.restore();
-      var kSize=self.fitFont(ctx,koTxt,plW-9,Math.round(dSize*(paddingMode==="normal"?0.52:0.64)),8,"700",GK);
+      var kSize=self.fitFont(ctx,koTxt,plW-8,Math.round(dSize*(paddingMode==="normal"?0.60:0.74)),8,"700",GK);
       ctx.font="700 "+kSize+"px "+GK; ctx.fillStyle=inkD;
       ctx.fillText(koTxt, plX+plW/2, calY+calH*0.755);
       ctx.restore();
@@ -5680,7 +5680,7 @@ class Component extends DCLogic {
       var nm=(paddingMode==="normal") ? m.opp : (self.CITY_SHORT[m.opp]||m.opp);
       /* 券の右端（押印の手前）までに収まる最大の大きさにする */
       var sealD = Math.min(hh*0.66, 40);
-      var nRoom = (x + ww - 8) - cursor - sealD*0.22;
+      var nRoom = (x + ww - 6) - cursor - sealD*0.10;
       /* チーム名の大きさは券ごとに変えず、最長の名前が収まる寸法に揃える */
       var nWant = Math.round(hh*0.78);
       if(self._wallNameSize == null){
