@@ -5278,7 +5278,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v98",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v102",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5389,7 +5389,7 @@ class Component extends DCLogic {
     var self=this, rec=this.state.rec, wallResult=!!w.result, wallStamp=(w.stamp!==false);
     var paddingMode=(w.density==="compact") ? "spacious" : (w.density||"spacious");
     var showTitle=(w.title!==false);
-    var PRESET={ spacious:{budget:1180,aspect:0.46}, normal:{budget:1680,aspect:0.46}, compact:{budget:800,aspect:0.46} }[paddingMode] || {budget:1680,aspect:0.46};
+    var PRESET={ spacious:{budget:940,aspect:0.46}, normal:{budget:1680,aspect:0.46}, compact:{budget:800,aspect:0.46} }[paddingMode] || {budget:1680,aspect:0.46};
     var W=1080,P=18,G=20,footerH=54,STUBW=76,COLS=(paddingMode==="normal"?2:3);
     var headerH = showTitle ? 128 : 18;
     var GK='-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Segoe UI",Meiryo,sans-serif';
@@ -5399,7 +5399,7 @@ class Component extends DCLogic {
     var allN=this.matches().length;
     var rowH, cardH, contentH, H;
     {
-      var GAPV={spacious:16, normal:11, compact:12}[paddingMode] || 14;
+      var GAPV={spacious:9, normal:11, compact:12}[paddingMode] || 14;
       /* 券の大きさは常に40試合を基準にする。カップ戦で増えたぶんだけ小さくなる */
       var sizeN=Math.max(40, allN);
       rowH=Math.max(42, Math.min(150, Math.floor(PRESET.budget/Math.ceil(sizeN/COLS))));
@@ -5414,8 +5414,10 @@ class Component extends DCLogic {
     ctx.clearRect(0,0,W,H);
     this.drawPhotoBg(ctx,W,H,bg,0.30);
 
-    /* 中央より少し下へ寄せる（ロック画面の時計を避ける） */
-    var yOff=Math.max(0, Math.round((H-contentH)*0.68));
+    /* 上端の位置は圧縮前と同じに保ち、縮んだぶんは下側の余白にする */
+    var refBudget = {spacious:1180, normal:1720, compact:800}[paddingMode] || 1680;
+    var refH = headerH + (refBudget + 40) + footerH;
+    var yOff = Math.max(0, Math.min(Math.round((H-refH)*0.68), H-contentH));
     ctx.save(); ctx.translate(0,yOff);
 
     if(showTitle){
@@ -5712,7 +5714,9 @@ class Component extends DCLogic {
 
       var cursor=plX+plW+2;
 
-      var eh=Math.min(hh*0.88, plH), eSlot=Math.round(eh*1.15);
+      /* 省略表示はエンブレムを小さめにして横幅を稼ぐ */
+      var eScale=(paddingMode==="normal") ? 0.88 : 0.74;
+      var eh=Math.min(hh*eScale, plH), eSlot=Math.round(eh*1.12);
       if(cim){
         var ew=Math.min(eSlot, eh*(cim.width/cim.height)), ehh=ew/(cim.width/cim.height);
         ctx.save();
@@ -5725,7 +5729,7 @@ class Component extends DCLogic {
       ctx.save();
       ctx.textAlign="left"; ctx.textBaseline="middle";
       var nm=(paddingMode==="normal") ? m.opp : (self.CITY_SHORT[m.opp]||m.opp);
-      var nSize=Math.round(dSize*(paddingMode==="normal"?0.76:1.34));
+      var nSize=Math.round(dSize*(paddingMode==="normal"?0.76:1.22));
       ctx.font="800 "+nSize+"px "+GK;
       /* 濃紺の縁取りで背景から浮かせる */
       ctx.shadowColor="rgba(0,0,0,.35)"; ctx.shadowBlur=3; ctx.shadowOffsetY=1;
