@@ -4196,12 +4196,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
             <span style="position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px -2px rgba(0,0,0,.7);transform:{{ wallStampKnob }};transition:transform .3s cubic-bezier(.32,.72,0,1)"></span>
           </button>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:44px">
-          <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.88)">タイトル・凡例を表示</span>
-          <button sc-camel-on-click="{{ wallToggleTitle }}" role="switch" aria-checked="{{ wallTitleOn }}" style="flex:none;width:50px;height:30px;border-radius:15px;border:1px solid rgba(255,255,255,.16);background:{{ wallTitleTrack }};position:relative;cursor:pointer;padding:0;transition:background .28s, transform .2s cubic-bezier(.32,.72,0,1);transition:background .28s, transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">
-            <span style="position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px -2px rgba(0,0,0,.7);transform:{{ wallTitleKnob }};transition:transform .3s cubic-bezier(.32,.72,0,1)"></span>
-          </button>
-        </div>
+        
       </section>
 
       <section style="flex:none;padding:9px;border-radius:18px;background:linear-gradient(180deg,rgba(9,14,26,.86),rgba(5,8,15,.92));border:1px solid rgba(240,198,74,.22);box-shadow:inset 0 .5px 0 rgba(255,255,255,.2),0 14px 30px -20px rgba(0,0,0,.9)">
@@ -5278,7 +5273,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v104",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v116",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5387,11 +5382,11 @@ class Component extends DCLogic {
   /* 元アプリ makeScheduleImage の移植（チケット意匠・2列・金属マテリアル） */
   paintWall(cv, bg, crest, crestMap, list, w){
     var self=this, rec=this.state.rec, wallResult=!!w.result, wallStamp=(w.stamp!==false);
+    this._wallNameSize=null;
     var paddingMode=(w.density==="compact") ? "spacious" : (w.density||"spacious");
-    var showTitle=(w.title!==false);
     var PRESET={ spacious:{budget:940,aspect:0.46}, normal:{budget:1680,aspect:0.46}, compact:{budget:800,aspect:0.46} }[paddingMode] || {budget:1680,aspect:0.46};
-    var W=1080,P=18,G=20,footerH=54,STUBW=76,COLS=(paddingMode==="normal"?2:3);
-    var headerH = showTitle ? 128 : 18;
+    var W=1080,P=14,G=(paddingMode==="normal"?20:12),STUBW=76,COLS=(paddingMode==="normal"?2:4);
+    var footerH = 6, headerH = 6;
     var GK='-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Segoe UI",Meiryo,sans-serif';
     var MIN='"Yuji Syuku","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",Meiryo,sans-serif';
     var colW=(W-2*P-(COLS-1)*G)/COLS;
@@ -5407,7 +5402,7 @@ class Component extends DCLogic {
       var avail=Math.round(H*(BAND.bottom-BAND.top))-headerH-footerH;
       var sizeN=Math.max(40, allN);
       var rowsRef=Math.ceil(sizeN/COLS);
-      rowH=Math.max(34, Math.min(150, Math.floor(avail/rowsRef)));
+      rowH=Math.max(34, Math.min(200, Math.floor(avail/rowsRef)));
       cardH=Math.max(28, rowH-GAPV);
       rowH=cardH+GAPV;
       contentH=headerH+rowH*rows+footerH;
@@ -5423,57 +5418,7 @@ class Component extends DCLogic {
     var yOff = Math.max(0, Math.min(bandTop, H-contentH));
     ctx.save(); ctx.translate(0,yOff);
 
-    if(showTitle){
-      this.roundRect(ctx,16,14,W-32,headerH-24,16);
-      var panelGrad=ctx.createLinearGradient(0,14,0,14+headerH-24);
-      panelGrad.addColorStop(0,"rgba(6,6,9,0.42)"); panelGrad.addColorStop(1,"rgba(6,6,9,0.52)");
-      ctx.fillStyle=panelGrad; ctx.fill();
-      ctx.strokeStyle="rgba(224,185,74,0.4)"; ctx.lineWidth=1.5; ctx.stroke();
-      ctx.strokeStyle="rgba(224,185,74,0.16)"; ctx.lineWidth=1;
-      this.roundRect(ctx,19,17,W-38,headerH-30,13); ctx.stroke();
-
-      var rowY=66; ctx.textBaseline="middle"; ctx.textAlign="left";
-      var HP=P+16;                       /* 帯の内側の余白 */
-      var titleX=HP;
-      if(crest){ var ld0=52, lh=ld0*(crest.height/crest.width); ctx.drawImage(crest,HP,rowY-lh/2,ld0,lh); titleX=HP+ld0+14; }
-      var foil=ctx.createLinearGradient(titleX,rowY-24,titleX+420,rowY+24);
-      foil.addColorStop(0,"#fff2c0"); foil.addColorStop(.5,"#e7b93e"); foil.addColorStop(1,"#c9a11a");
-      ctx.font="bold 34px "+MIN;
-      ctx.save(); ctx.shadowColor="rgba(0,0,0,0.55)"; ctx.shadowBlur=6; ctx.shadowOffsetY=2;
-      this.strokeFillText(ctx,"ベガルタ仙台 参戦帳",titleX,rowY,foil,"rgba(0,0,0,0.75)",1.1);
-      ctx.restore();
-      var titleW=ctx.measureText("ベガルタ仙台 参戦帳").width+(titleX-HP);
-
-      var leg=[];
-      if(wallStamp){
-        leg=[["参戦済み","済",this.STATUS_COLOR["◎"]],["参戦予定","予",this.STATUS_COLOR["○"]],["検討中","検",this.STATUS_COLOR["△"]],["非参戦","非",this.STATUS_COLOR["×"]]];
-      }
-      if(wallResult){ leg=leg.concat([["勝","勝","#d8a838"],["分","分","#5f7f88"],["負","敗","#9c4a4a"]]); }
-      var legN=leg.length, ldL=legN>4?27:33, lfs=legN>4?18:22, lgap=legN>4?8:14;
-      var lx=HP+titleW+(legN>4?16:28);
-      leg.forEach(function(it){
-        var d=ldL, rr=d/2, lcol=it[2];
-        ctx.save(); ctx.translate(lx+rr,rowY);
-        ctx.fillStyle=lcol; ctx.globalAlpha=0.92;
-        ctx.beginPath(); ctx.arc(0,0,rr*0.74,0,Math.PI*2); ctx.fill();
-        ctx.globalAlpha=1; ctx.strokeStyle=lcol; ctx.lineWidth=rr*0.22;
-        ctx.beginPath(); ctx.arc(0,0,rr*0.92,0,Math.PI*2); ctx.stroke();
-        ctx.font="bold "+(rr*1.05)+"px "+GK;
-        ctx.textAlign="center"; ctx.textBaseline="middle";
-        ctx.lineJoin="round"; ctx.strokeStyle="rgba(0,0,0,0.8)"; ctx.lineWidth=rr*0.2;
-        ctx.strokeText(it[1],0,-rr*0.02);
-        ctx.fillStyle="#fff"; ctx.fillText(it[1],0,-rr*0.02);
-        ctx.restore();
-        ctx.textAlign="left"; ctx.font="600 "+lfs+"px "+GK;
-        self.strokeFillText(ctx,it[0],lx+d+5,rowY+1,"#e6ddc4","rgba(0,0,0,0.7)",0.7);
-        lx+=d+5+ctx.measureText(it[0]).width+lgap;
-      });
-      ctx.textBaseline="alphabetic";
-      var dividerGrad=ctx.createLinearGradient(P,0,W-P,0);
-      dividerGrad.addColorStop(0,"rgba(224,185,74,0)"); dividerGrad.addColorStop(0.5,"rgba(224,185,74,0.65)"); dividerGrad.addColorStop(1,"rgba(224,185,74,0)");
-      ctx.strokeStyle=dividerGrad; ctx.lineWidth=2;
-      ctx.beginPath(); ctx.moveTo(P,headerH-6); ctx.lineTo(W-P,headerH-6); ctx.stroke();
-    }
+    
 
     function metalGrad(x,y,ww,hh,kind){
       var g=ctx.createLinearGradient(x,y,x+ww,y+hh);
@@ -5667,7 +5612,8 @@ class Component extends DCLogic {
                : (dow0==="土" ? "#a3c6ff" : "#ffffff");
       var cyy=y+hh/2;
       var plH=hh-10, plX=x+9;
-      var dSize=(paddingMode==="normal") ? Math.min(60, Math.round(plH*0.58)) : Math.min(38, Math.round(plH*0.5));
+      /* チーム名を主役にするため、日付札は控えめな寸法にする */
+      var dSize=(paddingMode==="normal") ? Math.min(46, Math.round(plH*0.44)) : Math.min(26, Math.round(plH*0.34));
       var dTxt=m.date, koTxt=(m.ko&&m.ko!=="未定")?m.ko:"未定";
       /* 正式表示は日付を控えめに（チーム名の場所を空ける） */
       var dFont=Math.round(dSize*(paddingMode==="normal" ? 0.72 : 0.92));
@@ -5718,7 +5664,7 @@ class Component extends DCLogic {
       var cursor=plX+plW+2;
 
       /* 省略表示はエンブレムを小さめにして横幅を稼ぐ */
-      var eScale=(paddingMode==="normal") ? 0.88 : 0.74;
+      var eScale=(paddingMode==="normal") ? 0.66 : 0.50;
       var eh=Math.min(hh*eScale, plH), eSlot=Math.round(eh*1.12);
       if(cim){
         var ew=Math.min(eSlot, eh*(cim.width/cim.height)), ehh=ew/(cim.width/cim.height);
@@ -5732,17 +5678,38 @@ class Component extends DCLogic {
       ctx.save();
       ctx.textAlign="left"; ctx.textBaseline="middle";
       var nm=(paddingMode==="normal") ? m.opp : (self.CITY_SHORT[m.opp]||m.opp);
-      var nSize=Math.round(dSize*(paddingMode==="normal"?0.76:1.22));
+      /* 券の右端（押印の手前）までに収まる最大の大きさにする */
+      var sealD = Math.min(hh*0.66, 40);
+      var nRoom = (x + ww - 12) - cursor - sealD*0.62;
+      /* チーム名の大きさは券ごとに変えず、最長の名前が収まる寸法に揃える */
+      var nWant = Math.round(hh*0.66);
+      if(self._wallNameSize == null){
+        var probe = (paddingMode==="normal") ? "" : "";
+        var longest = "";
+        list.forEach(function(q){
+          var t=(paddingMode==="normal") ? q.opp : (self.CITY_SHORT[q.opp]||q.opp);
+          ctx.font="800 "+nWant+"px "+GK;
+          if(ctx.measureText(t).width > ctx.measureText(longest).width) longest=t;
+        });
+        /* 省略表示は3文字を基準に揃える。正式表示は最長の名前に合わせる */
+        var base = (paddingMode==="normal") ? longest
+                 : (longest.length>3 ? longest.slice(0,3)+"　" : longest);
+        self._wallNameSize = self.fitFont(ctx, base, Math.max(20, nRoom), nWant, 14, "800", GK);
+      }
+      var nSize = self._wallNameSize;
+      /* 収まりきらない場合は右端を基準に置く */
+      ctx.font="800 "+nSize+"px "+GK;
+      var nX = cursor;   /* 左揃え */
       ctx.font="800 "+nSize+"px "+GK;
       /* 濃紺の縁取りで背景から浮かせる */
       ctx.shadowColor="rgba(0,0,0,.35)"; ctx.shadowBlur=3; ctx.shadowOffsetY=1;
       ctx.lineJoin="round"; ctx.miterLimit=2;
       ctx.strokeStyle="rgba(10,18,32,.9)";
       ctx.lineWidth=Math.max(2, nSize*0.12);
-      ctx.strokeText(nm, cursor, cyy);
+      ctx.strokeText(nm, nX, cyy);
       ctx.shadowBlur=0; ctx.shadowOffsetY=0;
       ctx.fillStyle="#ffffff";
-      ctx.fillText(nm, cursor, cyy);
+      ctx.fillText(nm, nX, cyy);
       ctx.restore();
 
       /* 右側：スコア／押印（小さく右上） */
@@ -7083,21 +7050,18 @@ class Component extends DCLogic {
       wallGap: dens.gap+"px",
       wallShowTitle: w.title,
       wallCount: list.length+"試合",
-      wallFilterOn: w.filter, wallResultOn: w.result, wallTitleOn: w.title, wallStampOn: (w.stamp!==false),
+      wallFilterOn: w.filter, wallResultOn: w.result, wallStampOn: (w.stamp!==false),
       wallFilterKnob: w.filter ? "translateX(20px)" : "translateX(0)",
       wallResultKnob: w.result ? "translateX(20px)" : "translateX(0)",
-      wallTitleKnob: w.title ? "translateX(20px)" : "translateX(0)",
       wallStampKnob: (w.stamp!==false) ? "translateX(20px)" : "translateX(0)",
       wallFilterTrack: w.filter ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallResultTrack: w.result ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
-      wallTitleTrack: w.title ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallStampTrack: (w.stamp!==false) ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallToggleStamp: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.stamp=(n.stamp===false); return {wall:n}; }); },
       wallDensity: w.density,
       wallSwitch: function(k){ return function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n[k]=!n[k]; return {wall:n}; }); }; },
       wallToggleFilter: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.filter=!n.filter; return {wall:n}; }); },
       wallToggleResult: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.result=!n.result; return {wall:n}; }); },
-      wallToggleTitle: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.title=!n.title; return {wall:n}; }); },
       wallDens: [{k:"spacious",lbl:"省略"},{k:"normal",lbl:"正式"}].map(function(d){
         var on = w.density===d.k;
         return {lbl:d.lbl, bg: on?"rgba(240,198,74,.22)":"transparent", fg: on?"#ffdf8a":"rgba(255,255,255,.72)",
