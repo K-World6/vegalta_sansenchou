@@ -5278,7 +5278,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v96",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v98",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5491,10 +5491,7 @@ class Component extends DCLogic {
 
       ctx.save(); ctx.shadowColor="rgba(0,0,0,0.6)"; ctx.shadowBlur=20; ctx.shadowOffsetY=8;
       self.roundRect(ctx,x,y,ww,hh,r);
-      /* 券の地を半透明にして背景写真を透かす */
-      ctx.globalAlpha=0.55;
-      ctx.fillStyle=metalGrad(x,y,ww,hh,kind); ctx.fill();
-      ctx.restore();
+      ctx.fillStyle=metalGrad(x,y,ww,hh,kind); ctx.fill(); ctx.restore();
       ctx.save(); self.roundRect(ctx,x,y,ww,hh,r); ctx.clip();
       var sh=ctx.createLinearGradient(x,y,x+ww*.5,y+hh*.5);
       sh.addColorStop(0,"rgba(255,255,255,"+PAL.shA+")"); sh.addColorStop(1,"rgba(255,255,255,0)");
@@ -5649,7 +5646,8 @@ class Component extends DCLogic {
       var cim=crestMap && crestMap[m.opp];
       /* うっすら地色＋枠線（HOME=金／AWAY=淡藍） */
       self.roundRect(ctx,x,y,ww,hh,R);
-      ctx.fillStyle = home ? "rgba(84,64,14,.88)" : "rgba(18,40,84,.88)";
+      /* タイトル帯と同程度まで透かし、背景写真を見せる */
+      ctx.fillStyle = home ? "rgba(84,64,14,.46)" : "rgba(18,40,84,.46)";
       ctx.fill();
       ctx.save();
       ctx.shadowColor="rgba(0,0,0,.55)"; ctx.shadowBlur=6; ctx.shadowOffsetY=2;
