@@ -5278,7 +5278,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v102",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v104",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5397,16 +5397,21 @@ class Component extends DCLogic {
     var colW=(W-2*P-(COLS-1)*G)/COLS;
     var rows=Math.max(Math.ceil(list.length/COLS),1);
     var allN=this.matches().length;
-    var rowH, cardH, contentH, H;
+    var rowH, cardH, contentH, H, bandTop=0;
     {
-      var GAPV={spacious:9, normal:11, compact:12}[paddingMode] || 14;
-      /* 券の大きさは常に40試合を基準にする。カップ戦で増えたぶんだけ小さくなる */
+      var GAPV={spacious:8, normal:10, compact:12}[paddingMode] || 12;
+      /* 収める帯：省略＝時計とウィジェットの間／正式＝時計から下端まで */
+      var BAND={ spacious:{top:0.252, bottom:0.647}, normal:{top:0.252, bottom:0.945}, compact:{top:0.252, bottom:0.647} }[paddingMode]
+              || {top:0.252, bottom:0.945};
+      H=Math.round(W/(PRESET.aspect||0.46));
+      var avail=Math.round(H*(BAND.bottom-BAND.top))-headerH-footerH;
       var sizeN=Math.max(40, allN);
-      rowH=Math.max(42, Math.min(150, Math.floor(PRESET.budget/Math.ceil(sizeN/COLS))));
-      cardH=rowH-8;
+      var rowsRef=Math.ceil(sizeN/COLS);
+      rowH=Math.max(34, Math.min(150, Math.floor(avail/rowsRef)));
+      cardH=Math.max(28, rowH-GAPV);
       rowH=cardH+GAPV;
       contentH=headerH+rowH*rows+footerH;
-      H=PRESET.aspect ? Math.max(contentH, Math.round(W/PRESET.aspect)) : contentH;
+      bandTop=Math.round(H*BAND.top);
     }
     var S=2;
     cv.width=W*S; cv.height=H*S;
@@ -5414,10 +5419,8 @@ class Component extends DCLogic {
     ctx.clearRect(0,0,W,H);
     this.drawPhotoBg(ctx,W,H,bg,0.30);
 
-    /* 上端の位置は圧縮前と同じに保ち、縮んだぶんは下側の余白にする */
-    var refBudget = {spacious:1180, normal:1720, compact:800}[paddingMode] || 1680;
-    var refH = headerH + (refBudget + 40) + footerH;
-    var yOff = Math.max(0, Math.min(Math.round((H-refH)*0.68), H-contentH));
+    /* 帯の上端に合わせて配置（試合数が少なければ下側が空く） */
+    var yOff = Math.max(0, Math.min(bandTop, H-contentH));
     ctx.save(); ctx.translate(0,yOff);
 
     if(showTitle){
