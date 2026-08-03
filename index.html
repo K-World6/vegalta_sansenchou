@@ -5273,7 +5273,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v116",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v118",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5613,7 +5613,7 @@ class Component extends DCLogic {
       var cyy=y+hh/2;
       var plH=hh-10, plX=x+9;
       /* チーム名を主役にするため、日付札は控えめな寸法にする */
-      var dSize=(paddingMode==="normal") ? Math.min(46, Math.round(plH*0.44)) : Math.min(26, Math.round(plH*0.34));
+      var dSize=(paddingMode==="normal") ? Math.min(50, Math.round(plH*0.48)) : Math.min(30, Math.round(plH*0.39));
       var dTxt=m.date, koTxt=(m.ko&&m.ko!=="未定")?m.ko:"未定";
       /* 正式表示は日付を控えめに（チーム名の場所を空ける） */
       var dFont=Math.round(dSize*(paddingMode==="normal" ? 0.72 : 0.92));
@@ -5664,7 +5664,7 @@ class Component extends DCLogic {
       var cursor=plX+plW+2;
 
       /* 省略表示はエンブレムを小さめにして横幅を稼ぐ */
-      var eScale=(paddingMode==="normal") ? 0.66 : 0.50;
+      var eScale=(paddingMode==="normal") ? 0.62 : 0.46;
       var eh=Math.min(hh*eScale, plH), eSlot=Math.round(eh*1.12);
       if(cim){
         var ew=Math.min(eSlot, eh*(cim.width/cim.height)), ehh=ew/(cim.width/cim.height);
@@ -5680,9 +5680,9 @@ class Component extends DCLogic {
       var nm=(paddingMode==="normal") ? m.opp : (self.CITY_SHORT[m.opp]||m.opp);
       /* 券の右端（押印の手前）までに収まる最大の大きさにする */
       var sealD = Math.min(hh*0.66, 40);
-      var nRoom = (x + ww - 12) - cursor - sealD*0.62;
+      var nRoom = (x + ww - 8) - cursor - sealD*0.22;
       /* チーム名の大きさは券ごとに変えず、最長の名前が収まる寸法に揃える */
-      var nWant = Math.round(hh*0.66);
+      var nWant = Math.round(hh*0.78);
       if(self._wallNameSize == null){
         var probe = (paddingMode==="normal") ? "" : "";
         var longest = "";
