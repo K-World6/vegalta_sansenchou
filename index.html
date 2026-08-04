@@ -3980,24 +3980,25 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
     <sc-if value="{{ isCal }}" hint-placeholder-val="{{ false }}">
       <sc-for list="{{ calMonths }}" as="cm" hint-placeholder-count="3">
-        <section style="flex:none;padding:9px 9px 10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.03));backdrop-filter:blur(12px) saturate(1.3);-webkit-backdrop-filter:blur(12px) saturate(1.3);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 .5px 0 rgba(255,255,255,.28),0 10px 24px -18px rgba(0,0,0,.8)">
-          <h3 style="margin:0 0 7px 2px;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:#f2d79c">{{ cm.label }}</h3>
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0;border-left:1px solid rgba(255,255,255,.34);border-top:1px solid rgba(255,255,255,.34);border-radius:7px;overflow:hidden;clip-path:inset(0 round 7px)">
-            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);text-shadow:0 1px 3px rgba(0,0,0,.8);color:#ff9d92">日</span>
-            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">月</span>
-            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">火</span>
-            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">水</span>
-            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">木</span>
-            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">金</span>
-            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);text-shadow:0 1px 3px rgba(0,0,0,.8);color:#a3c6ff">土</span>
+        <section style="flex:none;padding:0">
+          <h3 style="margin:0 0 7px 3px;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:15px;font-weight:700;letter-spacing:.04em;color:#f2d79c;text-shadow:0 1px 4px rgba(3,7,14,.95),0 0 2px rgba(3,7,14,.8)">{{ cm.label }}</h3>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0;border-left:1px solid rgba(255,255,255,.22);border-top:1px solid rgba(255,255,255,.22);border-radius:9px;overflow:hidden;clip-path:inset(0 round 7px)">
+            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);text-shadow:0 1px 3px rgba(0,0,0,.8);color:#ff9d92">日</span>
+            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">月</span>
+            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">火</span>
+            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">水</span>
+            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">木</span>
+            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">金</span>
+            <span style="text-align:center;font-size:10px;font-weight:800;padding:3px 0;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);text-shadow:0 1px 3px rgba(0,0,0,.8);color:#a3c6ff">土</span>
             <sc-for list="{{ cm.cells }}" as="cell" hint-placeholder-count="35">
-              <div sc-camel-on-click="{{ cell.onTap }}" style="position:relative;aspect-ratio:1;padding:2px 3px;border-right:1px solid rgba(255,255,255,.34);border-bottom:1px solid rgba(255,255,255,.34);transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">
+              <div sc-camel-on-click="{{ cell.onTap }}" style="position:relative;aspect-ratio:1;padding:2px 3px;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">
                 <sc-if value="{{ cell.hasM }}" hint-placeholder-val="{{ false }}">
                   <span style="position:absolute;inset:0.5px;border-radius:5px;background:{{ cell.bg }};border:1px solid {{ cell.bd }};pointer-events:none;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)"></span>
                 </sc-if>
                 <span style="position:relative;display:block;font-size:10.5px;font-weight:800;color:{{ cell.tone }};font-variant-numeric:tabular-nums;line-height:1.1;text-shadow:0 1px 3px rgba(0,0,0,.85);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ cell.n }}</span>
                 <sc-if value="{{ cell.hasCrest }}" hint-placeholder-val="{{ false }}">
-                  <span role="img" style="position:absolute;left:3px;right:3px;bottom:7px;height:54%;background-image:{{ cell.crestBg }};background-size:contain;background-position:center bottom;background-repeat:no-repeat;pointer-events:none"></span>
+                  <span role="img" aria-label="{{ cell.crestLabel }}" style="position:absolute;inset:9px 7px;background-image:{{ cell.crestBg }};background-size:contain;background-position:center center;background-repeat:no-repeat;pointer-events:none;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.4;mix-blend-mode:luminosity"></span>
+                  <span style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);font-size:{{ cell.shortSize }};font-weight:800;letter-spacing:{{ cell.shortSp }};color:rgba(255,255,255,.97);text-align:center;white-space:nowrap;text-shadow:0 1px 3px rgba(3,7,14,.9),0 0 2px rgba(3,7,14,.8);pointer-events:none">{{ cell.short }}</span>
                 </sc-if>
                 <sc-if value="{{ cell.hasM }}" hint-placeholder-val="{{ false }}">
                   <span style="position:absolute;right:0;top:0;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background-image:{{ cell.sFill }};box-shadow:inset 0 0 0 .6px {{ cell.sRing }},0 1px 4px -1px rgba(0,0,0,.75);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
@@ -4205,7 +4206,6 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <p style="margin:7px 2px 1px;font-size:9.5px;line-height:1.6;color:rgba(255,255,255,.42);text-align:center">画像を長押しすると「写真に追加」で保存できます</p>
       </section>
       <button sc-camel-on-click="{{ wallSave }}" style="flex:none;width:100%;height:46px;border-radius:15px;border:1px solid rgba(240,198,74,.42);background:linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12));color:#ffe9ac;font-size:13px;font-weight:800;letter-spacing:.08em;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">画像を保存</button>
-      <p style="margin:0 4px;font-size:9.5px;color:rgba(255,255,255,.36)">画像を長押しでも保存できます</p>
     </sc-if>
 
     <sc-if value="{{ isComm }}" hint-placeholder-val="{{ false }}">
@@ -4464,7 +4464,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
         <div style="font-size:9.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.5)">{{ cd.comp }}</div>
         <div style="display:flex;align-items:center;gap:9px;margin-top:4px">
           <sc-if value="{{ cd.hasCrest }}" hint-placeholder-val="{{ false }}">
-            <span role="img" style="flex:none;width:38px;height:38px;background-image:{{ cd.crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
+            <span role="img" aria-label="{{ cd.crestLabel }}" style="flex:none;width:38px;height:38px;background-image:{{ cd.crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.62"></span>
           </sc-if>
           <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:19px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ cd.opp }}</span>
           <span style="flex:none;font-size:9.5px;font-weight:800;letter-spacing:.08em;color:{{ cd.haC }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ cd.ha }}</span>
@@ -4498,23 +4498,23 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
   <sc-if value="{{ prefOpen }}" hint-placeholder-val="{{ false }}">
     <div sc-camel-on-click="{{ prefClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:flex-end;background:rgba(4,7,14,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .2s cubic-bezier(.32,.72,0,1)">
       <div style="width:100%;max-height:72%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
-        <div style="display:flex;align-items:center;gap:9px;padding-bottom:9px;border-bottom:.5px solid rgba(255,255,255,.12)">
-          <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:17px;font-weight:700;color:#fff">{{ ps.pref }}</span>
-          <span style="flex:none;height:24px;padding:0 9px;display:flex;align-items:center;border-radius:8px;font-size:10.5px;font-weight:800;color:#fff;background:{{ ps.stColor }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ ps.stLabel }}</span>
+        <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.26);margin:-2px auto 10px"></div>
+        <div style="display:flex;align-items:center;gap:10px;padding-bottom:11px">
+          <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:22px;font-weight:700;letter-spacing:.01em;color:#fff">{{ ps.pref }}</span>
+          <span style="flex:none;height:26px;padding:0 11px;display:flex;align-items:center;border-radius:13px;font-size:11px;font-weight:800;color:#fff;background:{{ ps.stColor }};transition:background .3s cubic-bezier(.32,.72,0,1)">{{ ps.stLabel }}</span>
           <button sc-camel-on-click="{{ prefClose }}" style="flex:none;height:30px;padding:0 11px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.84);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">閉じる</button>
         </div>
         <div ref="{{ prefShapeRef }}" style="flex:none;height:250px;margin-top:9px;border-radius:14px;background:rgba(5,9,17,.34);border:1px solid rgba(255,255,255,.1);overflow:hidden"></div>
-        <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;padding-top:9px">
+        <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;margin-top:12px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);overflow:hidden">
           <sc-for list="{{ ps.rows }}" as="pr" hint-placeholder-count="3">
-            <div style="display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:.5px solid rgba(255,255,255,.09)">
               <span style="flex:none;position:relative;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background-image:{{ pr.sFill }};box-shadow:inset 0 0 0 .5px {{ pr.sRing }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
                 <svg sc-camel-view-box="0 0 44 44" width="22" height="22" aria-hidden="true" style="position:absolute;inset:0;color:{{ pr.sRing }}"><use href="#ballSeal"></use></svg>
                 <b style="position:relative;top:-.5px;font-family:'Yuji Syuku','Hiragino Mincho ProN',serif;font-size:11px;font-weight:700;color:#fff;text-shadow:0 0 3px rgba(6,12,24,.95),0 0 7px rgba(6,12,24,.7)">{{ pr.glyph }}</b>
               </span>
               <span style="flex:none;width:78px;text-align:left;font-size:10.5px;font-weight:800;color:rgba(255,255,255,.72);font-variant-numeric:tabular-nums;white-space:nowrap">{{ pr.when }}<span style="margin-left:2px;font-size:8.5px;color:rgba(255,255,255,.5)">{{ pr.dow }}</span></span>
-              <span role="img" style="flex:none;width:22px;height:22px;background-image:{{ pr.crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
-              <span style="flex:1;min-width:0;font-size:11.5px;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ pr.opp }}</span>
-              <span style="flex:none;width:30px;text-align:right;font-size:12px;font-weight:800;color:{{ pr.scoreC }};font-variant-numeric:tabular-nums;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ pr.score }}</span>
+              <span style="flex:1;min-width:0;font-size:12.5px;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ pr.opp }}</span>
+              <span style="flex:none;width:30px;text-align:right;font-size:12px;font-weight:800;color:{{ pr.scoreC }};font-variant-numeric:tabular-nums;transition:color .3s cubic-bezier(.32,.72,0,1)">{{ pr.score }}</span>
               <span style="flex:none;width:62px;text-align:right;font-size:10px;font-weight:700;color:rgba(255,255,255,.5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ pr.venue }}</span>
             </div>
           </sc-for>
@@ -5273,7 +5273,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v121",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v123",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -6673,6 +6673,13 @@ class Component extends DCLogic {
     out.sort(function(a,b){ return a.m._k-b.m._k; });
     return out;
   }
+  /* 券やカレンダーに敷く形は、開催地ではなく相手クラブの本拠地 */
+  oppPrefOf(m){
+    if(this.OPP_PREF[m.opp]) return this.OPP_PREF[m.opp];
+    for(var p in this.PREF_CODE){ if(String(m.opp||"").indexOf(p)>=0) return p; }
+    if(!m.home && m.venue){ for(var v in this.VENUE_PREF){ if(m.venue.indexOf(v)>=0) return this.VENUE_PREF[v]; } }
+    return null;
+  }
   prefOf(m){
     if(m.home) return "宮城";
     if(this.OPP_PREF[m.opp]) return this.OPP_PREF[m.opp];
@@ -6924,12 +6931,16 @@ class Component extends DCLogic {
         var cell={n:String(d), om:false, tone:tone, hasM:!!m,
           bg: m ? (m.home ? "linear-gradient(165deg,rgba(240,198,74,.62),rgba(212,166,48,.34))" : "linear-gradient(165deg,rgba(96,152,236,.6),rgba(56,104,190,.32))") : "transparent",
           bd: isToday ? "rgba(255,255,255,.9)" : (m ? "rgba(255,255,255,.46)" : "rgba(255,255,255,.3)"),
-          opp:"", hasCrest:false, crestBg:"none", glyph:"", gcolor:"transparent", onTap:null};
+          opp:"", hasCrest:false, crestBg:"none", crestLabel:"", short:"", shortSize:"12px", shortSp:"-.01em", glyph:"", gcolor:"transparent", onTap:null};
         if(m){
           var sl=seal(m);
           cell.glyph=sl.g; cell.gcolor=sl.c;
           var ss=self.sealStyle(sl.c); cell.sFill=ss.fill; cell.sRing=ss.ring;
-          if(self.CREST[m.opp]){ cell.hasCrest=true; cell.crestBg="url('"+self.CREST[m.opp]+"')"; }
+          var pu=self.prefShapeUrl(self.oppPrefOf(m));
+          if(pu){ cell.hasCrest=true; cell.crestBg="url(\""+pu+"\")"; cell.crestLabel=(self.oppPrefOf(m)||"")+"の形"; cell.short=self.CITY_SHORT[m.opp]||m.opp;
+            /* 3文字でも2文字と同じ大きさに見えるよう、字送りだけ詰める */
+            cell.shortSize = "15px";
+            cell.shortSp   = (cell.short.length>=3 ? "-.12em" : "-.02em"); }
           cell.onTap=(function(id){ return function(){ self.haptic(8); self.setState({calId:id}); }; })(m.id);
         }
         cells.push(cell);
@@ -6957,8 +6968,9 @@ class Component extends DCLogic {
             : "linear-gradient(180deg,rgba(91,155,240,.34),rgba(56,104,190,.16))",
           goBd: m.home ? "rgba(240,198,74,.42)" : "rgba(146,190,255,.5)",
           goFg: m.home ? "#ffe9ac" : "#d6e8ff",
-          hasCrest: !!this.CREST[m.opp],
-          crestBg: this.CREST[m.opp] ? ("url('"+this.CREST[m.opp]+"')") : "none",
+          hasCrest: !!this.prefShapeUrl(this.oppPrefOf(m)),
+          crestBg: this.prefShapeUrl(this.oppPrefOf(m)) ? ("url(\""+this.prefShapeUrl(this.oppPrefOf(m))+"\")") : "none",
+          crestLabel: (this.oppPrefOf(m)||"")+"の形",
           when:m.date+"（"+m.dow+"） "+m.ko,
           venue:m.venue,
           result: oc ? ({win:"○",draw:"△",lose:"●"}[oc]+" "+m.result.gf+"-"+m.result.ga+(m.result.pk?("（PK "+m.result.pk.gf+"-"+m.result.pk.ga+"）"):"")) : "",
@@ -7008,8 +7020,6 @@ class Component extends DCLogic {
             glyph: s?self.STATUS_GLYPH[s]:"未", gcolor: s?self.STATUS_COLOR[s]:"rgba(255,255,255,.3)",
             sFill: self.sealStyle(s?self.STATUS_COLOR[s]:"rgba(255,255,255,.3)").fill,
             sRing: self.sealStyle(s?self.STATUS_COLOR[s]:"rgba(255,255,255,.3)").ring,
-            hasCrest: !!self.CREST[pr.m.opp],
-            crestBg: self.CREST[pr.m.opp] ? ("url('"+self.CREST[pr.m.opp]+"')") : "none",
             hasScore: !!oc,
             score: oc ? (pr.m.result.gf+"-"+pr.m.result.ga) : "",
             scoreC: oc ? {win:"#ffdf8a",draw:"#cfd8e6",lose:"#e79b95"}[oc] : "rgba(255,255,255,.6)"};
@@ -7228,7 +7238,7 @@ class Component extends DCLogic {
   stadiumMarks(name, map){
     var self=this, marks=[];
     if(name==="宮城"){
-      marks.push({label:this.HOME_STADIUM.label, fx:this.HOME_STADIUM.fx, fy:this.HOME_STADIUM.fy, home:true, crest:(this.props.crestSrc||"img/crest.png")});
+      marks.push({label:this.HOME_STADIUM.label, fx:this.HOME_STADIUM.fx, fy:this.HOME_STADIUM.fy, home:true});
       return marks;
     }
     var e=map&&map[name]; if(!e) return marks;
@@ -7238,7 +7248,7 @@ class Component extends DCLogic {
       if(m.home || seen[m.opp]) return;
       seen[m.opp]=1;
       var p=self.stadiumPoint(m);
-      marks.push({label:m.opp, fx:p.fx, fy:p.fy, home:false, crest:(self.CREST[m.opp]||"")});
+      marks.push({label:(self.CITY_SHORT[m.opp]||m.opp), fx:p.fx, fy:p.fy, home:false});
     });
     return marks;
   }
@@ -7474,19 +7484,51 @@ class Component extends DCLogic {
       var iy=Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
       return ix*iy;
     }
-    /* 会場位置＝広がるリング＋相手エンブレム */
+    /* 会場位置＝点滅する丸。引き出し線で略称に結ぶ */
+    var dotR=u*0.030;
     marks.forEach(function(m){
       m.px=bb.x + m.fx*bb.width;
       m.py=bb.y + m.fy*bb.height;
-      var ps=u*0.15;
-      /* エンブレムのみ。無い会場は何も置かない（丸いピンは出さない） */
-      if(m.crest){
-        svg.appendChild(self.svgEl("image",{class:"pz-pin", href:m.crest, x:m.px-ps/2, y:m.py-ps/2,
-          width:ps, height:ps, preserveAspectRatio:"xMidYMid meet"}));
-      }
-      placedRects.push({x:m.px-ps*0.62, y:m.py-ps*0.62, w:ps*1.24, h:ps*1.24});
+      var col=m.home ? "#f0c64a" : "#a8c8f0";
+      var ring=self.svgEl("circle",{class:"pz-ring stadiumPing", cx:m.px, cy:m.py, r:dotR*1.5,
+        fill:"none", stroke:col, "stroke-width":dotR*0.42, opacity:".85"});
+      ring.style.animationDelay=((m.px+m.py)%7*0.18).toFixed(2)+"s";
+      svg.appendChild(ring);
+      /* 中心の丸は動かさない */
+      var dot=self.svgEl("circle",{cx:m.px, cy:m.py, r:dotR,
+        fill:col, stroke:"#0a1220", "stroke-width":dotR*0.34});
+      dot.style.filter="drop-shadow(0 1px 2px rgba(0,0,0,.9))";
+      svg.appendChild(dot);
+      placedRects.push({x:m.px-dotR*2, y:m.py-dotR*2, w:dotR*4, h:dotR*4});
     });
-    /* チーム名ラベルと引き出し線は表示しない */
+
+    /* 略称のラベルを、丸から離れた位置に置いて線で結ぶ */
+    var fs=u*0.058, cs=fs*1.85;
+    marks.forEach(function(m){
+      var w=String(m.label).length*fs*0.62+fs*0.5, h=fs*1.26;
+      var best=null;
+      for(var ang=0; ang<360; ang+=30){
+        for(var dist=cs; dist<=cs*2.2; dist+=cs*0.4){
+          var rad=ang*Math.PI/180;
+          var lx=m.px+Math.cos(rad)*dist, ly=m.py+Math.sin(rad)*dist;
+          var r={x:lx-w/2, y:ly-h/2, w:w, h:h};
+          var bad=0;
+          placedRects.forEach(function(q){ bad+=overlapArea(r,q); });
+          if(best===null || bad<best.bad){ best={x:lx, y:ly, r:r, bad:bad}; }
+          if(bad===0){ break; }
+        }
+        if(best && best.bad===0) break;
+      }
+      if(!best) return;
+      placedRects.push(best.r);
+      svg.appendChild(self.svgEl("line",{x1:m.px, y1:m.py, x2:best.x, y2:best.y,
+        stroke:"rgba(255,255,255,.55)", "stroke-width":Math.max(0.5,u*0.006)}));
+      var t=self.svgEl("text",{x:best.x, y:best.y, "text-anchor":"middle",
+        "dominant-baseline":"central", fill:"#fff", "font-size":fs, "font-weight":"800",
+        stroke:"rgba(6,12,24,.85)", "stroke-width":fs*0.16, "paint-order":"stroke"});
+      t.textContent=m.label;
+      svg.appendChild(t);
+    });
   }
 
   /* 地図SVGを注入して塗る */
@@ -7577,9 +7619,9 @@ class Component extends DCLogic {
         ko: m.ko,
         opp: m.opp,
         /* クラブのエンブレムに代えて、開催地の都道府県の形を敷く */
-        hasCrest: !!self.prefShapeUrl(self.prefOf(m)),
-        crestBg: self.prefShapeUrl(self.prefOf(m)) ? ("url(\""+self.prefShapeUrl(self.prefOf(m))+"\")") : "none",
-        crestLabel: (self.prefOf(m)||"") + "の形",
+        hasCrest: !!self.prefShapeUrl(self.oppPrefOf(m)),
+        crestBg: self.prefShapeUrl(self.oppPrefOf(m)) ? ("url(\""+self.prefShapeUrl(self.oppPrefOf(m))+"\")") : "none",
+        crestLabel: (self.oppPrefOf(m)||"") + "の形",
         crestSize: "contain",
         venue: m.venue,
         comp: compLabel,
