@@ -6561,6 +6561,40 @@ class Component extends DCLogic {
       glow: isHex ? ("0 0 12px -5px "+this.hexA(c,.8)+",inset 0 0 10px -6px "+this.hexA(c,.9)) : "none"
     };
   }
+  /* ══ 都道府県の形を画像にする（クラブのエンブレムの代わり） ══ */
+  prefShapeUrl(prefName){
+    if(!prefName) return "";
+    if(!this._prefUrl) this._prefUrl = {};
+    if(this._prefUrl[prefName] != null) return this._prefUrl[prefName];
+    this._prefUrl[prefName] = "";
+    try{
+      var src = window.JAPAN_MAP_SVG;
+      var code = this.PREF_CODE[prefName];
+      if(!src || !code) return "";
+      var box = document.createElement("div");
+      box.style.cssText = "position:absolute;left:-9999px;top:0;width:400px;height:400px;pointer-events:none";
+      box.innerHTML = src;
+      document.body.appendChild(box);
+      var g = box.querySelector('[data-code="' + code + '"]');
+      if(g){
+        var bb = g.getBBox();
+        if(bb && bb.width){
+          var pad = Math.max(bb.width, bb.height) * 0.06;
+          var clone = g.cloneNode(true);
+          clone.removeAttribute("transform");
+          clone.setAttribute("fill", "#ffffff");
+          clone.setAttribute("stroke", "none");
+          var vb = (bb.x-pad)+" "+(bb.y-pad)+" "+(bb.width+pad*2)+" "+(bb.height+pad*2);
+          var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vb+'">'+clone.outerHTML+'</svg>';
+          /* インラインstyleの中に置くので、区切りになる ; は含めない */
+          this._prefUrl[prefName] = "data:image/svg+xml," + encodeURIComponent(svg);
+        }
+      }
+      box.remove();
+    }catch(e){}
+    return this._prefUrl[prefName];
+  }
+
   /* 試合ごとに決まる、わずかな傾き（-9〜+9度）。毎回同じ角度になるよう id から導く */
   sealTilt(key, extra){
     var s = String(key||"") + (extra||"");
@@ -7542,10 +7576,11 @@ class Component extends DCLogic {
         dow: String(m.dow).split("・")[0] + "曜日",
         ko: m.ko,
         opp: m.opp,
-        hasCrest: !!self.CREST[m.opp],
-        crestBg: self.CREST[m.opp] ? ("url('"+self.CREST[m.opp]+"')") : "none",
-        crestLabel: m.opp + "エンブレム",
-        crestSize: self.crestSize(m.opp),
+        /* クラブのエンブレムに代えて、開催地の都道府県の形を敷く */
+        hasCrest: !!self.prefShapeUrl(self.prefOf(m)),
+        crestBg: self.prefShapeUrl(self.prefOf(m)) ? ("url(\""+self.prefShapeUrl(self.prefOf(m))+"\")") : "none",
+        crestLabel: (self.prefOf(m)||"") + "の形",
+        crestSize: "contain",
         venue: m.venue,
         comp: compLabel,
         tkSurf: T.surf, tkPanel: T.panel, tkStub: T.stub, accent: T.accent, tkEdge: T.edge,
@@ -7567,13 +7602,6 @@ class Component extends DCLogic {
         sealGlow: r.s ? ("0 0 14px -5px "+self.hexA(self.STATUS_COLOR[r.s],.8)+",inset 0 0 12px -6px "+self.hexA(self.STATUS_COLOR[r.s],.9)) : "none",
         sealInk: r.s ? self.lighten(self.STATUS_COLOR[r.s],.45) : "transparent",
         sealHalo: r.s ? self.hexA(self.STATUS_COLOR[r.s],.55) : "transparent",
-        sealCrestSize: self.crestSizeAt(m.opp, 40),
-        showCrestSeal: !oc,
-        crestFilter: (r.s==="◎") ? "drop-shadow(0 2px 5px rgba(0,0,0,.55))"
-          : (r.s==="○") ? "grayscale(1) sepia(1) hue-rotate(178deg) saturate(3.4) brightness(.96) drop-shadow(0 2px 5px rgba(0,0,0,.5))"
-          : (r.s==="△") ? "grayscale(1) sepia(1) hue-rotate(78deg) saturate(3) brightness(.94) drop-shadow(0 2px 5px rgba(0,0,0,.5))"
-          : "grayscale(1) brightness(1.08)",
-        crestOp: (r.s==="◎") ? "1" : (r.s ? ".92" : ".42"),
         glyph: r.s ? self.STATUS_GLYPH[r.s] : "未",
         sealAnim: (self.state.justStamped===m.id) ? "sealPop .5s cubic-bezier(.32,1.5,.5,1) both" : "none",
         sealRot: self.sealTilt(m.id, r.s||"")+"deg",
