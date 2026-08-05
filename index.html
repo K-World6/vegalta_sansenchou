@@ -3616,6 +3616,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 @keyframes gtIn{from{opacity:0;transform:translateY(10px);letter-spacing:.3em}to{opacity:1;transform:none}}
 @keyframes gbIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes foilShift{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,120px);pointer-events:none}
 .stadiumDot{fill:url(#awaySilverGrad);stroke:#f4f8fc;stroke-width:1.8;pointer-events:none;transform-box:fill-box;transform-origin:center;animation:homeTwinkle 1.3s ease-in-out infinite;filter:drop-shadow(0 1px 2px rgba(0,0,0,.95)) drop-shadow(0 0 6px rgba(120,150,185,.95))}
 .stadiumDot.homeDot{fill:url(#homeGoldGrad);stroke:#3a2600;stroke-width:1.6;filter:drop-shadow(0 1px 2px rgba(0,0,0,.9)) drop-shadow(0 0 7px rgba(255,214,110,1))}
 @keyframes homeTwinkle{0%,100%{transform:scale(1)}50%{transform:scale(1.24)}}
@@ -5193,6 +5194,7 @@ class Component extends DCLogic {
     this.paintMaps(); this.drawWall();
     this.pumpCloud();
     this.fitViewport();
+    this.guardShell();
     this.fitTop();
     this.fitBottom();
     this.bindScrollFx();
@@ -6017,17 +6019,10 @@ class Component extends DCLogic {
       if(isFinite(nt) && nt > 0) need = Math.max(48, Math.round(sb - nt) + 40);
     }
     if(this.state.tab === "home") need += 56;   /* 一括開閉ボタンのぶん */
-    /* 末尾に実体のある余白を置く。padding では Safari がスクロール範囲に数えないため */
-    var pad = m.__vgPad;
-    if(!pad || pad.parentNode !== m){
-      pad = document.createElement("div");
-      pad.setAttribute("aria-hidden","true");
-      pad.style.cssText = "flex:none;width:100%;pointer-events:none";
-      m.__vgPad = pad;
-    }
-    if(m.lastElementChild !== pad) m.appendChild(pad);
+    /* 余白は擬似要素で作る（DOMを足すと画面の作り直しとぶつかるため） */
+    if(m.__vgPad){ try{ m.__vgPad.remove(); }catch(_){} m.__vgPad=null; }
     var v = need + "px";
-    if(pad.style.height !== v) pad.style.height = v;
+    if(m.style.getPropertyValue("--padb") !== v) m.style.setProperty("--padb", v);
   }
 
   /* ══ 採寸表示（URLに ?debug=1 を付けたときだけ出る） ══ */
@@ -6067,6 +6062,20 @@ class Component extends DCLogic {
   /* ══ 実際に見えている高さにアプリ枠を合わせる ══
      iOSのツールバーやアプリ内ブラウザでは CSS のビューポート単位が
      実際の表示領域とずれることがあるため、visualViewport を正とする */
+  /* 枠が画面より大きくなってしまう事故を防ぐ */
+  guardShell(){
+    var m = this.scrollRef && this.scrollRef.current;
+    var shell = m && m.parentElement;
+    if(!shell) return;
+    var vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0;
+    if(!vh) return;
+    var h = shell.getBoundingClientRect().height;
+    if(h > vh + 2 || h < vh - 2){
+      var kb = window.visualViewport ? Math.abs(window.innerHeight - vh) : 0;
+      if(kb > 120) return;                       /* キーボード表示中は触らない */
+      shell.style.height = vh + "px";
+    }
+  }
   fitViewport(){
     var el = this.rootRef && this.rootRef.current;
     if(!el) return;
