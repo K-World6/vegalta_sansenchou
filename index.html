@@ -5839,7 +5839,18 @@ class Component extends DCLogic {
     panel.addEventListener("pointerdown", function(e){
       if(e.pointerType==="mouse" && e.button!==0) return;
       var r = panel.getBoundingClientRect();
-      if(e.clientY - r.top > 56) return;          /* つまみ・見出しの帯だけ */
+      /* つまみ・見出しの帯。ただし一覧が最上部にあるときは中身からも引ける */
+      if(e.clientY - r.top > 56){
+        var sc = e.target && e.target.closest ? e.target.closest("[data-sheet-panel] *") : null;
+        var scroller = null, n = e.target;
+        while(n && n !== panel){
+          var ov = getComputedStyle(n).overflowY;
+          if(ov === "auto" || ov === "scroll"){ scroller = n; break; }
+          n = n.parentElement;
+        }
+        if(scroller && scroller.scrollTop > 0) return;
+        if(!scroller) return;
+      }
       on=true; y0=e.clientY; t0=Date.now(); dy=0; ly=e.clientY; lt=t0; vel=0;
       panel.style.animation="none"; panel.style.transition="none";
       if(veil){ veil.style.animation="none"; veil.style.transition="none"; }
@@ -5850,20 +5861,27 @@ class Component extends DCLogic {
       dy = e.clientY - y0;
       if(dy < 0) dy = dy * 0.28;                  /* 上へは引っ張れないゴム感 */
       var nt = Date.now();
-      if(nt - lt > 12){ vel = (e.clientY - ly) / (nt - lt); ly = e.clientY; lt = nt; }
-      panel.style.transform = "translateY(" + dy + "px)";
-      if(veil) veil.style.opacity = String(Math.max(0, 1 - Math.max(0,dy)/420));
+      if(nt !== lt){ vel = (e.clientY - ly) / (nt - lt); ly = e.clientY; lt = nt; }
+      panel.style.transform = "translate3d(0," + dy + "px,0)";
+      var h = panel.getBoundingClientRect().height || 400;
+      if(veil) veil.style.opacity = String(Math.max(0, 1 - Math.max(0,dy)/h));
+      if(dy > 0 && e.cancelable) e.preventDefault();
     });
     var end = function(e){
       if(!on) return;
       on=false;
       try{ panel.releasePointerCapture(e.pointerId); }catch(_){}
-      var EASE = "cubic-bezier(.32,.72,0,1)";
-      /* 十分に引いたか、下向きに払ったときだけ閉じる */
-      if(dy > 90 || (dy > 28 && vel > 0.45)){
-        panel.style.transition = "transform .22s " + EASE;
-        panel.style.transform = "translateY(102%)";
-        if(veil){ veil.style.transition = "opacity .22s " + EASE; veil.style.opacity = "0"; }
+      var EASE = "cubic-bezier(.22,.68,0,1)";
+      var H = panel.getBoundingClientRect().height || 400;
+      /* 指を離した位置と速さから、行き先を決める（iOSのシートと同じ考え方） */
+      var proj = dy + vel * 130;                  /* このまま滑ったらどこまで行くか */
+      if(proj > H * 0.34 || vel > 0.9){
+        /* 残りの距離を、離した速さに見合った時間で閉じ切る */
+        var rest = Math.max(1, H - dy);
+        var dur = Math.max(0.16, Math.min(0.46, rest / Math.max(320, Math.abs(vel) * 1000 + 380)));
+        panel.style.transition = "transform " + dur.toFixed(3) + "s " + EASE;
+        panel.style.transform = "translate3d(0,101%,0)";
+        if(veil){ veil.style.transition = "opacity " + dur.toFixed(3) + "s linear"; veil.style.opacity = "0"; }
         if(self._sheetT){ clearTimeout(self._sheetT); self._sheetT=null; }
         self._sheetT = setTimeout(function(){
           self._sheetT=null;
@@ -5872,11 +5890,12 @@ class Component extends DCLogic {
           else if(closer==="cal") self.setState({calId:null});
           else if(closer==="legal") self.setState({legal:null});
           else self.setState({sheet:null, sheetOut:false});
-        }, 200);
+        }, Math.round(dur*1000) - 10);
       }else{
-        panel.style.transition = "transform .34s " + EASE;
-        panel.style.transform = "translateY(0)";
-        if(veil){ veil.style.transition = "opacity .22s " + EASE; veil.style.opacity = "1"; }
+        /* 戻すときも、引いた量に見合ったバネで戻す */
+        panel.style.transition = "transform .46s var(--pop)";
+        panel.style.transform = "translate3d(0,0,0)";
+        if(veil){ veil.style.transition = "opacity .28s linear"; veil.style.opacity = "1"; }
       }
     };
     panel.addEventListener("pointerup", end);
