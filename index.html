@@ -3751,7 +3751,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <sc-for list="{{ rows }}" as="row" hint-placeholder-count="6">
       <article style="flex:none;position:relative;display:flex;flex-direction:column;background:transparent">
-        <div style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:{{ row.liftSh }};transform:{{ row.lift }};transform-origin:center top;transition:transform .46s var(--pop),box-shadow .4s cubic-bezier(.32,.72,0,1);-webkit-mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);-webkit-mask-composite:source-in;mask-image:radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px);mask-composite:intersect;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+        <div style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:{{ row.liftSh }};transform:{{ row.lift }};transform-origin:center top;transition:transform .46s var(--pop),box-shadow .4s cubic-bezier(.32,.72,0,1);-webkit-mask-image:{{ row.tkMask }};-webkit-mask-size:{{ row.tkMaskSize }};-webkit-mask-repeat:{{ row.tkMaskRepeat }};-webkit-mask-composite:source-in;mask-image:{{ row.tkMask }};mask-size:{{ row.tkMaskSize }};mask-repeat:{{ row.tkMaskRepeat }};mask-composite:intersect;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
 
         <sc-if value="{{ row.hasCrest }}" hint-placeholder-val="{{ false }}">
           <span role="img" aria-label="{{ row.crestLabel }}" style="position:absolute;top:50%;margin-top:-31px;height:62px;right:73px;width:120px;background-image:{{ row.crestBg }};background-size:{{ row.crestSize }};background-position:center;background-repeat:no-repeat;pointer-events:none;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.4;mix-blend-mode:luminosity"></span>
@@ -3791,15 +3791,13 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
             </div>
           </div>
 
-          <div style="flex:none;width:74px;align-self:stretch;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding-left:8px;border-left:1px dashed {{ row.perf }}">
+          <div style="flex:none;width:74px;align-self:stretch;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding-left:8px;margin-left:{{ row.stubGap }};border-left:{{ row.stubBorder }};border-radius:{{ row.stubRadius }};background-image:{{ row.stubBg }};backdrop-filter:{{ row.stubBlur }};-webkit-backdrop-filter:{{ row.stubBlur }};box-shadow:{{ row.stubEdge }};transform:{{ row.stubTilt }};-webkit-mask-image:{{ row.stubMask }};-webkit-mask-size:{{ row.stubMaskSize }};-webkit-mask-repeat:{{ row.stubMaskRepeat }};mask-image:{{ row.stubMask }};mask-size:{{ row.stubMaskSize }};mask-repeat:{{ row.stubMaskRepeat }};transition:background .4s cubic-bezier(.32,.72,0,1),box-shadow .4s cubic-bezier(.32,.72,0,1),margin-left .42s var(--pop),transform .42s var(--pop)">
             <span style="flex:none;max-width:100%;text-align:center;font-size:9.5px;line-height:1.3;font-weight:800;letter-spacing:.01em;color:{{ row.inkSub }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.comp }}</span>
             <sc-if value="{{ row.isResult }}" hint-placeholder-val="{{ false }}">
-              <span style="flex:none;display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.05">
-                <span style="display:flex;align-items:baseline;gap:2px">
-                  <span style="font-size:8px;font-weight:800;letter-spacing:.06em;color:{{ row.outcomeColor }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.outcome }}</span>
-                  <span style="font-size:14px;font-weight:800;color:{{ row.ink }};font-variant-numeric:tabular-nums;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.score }}</span>
-                </span>
-                <span style="font-size:7.5px;font-weight:700;color:{{ row.inkFaint }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.pk }}</span>
+              <span aria-label="{{ row.outcome }}" style="position:relative;flex:none;width:52px;height:52px;line-height:1">
+                <span aria-hidden="true" style="position:absolute;inset:0;background:{{ row.ocPanel }};clip-path:{{ row.ocClip }};box-shadow:{{ row.ocPanelSh }};filter:drop-shadow(0 2px 5px rgba(0,0,0,.5))"></span>
+                <span style="position:absolute;inset:0;z-index:1;display:grid;place-items:center;font-size:{{ row.ocFs }};font-weight:800;letter-spacing:-.03em;color:{{ row.ocInk }};font-variant-numeric:tabular-nums;text-shadow:{{ row.ocSh }}">{{ row.score }}</span>
+                <span style="position:absolute;left:0;right:0;top:50%;margin-top:{{ row.ocPkY }};z-index:1;text-align:center;font-size:7.5px;font-weight:800;letter-spacing:-.03em;line-height:1;color:{{ row.ocInk }};opacity:.72;font-variant-numeric:tabular-nums">{{ row.pk }}</span>
               </span>
             </sc-if>
             <sc-if value="{{ row.hasStamp }}" hint-placeholder-val="{{ false }}">
@@ -4362,9 +4360,6 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
                     <b style="font-size:13px;font-weight:800;color:{{ pl.dink }};font-variant-numeric:tabular-nums">{{ pl.md }}</b>
                     <span style="font-size:8.5px;font-weight:800;color:{{ pl.dink }};white-space:nowrap">{{ pl.dowko }}</span>
                   </span>
-                  <sc-if value="{{ pl.hasCrest }}" hint-placeholder-val="{{ true }}">
-                    <span role="img" style="flex:none;width:32px;height:30px;background-image:{{ pl.crestBg }};background-size:{{ pl.crestSize }};background-position:center;background-repeat:no-repeat"></span>
-                  </sc-if>
                   <span style="flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2">
                     <b style="font-size:12px;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ pl.opp }}</b>
                     <span style="font-size:9px;font-weight:700;color:{{ pl.haC }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ pl.ha }}{{ pl.venue }}</span>
@@ -4418,9 +4413,6 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
             </sc-for>
           </div>
           <p style="margin:8px 0 0;font-size:9.5px;line-height:1.7;color:rgba(255,255,255,.36)">自分の予定は同期のたびに自動で共有されます。<br>表示名やコードは仲間だけに見えます。</p>
-        </section>
-        </div>
-      </div>
         </sc-if>
 
         <sc-if value="{{ grp.onboard }}" hint-placeholder-val="{{ false }}">
@@ -5601,7 +5593,6 @@ class Component extends DCLogic {
       var stub=Math.min(48, Math.round(ww*0.16)), sx=x+ww-stub;
       var oc=self.outcome(m);
 
-      var cim=crestMap && crestMap[m.opp];
       /* うっすら地色＋枠線（HOME=金／AWAY=淡藍） */
       self.roundRect(ctx,x,y,ww,hh,R);
       /* タイトル帯と同程度まで透かし、背景写真を見せる */
@@ -5671,17 +5662,8 @@ class Component extends DCLogic {
 
       var cursor=plX+plW+2;
 
-      /* 省略表示はエンブレムを小さめにして横幅を稼ぐ */
-      var eScale=(paddingMode==="normal") ? 0.72 : 0.58;
-      var eh=Math.min(hh*eScale, plH), eSlot=Math.round(eh*1.12);
-      if(cim){
-        var ew=Math.min(eSlot, eh*(cim.width/cim.height)), ehh=ew/(cim.width/cim.height);
-        ctx.save();
-        ctx.globalAlpha=0.96;
-        ctx.drawImage(cim, cursor+(eSlot-ew)/2, cyy-ehh/2, ew, ehh);
-        ctx.restore();
-      }
-      cursor += eSlot-4;
+      /* エンブレムは使わない。空いた幅はチーム名に回す */
+      cursor += 6;
 
       ctx.save();
       ctx.textAlign="left"; ctx.textBaseline="middle";
@@ -5836,6 +5818,12 @@ class Component extends DCLogic {
     var self=this, veil = panel.previousElementSibling;
     if(veil && veil.tagName!=="DIV") veil=null;
     var closer = panel.getAttribute("data-sheet-close") || "";
+    /* つまみの帯は指の動きをこちらで受け取る。中の一覧は縦スクロールを許す */
+    panel.style.touchAction = "none";
+    panel.querySelectorAll("*").forEach(function(n){
+      var ov = getComputedStyle(n).overflowY;
+      if(ov === "auto" || ov === "scroll") n.style.touchAction = "pan-y";
+    });
     var y0=0, t0=0, dy=0, on=false, ly=0, lt=0, vel=0;
 
     panel.addEventListener("pointerdown", function(e){
@@ -5873,11 +5861,13 @@ class Component extends DCLogic {
       if(!on) return;
       on=false;
       try{ panel.releasePointerCapture(e.pointerId); }catch(_){}
+      /* 指を止めてから離したときは、勢いを 0 とみなす */
+      if(Date.now() - lt > 90) vel = 0;
       var EASE = "cubic-bezier(.22,.68,0,1)";
       var H = panel.getBoundingClientRect().height || 400;
       /* 指を離した位置と速さから、行き先を決める（iOSのシートと同じ考え方） */
-      var proj = dy + vel * 130;                  /* このまま滑ったらどこまで行くか */
-      if(proj > H * 0.34 || vel > 0.9){
+      var proj = dy + vel * 140;                  /* このまま滑ったらどこまで行くか */
+      if(proj > H * 0.20 || dy > 96 || vel > 0.55){
         /* 残りの距離を、離した速さに見合った時間で閉じ切る */
         var rest = Math.max(1, H - dy);
         var dur = Math.max(0.16, Math.min(0.46, rest / Math.max(320, Math.abs(vel) * 1000 + 380)));
@@ -6567,16 +6557,31 @@ class Component extends DCLogic {
           if(r.status) mems.push({nm:r.nickname||"(名前未設定)", s:r.status, me:false});
         });
       }
+      /* まだ答えていない仲間も出す */
+      if(cloud && cur && cur.members){
+        var answered={};
+        mems.forEach(function(x){ answered[x.nm]=true; });
+        cur.members.forEach(function(mb){
+          var nm = mb.nickname || mb.nm || "(名前未設定)";
+          var isMe = (mb.user_id && self.state.user && mb.user_id===self.state.user.id);
+          if(isMe && mine) return;
+          if(isMe) nm = myNick || "あなた";
+          if(answered[nm]) return;
+          answered[nm]=true;
+          mems.push({nm:nm, s:"", me:!!isMe});
+        });
+      }
       var going=mems.filter(function(x){ return x.s==="◎"||x.s==="○"; }).length;
-      var lines=["◎","○","△","×"].map(function(st){
+      var lines=["◎","○","△","×",""].map(function(st){
         var grp2=mems.filter(function(x){ return x.s===st; });
         if(!grp2.length) return null;
         grp2.sort(function(a,b){ return (b.me?1:0)-(a.me?1:0); });
-        return {glyph:self.STATUS_GLYPH[st], c:self.STATUS_COLOR[st],
-          fill:"radial-gradient(68% 58% at 66% 74%,rgba(0,0,0,.2),rgba(0,0,0,0) 62%),linear-gradient(180deg,"+self.hexA(self.STATUS_COLOR[st],.2)+","+self.hexA(self.STATUS_COLOR[st],.1)+"),linear-gradient(180deg,rgba(18,30,52,.5),rgba(12,22,40,.5))",
-          ring:self.hexA(self.STATUS_COLOR[st],.92), ring2:self.hexA(self.STATUS_COLOR[st],.5),
-          ink:self.lighten(self.STATUS_COLOR[st],.45), halo:self.hexA(self.STATUS_COLOR[st],.55),
-          glow:"0 0 9px -4px "+self.hexA(self.STATUS_COLOR[st],.7),
+        var stC = st ? self.STATUS_COLOR[st] : "#8b97a8";
+        return {glyph: st ? self.STATUS_GLYPH[st] : "未", c:stC,
+          fill:"radial-gradient(68% 58% at 66% 74%,rgba(0,0,0,.2),rgba(0,0,0,0) 62%),linear-gradient(180deg,"+self.hexA(stC,.2)+","+self.hexA(stC,.1)+"),linear-gradient(180deg,rgba(18,30,52,.5),rgba(12,22,40,.5))",
+          ring:self.hexA(stC,.92), ring2:self.hexA(stC,.5),
+          ink:self.lighten(stC,.45), halo:self.hexA(stC,.55),
+          glow:"0 0 9px -4px "+self.hexA(stC,.7),
           rot: self.sealTilt(m.id, st)+"deg",
           names:grp2.map(function(x){ return x.nm; }).join("、"), n:"（"+grp2.length+"名）"};
       }).filter(Boolean);
@@ -6584,7 +6589,6 @@ class Component extends DCLogic {
       var dcol=(dow0==="日"||String(m.dow).indexOf("祝")>=0)?"#ff9d92":(dow0==="土"?"#a3c6ff":"rgba(255,255,255,.92)");
       return {id:m.id, md:m.date, dowko:dow0+" "+(m.ko||""), dcol:dcol,
         dink: (dcol==="#ff9d92" ? "#9c1f16" : (dcol==="#a3c6ff" ? "#1c68a8" : "#2a2a2e")),
-        hasCrest:!!self.CREST[m.opp], crestBg:self.CREST[m.opp]?("url('"+self.CREST[m.opp]+"')"):"none", crestSize:self.crestSizeAt(m.opp,26),
         opp:m.opp, ha:m.home?"HOME":"AWAY", haC:m.home?"#f0c64a":"#a8c8f0",
         /* 券と同じ濃さにして、背景がうっすら透けるようにする */
         rowBg: m.home?"linear-gradient(180deg,rgba(240,198,74,.28),rgba(240,198,74,.12))":"linear-gradient(180deg,rgba(138,182,246,.28),rgba(138,182,246,.12))",
@@ -7552,10 +7556,12 @@ class Component extends DCLogic {
     var fs=u*0.058, cs=fs*1.85;
     marks.forEach(function(m){
       var w=String(m.label).length*fs*0.62+fs*0.5, h=fs*1.26;
+      /* 引き出し線が斜めになるよう、水平・垂直に近い向きは使わない */
+      var ANGS=[-38,-142,38,142,-58,-122,58,122,-22,-158,22,158];
       var best=null;
-      for(var ang=0; ang<360; ang+=30){
-        for(var dist=cs; dist<=cs*2.2; dist+=cs*0.4){
-          var rad=ang*Math.PI/180;
+      for(var ai=0; ai<ANGS.length; ai++){
+        for(var dist=cs*1.15; dist<=cs*2.4; dist+=cs*0.35){
+          var rad=ANGS[ai]*Math.PI/180;
           var lx=m.px+Math.cos(rad)*dist, ly=m.py+Math.sin(rad)*dist;
           var r={x:lx-w/2, y:ly-h/2, w:w, h:h};
           var bad=0;
@@ -7567,8 +7573,13 @@ class Component extends DCLogic {
       }
       if(!best) return;
       placedRects.push(best.r);
-      svg.appendChild(self.svgEl("line",{x1:m.px, y1:m.py, x2:best.x, y2:best.y,
-        stroke:"rgba(255,255,255,.55)", "stroke-width":Math.max(0.5,u*0.006)}));
+      var vx=best.x-m.px, vy=best.y-m.py, vl=Math.max(1, Math.hypot(vx,vy));
+      var gap=Math.max(w,h)*0.42;
+      svg.appendChild(self.svgEl("line",{
+        x1:m.px + vx/vl*dotR*1.7, y1:m.py + vy/vl*dotR*1.7,
+        x2:best.x - vx/vl*gap,    y2:best.y - vy/vl*gap,
+        stroke:"rgba(255,255,255,.55)", "stroke-width":Math.max(0.5,u*0.006),
+        "stroke-linecap":"round"}));
       var t=self.svgEl("text",{x:best.x, y:best.y, "text-anchor":"middle",
         "dominant-baseline":"central", fill:"#fff", "font-size":fs, "font-weight":"800",
         stroke:"rgba(6,12,24,.85)", "stroke-width":fs*0.16, "paint-order":"stroke"});
@@ -7646,9 +7657,10 @@ class Component extends DCLogic {
       var oc = showScores ? self.outcome(m) : null;
       var T = self.ticketTheme(m.home);
       var sealColor = r.s ? self.STATUS_COLOR[r.s] : null;
-      var ocColor = T.gold
-        ? (oc==="win" ? "#1f6b42" : (oc==="lose" ? "#8f2b22" : "#4a3a12"))
-        : (oc==="win" ? "#8ce0ab" : (oc==="lose" ? "#ff9f96" : "#cfe0f5"));
+      /* 勝ち＝金、分け＝銀、負け＝臙脂。券の色によらず同じ意味の色にする */
+      var ocColor = (oc==="win") ? (T.gold ? "#a8760a" : "#ffd76a")
+                  : (oc==="lose") ? (T.gold ? "#8f2b22" : "#ff8f84")
+                  : (T.gold ? "#4a3a12" : "#c9d6e6");
       var tl = self.tList(r);
       var bt = [tl.join("・"), r.tn].filter(Boolean).join(" ");
       var bh = [r.h, r.hn].filter(Boolean).join(" ");
@@ -7677,8 +7689,38 @@ class Component extends DCLogic {
         dateColor: self.dateTone(m, T.gold),
         isResult: !!oc,
         noResult: !oc,
-        outcome: oc ? ({win:"WIN",draw:"DRAW",lose:"LOSE"}[oc]) : "",
+        /* 参戦済みなら半券をちぎった見た目にする */
+        torn: (r.s === "◎"),
+        stubGap: (r.s === "◎") ? "7px" : "0px",
+        stubBorder: (r.s === "◎") ? "0" : ("1px dashed " + T.perf),
+        stubBg: "none", stubEdge: "none", stubRadius: "0", stubTilt: "none", stubBlur: "none",
+        stubMask: "none", stubMaskSize: "auto", stubMaskRepeat: "no-repeat",
+        /* 参戦済みなら券そのものを切り離す（同じ紙が2片に分かれた見た目） */
+        tkMask: (r.s === "◎")
+          ? ("radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),"
+           + "radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px),"
+           + "linear-gradient(90deg,#000 calc(100% - 89px),transparent calc(100% - 89px),transparent calc(100% - 83px),#000 calc(100% - 83px)),"
+           + "radial-gradient(circle 1.9px at calc(100% - 89px) 3px,transparent 1.9px,#000 2.3px),"
+           + "radial-gradient(circle 1.9px at calc(100% - 83px) 6px,transparent 1.9px,#000 2.3px)")
+          : ("radial-gradient(circle 5px at calc(100% - 86px) -1px,transparent 5px,#000 5.5px),"
+           + "radial-gradient(circle 5px at calc(100% - 86px) calc(100% + 1px),transparent 5px,#000 5.5px)"),
+        tkMaskSize: (r.s === "◎") ? "100% 100%,100% 100%,100% 100%,100% 6px,100% 6px" : "100% 100%,100% 100%",
+        tkMaskRepeat: (r.s === "◎") ? "no-repeat,no-repeat,no-repeat,repeat-y,repeat-y" : "no-repeat,no-repeat",
+        outcome: oc ? ({win:"勝",draw:"分",lose:"負"}[oc]) : "",
         outcomeColor: ocColor,
+        /* 勝ち＝白丸、負け＝黒丸、引き分け＝三角 */
+        ocPanel: (oc==="win")  ? "radial-gradient(62% 58% at 38% 30%,#ffffff,#eef2f7 58%,#cfd8e3 100%)"
+               : (oc==="lose") ? "radial-gradient(62% 58% at 38% 30%,#3c434e,#1d222b 58%,#0c0f15 100%)"
+               :                 "linear-gradient(160deg,#f3f6fa,#d6dfe9 60%,#b9c5d3)",
+        ocClip: (oc==="draw") ? "polygon(50% 0%,100% 97%,0% 97%)" : "circle(46% at 50% 50%)",
+        ocPanelSh: (oc==="lose")
+                 ? "inset 0 1.4px 0 rgba(255,255,255,.30),inset 0 -1.4px 0 rgba(0,0,0,.5)"
+                 : "inset 0 1.4px 0 rgba(255,255,255,.95),inset 0 -1.4px 0 rgba(90,105,125,.32)",
+        ocInk: (oc==="lose") ? "#ffffff" : "#1b222c",
+        ocSh: (oc==="lose") ? "0 1px 2px rgba(0,0,0,.75)" : "0 1px 1px rgba(255,255,255,.65)",
+        ocFs: (oc==="draw") ? "13px" : "16px",
+        /* スコアの真下に少しだけ空けて置く */
+        ocPkY: (oc==="draw") ? "9px" : "10px",
         score: oc ? (m.result.gf+"-"+m.result.ga) : "",
         pk: (oc && m.result.pk) ? ("PK "+m.result.pk.gf+"-"+m.result.pk.ga) : "",
         dowS: String(m.dow).split("・")[0],
