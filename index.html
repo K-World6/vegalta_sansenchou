@@ -3896,6 +3896,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                 </div>
               </div>
 
+              <sc-if value="{{ row.showBackCal }}" hint-placeholder-val="{{ false }}">
+                <button sc-camel-on-click="{{ row.onBackCal }}" style="width:100%;height:38px;margin-top:12px;border-radius:12px;border:1px solid {{ row.tkEdge }};background:rgba(255,255,255,.08);color:{{ row.ink }};font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">‹ カレンダーに戻る</button>
+              </sc-if>
+
               <div sc-camel-on-click="{{ row.onExp }}" style="margin-top:13px;padding-top:11px;border-top:1px dashed {{ row.rule }};text-align:center;font-size:11px;font-weight:800;letter-spacing:.1em;color:{{ row.inkFaint }};cursor:pointer;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">閉じる ▲</div>
             </div>
           </div>
@@ -3997,8 +4001,10 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
                 </sc-if>
                 <span style="position:relative;display:block;font-size:10.5px;font-weight:800;color:{{ cell.tone }};font-variant-numeric:tabular-nums;line-height:1.1;text-shadow:0 1px 3px rgba(0,0,0,.85);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ cell.n }}</span>
                 <sc-if value="{{ cell.hasCrest }}" hint-placeholder-val="{{ false }}">
-                  <span role="img" aria-label="{{ cell.crestLabel }}" style="position:absolute;inset:9px 7px;background-image:{{ cell.crestBg }};background-size:contain;background-position:center center;background-repeat:no-repeat;pointer-events:none;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.4;mix-blend-mode:luminosity"></span>
-                  <span style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);font-size:{{ cell.shortSize }};font-weight:800;letter-spacing:{{ cell.shortSp }};color:rgba(255,255,255,.97);text-align:center;white-space:nowrap;text-shadow:0 1px 3px rgba(3,7,14,.9),0 0 2px rgba(3,7,14,.8);pointer-events:none">{{ cell.short }}</span>
+                  <span style="position:absolute;left:0;right:0;top:53%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none">
+                    <span style="font-size:{{ cell.shortSize }};font-weight:800;letter-spacing:{{ cell.shortSp }};color:rgba(255,255,255,.97);white-space:nowrap;text-shadow:0 1px 3px rgba(3,7,14,.9),0 0 2px rgba(3,7,14,.8)">{{ cell.short }}</span>
+                    <span style="font-size:10.5px;font-weight:800;letter-spacing:-.04em;color:rgba(255,255,255,.74);font-variant-numeric:tabular-nums;white-space:nowrap;text-shadow:0 1px 3px rgba(3,7,14,.9)">{{ cell.ko }}</span>
+                  </span>
                 </sc-if>
                 <sc-if value="{{ cell.hasM }}" hint-placeholder-val="{{ false }}">
                   <span style="position:absolute;right:0;top:0;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background-image:{{ cell.sFill }};box-shadow:inset 0 0 0 .6px {{ cell.sRing }},0 1px 4px -1px rgba(0,0,0,.75);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
@@ -4466,7 +4472,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
           <sc-if value="{{ cd.hasCrest }}" hint-placeholder-val="{{ false }}">
             <span role="img" aria-label="{{ cd.crestLabel }}" style="flex:none;width:38px;height:38px;background-image:{{ cd.crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.62"></span>
           </sc-if>
-          <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:19px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ cd.opp }}</span>
+          <span style="flex:1;min-width:0;font-size:18px;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ cd.opp }}</span>
           <span style="flex:none;font-size:9.5px;font-weight:800;letter-spacing:.08em;color:{{ cd.haC }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ cd.ha }}</span>
         </div>
         <div style="margin-top:7px;display:flex;flex-direction:column;gap:3px;font-size:11.5px;font-weight:700;color:rgba(255,255,255,.84)">
@@ -4497,15 +4503,15 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 
   <sc-if value="{{ prefOpen }}" hint-placeholder-val="{{ false }}">
     <div sc-camel-on-click="{{ prefClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:flex-end;background:rgba(4,7,14,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .2s cubic-bezier(.32,.72,0,1)">
-      <div style="width:100%;max-height:72%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
+      <div data-sheet-panel="1" data-sheet-close="pref" style="width:100%;height:86%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.26);margin:-2px auto 10px"></div>
         <div style="display:flex;align-items:center;gap:10px;padding-bottom:11px">
           <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:22px;font-weight:700;letter-spacing:.01em;color:#fff">{{ ps.pref }}</span>
           <span style="flex:none;height:26px;padding:0 11px;display:flex;align-items:center;border-radius:13px;font-size:11px;font-weight:800;color:#fff;background:{{ ps.stColor }};transition:background .3s cubic-bezier(.32,.72,0,1)">{{ ps.stLabel }}</span>
           <button sc-camel-on-click="{{ prefClose }}" style="flex:none;height:30px;padding:0 11px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.84);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">閉じる</button>
         </div>
-        <div ref="{{ prefShapeRef }}" style="flex:none;height:250px;margin-top:9px;border-radius:14px;background:rgba(5,9,17,.34);border:1px solid rgba(255,255,255,.1);overflow:hidden"></div>
-        <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;margin-top:12px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);overflow:hidden">
+        <div ref="{{ prefShapeRef }}" style="flex:none;height:200px;margin-top:9px;border-radius:14px;background:rgba(5,9,17,.34);border:1px solid rgba(255,255,255,.1);overflow:hidden"></div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;margin-top:12px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain">
           <sc-for list="{{ ps.rows }}" as="pr" hint-placeholder-count="3">
             <div style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:.5px solid rgba(255,255,255,.09)">
               <span style="flex:none;position:relative;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background-image:{{ pr.sFill }};box-shadow:inset 0 0 0 .5px {{ pr.sRing }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
@@ -4559,7 +4565,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
   <sc-if value="{{ acctOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;z-index:58;display:flex;flex-direction:column;justify-content:flex-end">
       <div sc-camel-on-click="{{ closeAcct }}" style="position:absolute;inset:0;background:rgba(4,7,14,.58);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .28s cubic-bezier(.32,.72,0,1) both"></div>
-      <div style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
+      <div data-sheet-panel="1" data-sheet-close="acct" style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 12px"></div>
         <div style="flex:none;display:flex;align-items:center;gap:10px;padding:0 2px 11px;border-bottom:.5px solid rgba(255,255,255,.12)">
           <span role="img" aria-label="ベガルタ仙台エンブレム" style="flex:none;width:30px;height:30px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
@@ -5191,7 +5197,7 @@ class Component extends DCLogic {
     this.fitBottom();
     this.bindScrollFx();
     this.bindHeaderTap();
-    if(this.state.sheet) this.bindSheetDrag();
+    this.bindSheetDrag();
   }
   /* レンダー中に取得を走らせないための集約点 */
   pumpCloud(){
@@ -5818,10 +5824,16 @@ class Component extends DCLogic {
 
   /* ══ シートを指で引き下げて閉じる ══ */
   bindSheetDrag(){
-    var panel = document.querySelector('[data-sheet-panel]');
+    var self=this;
+    /* 目印の付いたシートをすべて対象にする */
+    document.querySelectorAll("[data-sheet-panel]").forEach(function(p){ self.wireSheetDrag(p); });
+  }
+  wireSheetDrag(panel){
     if(!panel || panel.__vgDrag) return;
     panel.__vgDrag = true;
     var self=this, veil = panel.previousElementSibling;
+    if(veil && veil.tagName!=="DIV") veil=null;
+    var closer = panel.getAttribute("data-sheet-close") || "";
     var y0=0, t0=0, dy=0, on=false, ly=0, lt=0, vel=0;
 
     panel.addEventListener("pointerdown", function(e){
@@ -5854,7 +5866,12 @@ class Component extends DCLogic {
         if(veil){ veil.style.transition = "opacity .22s " + EASE; veil.style.opacity = "0"; }
         if(self._sheetT){ clearTimeout(self._sheetT); self._sheetT=null; }
         self._sheetT = setTimeout(function(){
-          self._sheetT=null; self.setState({sheet:null, sheetOut:false});
+          self._sheetT=null;
+          if(closer==="pref") self.setState({prefSheet:null});
+          else if(closer==="acct") self.setState({acct:false});
+          else if(closer==="cal") self.setState({calId:null});
+          else if(closer==="legal") self.setState({legal:null});
+          else self.setState({sheet:null, sheetOut:false});
         }, 200);
       }else{
         panel.style.transition = "transform .34s " + EASE;
@@ -6931,7 +6948,7 @@ class Component extends DCLogic {
         var cell={n:String(d), om:false, tone:tone, hasM:!!m,
           bg: m ? (m.home ? "linear-gradient(165deg,rgba(240,198,74,.62),rgba(212,166,48,.34))" : "linear-gradient(165deg,rgba(96,152,236,.6),rgba(56,104,190,.32))") : "transparent",
           bd: isToday ? "rgba(255,255,255,.9)" : (m ? "rgba(255,255,255,.46)" : "rgba(255,255,255,.3)"),
-          opp:"", hasCrest:false, crestBg:"none", crestLabel:"", short:"", shortSize:"12px", shortSp:"-.01em", glyph:"", gcolor:"transparent", onTap:null};
+          opp:"", hasCrest:false, crestBg:"none", crestLabel:"", short:"", ko:"", shortSize:"13px", shortSp:"-.01em", glyph:"", gcolor:"transparent", onTap:null};
         if(m){
           var sl=seal(m);
           cell.glyph=sl.g; cell.gcolor=sl.c;
@@ -6939,8 +6956,9 @@ class Component extends DCLogic {
           var pu=self.prefShapeUrl(self.oppPrefOf(m));
           if(pu){ cell.hasCrest=true; cell.crestBg="url(\""+pu+"\")"; cell.crestLabel=(self.oppPrefOf(m)||"")+"の形"; cell.short=self.CITY_SHORT[m.opp]||m.opp;
             /* 3文字でも2文字と同じ大きさに見えるよう、字送りだけ詰める */
-            cell.shortSize = "15px";
-            cell.shortSp   = (cell.short.length>=3 ? "-.12em" : "-.02em"); }
+            cell.shortSize = "13px";
+            cell.shortSp   = (cell.short.length>=3 ? "-.12em" : "-.02em");
+            cell.ko = m.ko || "未定"; }
           cell.onTap=(function(id){ return function(){ self.haptic(8); self.setState({calId:id}); }; })(m.id);
         }
         cells.push(cell);
@@ -6992,7 +7010,7 @@ class Component extends DCLogic {
         var id=self.state.calId;
         self.haptic(12);
         var e={}; e[id]=1;
-        self.setState({calId:null, tab:"home", filter:"all", exp:e, justStamped:id});
+        self.setState({calId:null, tab:"home", filter:"all", exp:e, justStamped:id, backCal:id});
       }
     };
   }
@@ -7649,6 +7667,8 @@ class Component extends DCLogic {
         sealRot: self.sealTilt(m.id, r.s||"")+"deg",
         expanded: isExp,
         collapsed: !isExp,
+        showBackCal: (self.state.backCal===m.id) && isExp,
+        onBackCal: function(){ self.haptic(8); self.setState({tab:"cal", calId:m.id, backCal:null}); },
         /* クリームの札に載せる濃い文字色（壁紙と同じ対応） */
         dateInk: (function(){
           var c=self.dateTone(m);
@@ -7859,7 +7879,7 @@ class Component extends DCLogic {
           self.haptic(8);
           /* マップは毎回等倍・中央から始める */
           if(self.state.tab!==t.id) self.setState({tabSeq:(self.state.tabSeq||0)+1});
-          self.enterAgain({tab:t.id, calId:null, prefSheet:null, mapZoom:100, mapPanX:0, mapPanY:0});
+          self.enterAgain({tab:t.id, calId:null, prefSheet:null, mapZoom:100, mapPanX:0, mapPanY:0, backCal:null});
           if(self.scrollRef.current) self.scrollRef.current.scrollTop = 0;
         }
       };
