@@ -5273,7 +5273,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v123",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v129",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5612,13 +5612,13 @@ class Component extends DCLogic {
       var cyy=y+hh/2;
       var plH=hh-10, plX=x+9;
       /* チーム名を主役にするため、日付札は控えめな寸法にする */
-      var dSize=(paddingMode==="normal") ? Math.min(50, Math.round(plH*0.48)) : Math.min(30, Math.round(plH*0.39));
+      var dSize=(paddingMode==="normal") ? Math.min(58, Math.round(plH*0.56)) : Math.min(30, Math.round(plH*0.39));
       var dTxt=m.date, koTxt=(m.ko&&m.ko!=="未定")?m.ko:"未定";
       /* 正式表示は日付を控えめに（チーム名の場所を空ける） */
-      var dFont=Math.round(dSize*(paddingMode==="normal" ? 0.84 : 1.06));
+      var dFont=Math.round(dSize*(paddingMode==="normal" ? 0.94 : 1.14));
       ctx.save();
       ctx.font="800 "+dFont+"px "+GK;
-      var plW=Math.max(ctx.measureText("12/28").width, ctx.measureText(dTxt).width)+3;
+      var plW=Math.max(ctx.measureText("12/28").width, ctx.measureText(dTxt).width)+6;
       var calH=Math.min(plH, dSize*2.1), calY=cyy-calH/2;
       if(paddingMode==="normal") { calH=plH; calY=cyy-calH/2; plW+=4; }
       /* 日めくりカレンダー風の札：外枠＋クリーム地＋内罫 */
@@ -5647,8 +5647,11 @@ class Component extends DCLogic {
       ctx.restore();
 
       ctx.textAlign="center"; ctx.textBaseline="middle";
-      var inkD = (dcol==="#ffffff") ? "#2a2a2e" : (dcol==="#ff9d92" ? "#9c1f16" : "#1c86c8");
-      ctx.font="800 "+dFont+"px "+GK; ctx.fillStyle=inkD;
+      /* クリーム地でも沈まない濃さにする */
+      var inkD = (dcol==="#ffffff") ? "#191b20" : (dcol==="#ff9d92" ? "#8a1109" : "#0d4f7d");
+      /* 縁取りはやめ、濃い色と字間で読ませる */
+      ctx.font="800 "+dFont+"px "+GK;
+      ctx.fillStyle=inkD;
       ctx.fillText(dTxt, plX+plW/2, calY+calH*0.33);
       var sepY=calY+calH*0.58;
       ctx.save();
@@ -5656,7 +5659,8 @@ class Component extends DCLogic {
       ctx.beginPath(); ctx.moveTo(plX+3.5,sepY); ctx.lineTo(plX+plW-3.5,sepY); ctx.stroke();
       ctx.restore();
       var kSize=self.fitFont(ctx,koTxt,plW-8,Math.round(dSize*(paddingMode==="normal"?0.60:0.74)),8,"700",GK);
-      ctx.font="700 "+kSize+"px "+GK; ctx.fillStyle=inkD;
+      ctx.font="800 "+kSize+"px "+GK;
+      ctx.fillStyle=inkD;
       ctx.fillText(koTxt, plX+plW/2, calY+calH*0.755);
       ctx.restore();
 
@@ -5672,30 +5676,29 @@ class Component extends DCLogic {
       var sealD = Math.min(hh*0.66, 40);
       var nRoom = (x + ww - 6) - cursor - sealD*0.10;
       /* チーム名の大きさは券ごとに変えず、最長の名前が収まる寸法に揃える */
-      var nWant = Math.round(hh*0.78);
+      var nWant = Math.round(hh*(paddingMode==="normal" ? 0.66 : 0.78));
       if(self._wallNameSize == null){
         var probe = (paddingMode==="normal") ? "" : "";
         var longest = "";
         list.forEach(function(q){
           var t=(paddingMode==="normal") ? q.opp : (self.CITY_SHORT[q.opp]||q.opp);
-          ctx.font="800 "+nWant+"px "+GK;
+          ctx.font="800 "+nWant+"px "+MIN;
           if(ctx.measureText(t).width > ctx.measureText(longest).width) longest=t;
         });
         /* 省略表示は3文字を基準に揃える。正式表示は最長の名前に合わせる */
         var base = (paddingMode==="normal") ? longest
                  : (longest.length>3 ? longest.slice(0,3)+"　" : longest);
-        self._wallNameSize = self.fitFont(ctx, base, Math.max(20, nRoom), nWant, 14, "800", GK);
+        self._wallNameSize = self.fitFont(ctx, base, Math.max(20, nRoom), nWant, 14, "800", MIN);
       }
       var nSize = self._wallNameSize;
       /* 収まりきらない場合は右端を基準に置く */
-      ctx.font="800 "+nSize+"px "+GK;
+      ctx.font="800 "+nSize+"px "+MIN;
       var nX = cursor;   /* 左揃え */
-      ctx.font="800 "+nSize+"px "+GK;
       /* 濃紺の縁取りで背景から浮かせる */
       ctx.shadowColor="rgba(0,0,0,.35)"; ctx.shadowBlur=3; ctx.shadowOffsetY=1;
       ctx.lineJoin="round"; ctx.miterLimit=2;
       ctx.strokeStyle="rgba(10,18,32,.9)";
-      ctx.lineWidth=Math.max(2, nSize*0.12);
+      ctx.lineWidth=Math.max(2, nSize*0.15);
       ctx.strokeText(nm, nX, cyy);
       ctx.shadowBlur=0; ctx.shadowOffsetY=0;
       ctx.fillStyle="#ffffff";
