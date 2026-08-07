@@ -5288,7 +5288,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v131",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v133",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5612,13 +5612,20 @@ class Component extends DCLogic {
       /* うっすら地色＋枠線（HOME=金／AWAY=淡藍） */
       self.roundRect(ctx,x,y,ww,hh,R);
       /* タイトル帯と同程度まで透かし、背景写真を見せる */
-      ctx.fillStyle = home ? "rgba(84,64,14,.30)" : "rgba(18,40,84,.30)";
+      ctx.fillStyle = home ? "rgba(84,64,14,.16)" : "rgba(18,40,84,.16)";
       ctx.fill();
       ctx.save();
-      ctx.shadowColor="rgba(0,0,0,.55)"; ctx.shadowBlur=6; ctx.shadowOffsetY=2;
-      self.roundRect(ctx,x,y,ww,hh,R);
-      ctx.strokeStyle = home ? "rgba(255,224,138,1)" : "rgba(205,228,255,1)";
-      ctx.lineWidth=2.4; ctx.stroke();
+      /* 箔押し風の枠：淡金→濃金→淡金 の斜めグラデーション（HOME=金／AWAY=藍） */
+      var g2=ctx.createLinearGradient(x,y,x+ww,y+hh);
+      if(home){ g2.addColorStop(0,"#fff3c9"); g2.addColorStop(.32,"#e8bf58"); g2.addColorStop(.55,"#8a6a18");
+                g2.addColorStop(.74,"#f4d98a"); g2.addColorStop(1,"#c69b32"); }
+      else    { g2.addColorStop(0,"#eaf4ff"); g2.addColorStop(.32,"#8fc0f5"); g2.addColorStop(.55,"#2a5590");
+                g2.addColorStop(.74,"#cfe4ff"); g2.addColorStop(1,"#6ea0dc"); }
+      ctx.shadowColor="rgba(0,0,0,.6)"; ctx.shadowBlur=7; ctx.shadowOffsetY=2;
+      self.roundRect(ctx,x,y,ww,hh,R); ctx.strokeStyle=g2; ctx.lineWidth=2.8; ctx.stroke();
+      ctx.shadowBlur=0; ctx.shadowOffsetY=0;
+      self.roundRect(ctx,x+2.2,y+2.2,ww-4.4,hh-4.4,R-2);
+      ctx.strokeStyle=(home?"rgba(255,240,190,.5)":"rgba(226,241,255,.5)"); ctx.lineWidth=0.8; ctx.stroke();
       ctx.restore();
 
       /* 日めくり札 → エンブレム → 相手通称 の横並び */
@@ -8008,7 +8015,8 @@ class Component extends DCLogic {
           self.haptic(8);
           /* マップは毎回等倍・中央から始める */
           if(self.state.tab!==t.id) self.setState({tabSeq:(self.state.tabSeq||0)+1});
-          self.enterAgain({tab:t.id, calId:null, prefSheet:null, mapZoom:100, mapPanX:0, mapPanY:0, backCal:null});
+          /* 開いている画面を閉じてからタブを移す */
+          self.enterAgain({tab:t.id, calId:null, prefSheet:null, sheet:null, sheetOut:false, acct:false, legal:null, shot:null, mapZoom:100, mapPanX:0, mapPanY:0, backCal:null});
           if(self.scrollRef.current) self.scrollRef.current.scrollTop = 0;
         }
       };
@@ -8186,7 +8194,7 @@ class Component extends DCLogic {
       headerBg: "linear-gradient(180deg,rgba(14,13,10,.72),rgba(14,13,10,.82)),url('" + (this.props.headerBg || "img/header.jpeg") + "')",
       gateBg: "radial-gradient(125% 85% at 50% 34%,rgba(27,49,87,.82) 0%,rgba(18,33,61,.91) 44%,rgba(10,21,39,.975) 100%),url('" + (this.props.gateBg || "img/sched-bg.jpeg") + "')",
       gateToForgot: function(){ self.haptic(8); self.setState({gate:"forgot", gateMsg:""}); },
-      gateHasForm: g==="reg"||g==="login"||g==="forgot",
+      gateHasForm: g==="reg"||g==="login"||g==="forgot"||g==="reset",
       gateCanBack: g && g!=="pick",
       gateLead: gateLead,
       gateFields: gateFields,
@@ -8243,6 +8251,7 @@ class Component extends DCLogic {
             if(err) throw new Error(err);
             try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
             self.lsSet("vegalta-mode","cloud");
+            self._recovering = false;   /* 再設定を終えたので通常の状態に戻す */
             self.setState({gate:null, gateBusy:false, gateMsg:"", gatePass:""});
             self.toast("パスワードを更新しました");
           }).catch(function(e){ self.setState({gateBusy:false, gateMsg:"更新に失敗しました："+String(e.message||e), gateMsgOk:false}); });
