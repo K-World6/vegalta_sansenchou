@@ -3769,7 +3769,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
               <span style="font-size:15px;font-weight:800;color:{{ row.ink }};letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.opp }}</span>
             </div>
             <div style="margin-top:2px;display:flex;align-items:baseline;gap:6px;min-width:0">
-              <span style="flex:1;min-width:0;font-size:11px;font-weight:700;color:{{ row.inkSub }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">{{ row.venue }}</span>
+              <span style="flex:1;min-width:0;font-size:11px;font-weight:700;color:{{ row.haC }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .3s cubic-bezier(.32,.72,0,1)"><span style="font-weight:800;letter-spacing:.04em">{{ row.ha }}</span>{{ row.venueSep }}{{ row.venue }}</span>
             </div>
             <div style="margin-top:3px;display:flex;align-items:center;gap:7px;font-size:9.5px;font-weight:700;color:{{ row.inkSub }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
               <span style="flex:0 1 auto;min-width:0;max-width:42%;display:flex;align-items:center;gap:3px">
@@ -5105,7 +5105,11 @@ class Component extends DCLogic {
       seasons: this.SEASONS,
       onAuth: function(u){
         self.setState({user:u, syncAt:VGSync.lastSync()});
-        if(u) self.lsSet("vegalta-mode","cloud");
+        if(u){
+          self.lsSet("vegalta-mode","cloud");
+          /* 応答が返らないことがあるので、ログインが通った時点で画面を進める */
+          if(self.state.gate) self.setState({gate:null, gateBusy:false, gateMsg:"", gatePass:""});
+        }
       },
       onStatus: function(s){
         self.setState({syncState:s, syncAt:VGSync.lastSync()});
@@ -5269,7 +5273,7 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v130",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    var sig=["v131",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5593,7 +5597,7 @@ class Component extends DCLogic {
       /* うっすら地色＋枠線（HOME=金／AWAY=淡藍） */
       self.roundRect(ctx,x,y,ww,hh,R);
       /* タイトル帯と同程度まで透かし、背景写真を見せる */
-      ctx.fillStyle = home ? "rgba(84,64,14,.46)" : "rgba(18,40,84,.46)";
+      ctx.fillStyle = home ? "rgba(84,64,14,.30)" : "rgba(18,40,84,.30)";
       ctx.fill();
       ctx.save();
       ctx.shadowColor="rgba(0,0,0,.55)"; ctx.shadowBlur=6; ctx.shadowOffsetY=2;
@@ -7288,7 +7292,7 @@ class Component extends DCLogic {
   stadiumMarks(name, map){
     var self=this, marks=[];
     if(name==="宮城"){
-      marks.push({label:this.HOME_STADIUM.label, fx:this.HOME_STADIUM.fx, fy:this.HOME_STADIUM.fy, home:true});
+      marks.push({label:"ユアスタ", fx:this.HOME_STADIUM.fx, fy:this.HOME_STADIUM.fy, home:true});
       return marks;
     }
     var e=map&&map[name]; if(!e) return marks;
@@ -7555,17 +7559,28 @@ class Component extends DCLogic {
     /* 略称のラベルを、丸から離れた位置に置いて線で結ぶ */
     var fs=u*0.058, cs=fs*1.85;
     marks.forEach(function(m){
-      var w=String(m.label).length*fs*0.62+fs*0.5, h=fs*1.26;
+      /* 全角は1文字ぶん、半角は約0.55文字ぶんとして幅を見積もる */
+      var lab=String(m.label), units=0;
+      for(var ci=0; ci<lab.length; ci++){ units += (lab.charCodeAt(ci) < 0x100) ? 0.55 : 1; }
+      var w=units*fs*0.98+fs*0.44, h=fs*1.3;
       /* 引き出し線が斜めになるよう、水平・垂直に近い向きは使わない */
       var ANGS=[-38,-142,38,142,-58,-122,58,122,-22,-158,22,158];
       var best=null;
       for(var ai=0; ai<ANGS.length; ai++){
-        for(var dist=cs*1.15; dist<=cs*2.4; dist+=cs*0.35){
+        var minD = dotR*2 + Math.max(w,h)*0.5 + fs*0.5;
+        for(var dist=minD; dist<=minD+cs*2.2; dist+=cs*0.3){
           var rad=ANGS[ai]*Math.PI/180;
           var lx=m.px+Math.cos(rad)*dist, ly=m.py+Math.sin(rad)*dist;
           var r={x:lx-w/2, y:ly-h/2, w:w, h:h};
           var bad=0;
           placedRects.forEach(function(q){ bad+=overlapArea(r,q); });
+          /* 表示枠からはみ出す位置は避ける */
+          var out=0;
+          if(r.x < vb.x) out += (vb.x-r.x);
+          if(r.y < vb.y) out += (vb.y-r.y);
+          if(r.x+r.w > vb.x+vb.w) out += (r.x+r.w-(vb.x+vb.w));
+          if(r.y+r.h > vb.y+vb.h) out += (r.y+r.h-(vb.y+vb.h));
+          bad += out*u*0.6;
           if(best===null || bad<best.bad){ best={x:lx, y:ly, r:r, bad:bad}; }
           if(bad===0){ break; }
         }
@@ -7573,13 +7588,21 @@ class Component extends DCLogic {
       }
       if(!best) return;
       placedRects.push(best.r);
-      var vx=best.x-m.px, vy=best.y-m.py, vl=Math.max(1, Math.hypot(vx,vy));
-      var gap=Math.max(w,h)*0.42;
-      svg.appendChild(self.svgEl("line",{
-        x1:m.px + vx/vl*dotR*1.7, y1:m.py + vy/vl*dotR*1.7,
-        x2:best.x - vx/vl*gap,    y2:best.y - vy/vl*gap,
-        stroke:"rgba(255,255,255,.55)", "stroke-width":Math.max(0.5,u*0.006),
-        "stroke-linecap":"round"}));
+      var vx=best.x-m.px, vy=best.y-m.py, vl=Math.max(0.001, Math.hypot(vx,vy));
+      var ux=vx/vl, uy=vy/vl;
+      /* ラベルの枠の縁までの距離（向きに応じて算出） */
+      var gap = Math.min(
+        Math.abs(ux) > 1e-6 ? (w/2)/Math.abs(ux) : Infinity,
+        Math.abs(uy) > 1e-6 ? (h/2)/Math.abs(uy) : Infinity
+      ) + fs*0.16;
+      var start = dotR*1.7;
+      if(start + gap < vl - 0.5){
+        svg.appendChild(self.svgEl("line",{
+          x1:m.px + ux*start, y1:m.py + uy*start,
+          x2:m.px + ux*(vl-gap), y2:m.py + uy*(vl-gap),
+          stroke:"rgba(255,255,255,.62)", "stroke-width":Math.max(0.5,u*0.006),
+          "stroke-linecap":"round"}));
+      }
       var t=self.svgEl("text",{x:best.x, y:best.y, "text-anchor":"middle",
         "dominant-baseline":"central", fill:"#fff", "font-size":fs, "font-weight":"800",
         stroke:"rgba(6,12,24,.85)", "stroke-width":fs*0.16, "paint-order":"stroke"});
@@ -7682,6 +7705,9 @@ class Component extends DCLogic {
         crestLabel: (self.oppPrefOf(m)||"") + "の形",
         crestSize: "contain",
         venue: m.venue,
+        ha: m.home ? "HOME" : "AWAY",
+        haC: m.home ? "#f0c64a" : "#a8c8f0",
+        venueSep: m.venue ? "・" : "",
         comp: compLabel,
         tkSurf: T.surf, tkPanel: T.panel, tkStub: T.stub, accent: T.accent, tkEdge: T.edge,
         ink: T.ink, inkSub: T.inkSub, inkFaint: T.inkFaint, rule: T.rule, perf: T.perf, band: T.band,
@@ -8193,7 +8219,20 @@ class Component extends DCLogic {
             self.setState({gateBusy:false, gateMsg:"再設定リンクを送信しました。メールをご確認ください。", gateMsgOk:true});
           });
           var call = (mode==="reg") ? VGSync.signUp(em,pw) : VGSync.signIn(em,pw);
-          return call.then(function(r){
+          var guard = new Promise(function(res){
+            setTimeout(function(){ res({error:"__slow__"}); }, 12000);
+          });
+          return Promise.race([call, guard]).then(function(r){
+            if(r && r.error === "__slow__"){
+              /* すでに通っていれば進む。まだなら操作できる状態に戻す */
+              if(self.state.user){
+                self.lsSet("vegalta-mode","cloud");
+                self.setState({gate:null, gateBusy:false, gateMsg:"", gatePass:""});
+                return;
+              }
+              self.setState({gateBusy:false, gateMsg:"応答がありません。もう一度お試しください。", gateMsgOk:false});
+              return;
+            }
             if(r.error) throw new Error(r.error);
             self.lsSet("vegalta-mode","cloud");
             self.setState({gate:null, gateBusy:false, gateMsg:"", gatePass:""});
