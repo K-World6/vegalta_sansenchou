@@ -2256,7 +2256,8 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
 
   function load(){
     if(ready) return ready;
-    var timeout = new Promise(function(_,rej){ setTimeout(function(){ rej(new Error("timeout")); }, 25000); });
+    var tId = null;
+    var timeout = new Promise(function(_,rej){ tId = setTimeout(function(){ tId=null; rej(new Error("timeout")); }, 25000); });
     /* 1つのCDNが落ちてもログインできなくならないよう順に試す */
     var CDN = [
       "https://esm.sh/@supabase/supabase-js@2",
@@ -2284,7 +2285,11 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
         afterAuth();
       });
     });
-    ready = Promise.race([task, timeout]).catch(function(e){
+    ready = Promise.race([task, timeout]).then(function(v){
+      if(tId){ clearTimeout(tId); tId=null; }
+      return v;
+    }, function(e){
+      if(tId){ clearTimeout(tId); tId=null; }
       ready = null; status("offline");
       throw e;
     });
@@ -2332,15 +2337,15 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
       (res.data||[]).forEach(function(row){
         remote[row.season_id] = { records: row.records||{}, at: new Date(row.updated_at).getTime() };
       });
-      var dv = remote["__device"];
-      deviceRO = !!(dv && dv.records && dv.records.device_id && dv.records.device_id !== DEVICE_ID);
-      if(cfg && cfg.onReadonly) cfg.onReadonly(deviceRO);
+      /* 端末ロック（__device）は廃止。
+         かつては最初の端末以外を読み取り専用にしていたが、UIに一切表示されないまま
+         2台目以降の記録が黙って送信されず失われる原因になっていた。
+         整合性はシーズン単位のLWW＋試合単位マージで担保する。
+         既存の __device 行は残っていても無害（SEASONS のループでは参照されない） */
+      deviceRO = false;
+      if(cfg && cfg.onReadonly) cfg.onReadonly(false);
 
       var pushes = [], adopted = false;
-      if(!deviceRO && !(dv && dv.records && dv.records.device_id)){
-        pushes.push({ user_id:user.id, season_id:"__device",
-          records:{ device_id: DEVICE_ID }, updated_at:new Date().toISOString() });
-      }
 
       SEASONS.forEach(function(s){
         var localAt = getAt(s.key), r = remote[s.id], remoteAt = r ? r.at : 0;
@@ -2357,7 +2362,7 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
         merged = mergeRecords(localRec, remoteRec, localAt >= remoteAt);
         mergedAt = Math.max(localAt, remoteAt) || Date.now();
         if(!sameRec(merged, localRec)){ lsSet(s.key, JSON.stringify(merged)); setAt(s.key, mergedAt); adopted = true; }
-        if(!deviceRO && !sameRec(merged, remoteRec)){
+        if(!sameRec(merged, remoteRec)){
           pushes.push({ user_id:user.id, season_id:s.id, records:merged, updated_at:new Date(mergedAt).toISOString() });
         }
       });
@@ -2370,7 +2375,6 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
         : { data:null, error:null };
     }).then(function(res){
       if(res && res.error) throw res.error;
-      if(deviceRO) return { data:null, error:null };
       var contribs = (cfg && cfg.buildContributions) ? cfg.buildContributions() : [];
       if(!contribs.length) return { data:null, error:null };
       var nowIso = new Date().toISOString();
@@ -2385,7 +2389,7 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
     }).then(function(res2){
       if(res2 && res2.error) console.warn("[community]", res2.error);
       var gid = (cfg && cfg.activeGroupId) ? cfg.activeGroupId() : "";
-      if(deviceRO || !gid) return { data:null, error:null };
+      if(!gid) return { data:null, error:null };
       return writeMyPlans(gid);
     }).then(function(res3){
       if(res3 && res3.error) console.warn("[group]", res3.error);
@@ -3588,7 +3592,10 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
 </style>
 <style>
 *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
-:root{--pop:linear(0, 0.0348, 0.1184, 0.2265, 0.3429, 0.4567, 0.5617, 0.6544, 0.7337, 0.7996, 0.853, 0.8953, 0.9281, 0.9529, 0.9711, 0.9842, 0.9933, 0.9993, 1.003, 1.0051, 1.0061, 1.0063, 1.006, 1.0054, 1.0047, 1.004, 1)}
+:root{--pop:cubic-bezier(.32,.72,0,1)}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root{--pop:linear(0, 0.0348, 0.1184, 0.2265, 0.3429, 0.4567, 0.5617, 0.6544, 0.7337, 0.7996, 0.853, 0.8953, 0.9281, 0.9529, 0.9711, 0.9842, 0.9933, 0.9993, 1.003, 1.0051, 1.0061, 1.0063, 1.006, 1.0054, 1.0047, 1.004, 1)}
+}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
@@ -3750,7 +3757,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <sc-for list="{{ rows }}" as="row" hint-placeholder-count="6">
       <article style="flex:none;position:relative;display:flex;flex-direction:column;background:transparent">
-        <div style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:{{ row.liftSh }};transform:{{ row.lift }};transform-origin:center top;transition:transform .46s var(--pop),box-shadow .4s cubic-bezier(.32,.72,0,1);-webkit-mask-image:{{ row.tkMask }};-webkit-mask-size:{{ row.tkMaskSize }};-webkit-mask-repeat:{{ row.tkMaskRepeat }};-webkit-mask-composite:source-in;mask-image:{{ row.tkMask }};mask-size:{{ row.tkMaskSize }};mask-repeat:{{ row.tkMaskRepeat }};mask-composite:intersect;transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+        <div style="position:relative;flex:none;width:100%;display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:13px;text-shadow:0 1px 2px rgba(0,0,0,.42);background-image:{{ row.tkSurf }};box-shadow:{{ row.liftSh }};transform:{{ row.lift }};transform-origin:center top;-webkit-mask-image:{{ row.tkMask }};-webkit-mask-size:{{ row.tkMaskSize }};-webkit-mask-repeat:{{ row.tkMaskRepeat }};-webkit-mask-composite:source-in;mask-image:{{ row.tkMask }};mask-size:{{ row.tkMaskSize }};mask-repeat:{{ row.tkMaskRepeat }};mask-composite:intersect;transition:transform .46s var(--pop),box-shadow .4s cubic-bezier(.32,.72,0,1),background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1)">
 
         <sc-if value="{{ row.hasCrest }}" hint-placeholder-val="{{ false }}">
           <span role="img" aria-label="{{ row.crestLabel }}" style="position:absolute;top:50%;margin-top:-31px;height:62px;right:73px;width:120px;background-image:{{ row.crestBg }};background-size:{{ row.crestSize }};background-position:center;background-repeat:no-repeat;pointer-events:none;filter:grayscale(1) contrast(.92) brightness(1.06);opacity:.4;mix-blend-mode:luminosity"></span>
@@ -4503,7 +4510,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
           <button sc-camel-on-click="{{ prefClose }}" style="flex:none;height:30px;padding:0 11px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.84);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer">閉じる</button>
         </div>
         <div ref="{{ prefShapeRef }}" style="flex:none;height:200px;margin-top:9px;border-radius:14px;background:rgba(5,9,17,.34);border:1px solid rgba(255,255,255,.1);overflow:hidden"></div>
-        <div style="flex:1;min-height:0;display:flex;flex-direction:column;margin-top:12px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain">
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;margin-top:12px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y">
           <sc-for list="{{ ps.rows }}" as="pr" hint-placeholder-count="3">
             <div style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:.5px solid rgba(255,255,255,.09)">
               <span style="flex:none;position:relative;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background-image:{{ pr.sFill }};box-shadow:inset 0 0 0 .5px {{ pr.sRing }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
@@ -4541,7 +4548,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
       <div data-sheet-panel="1" style="position:relative;margin:10px;padding:10px 10px 14px;border-radius:30px;background:linear-gradient(170deg,rgba(30,44,72,.92),rgba(12,20,36,.94));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:{{ sheetAnim }};max-height:72%;display:flex;flex-direction:column">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 10px;touch-action:none"></div>
         <div style="flex:none;padding:0 8px 10px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em;touch-action:none">{{ sheetTitle }}</div>
-        <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:5px">
+        <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:5px;touch-action:pan-y">
           <sc-for list="{{ sheetItems }}" as="it" hint-placeholder-count="5">
             <button sc-camel-on-click="{{ it.onTap }}" style="display:flex;align-items:center;gap:10px;min-height:50px;padding:0 14px;border-radius:17px;background:{{ it.bg }};border:1px solid {{ it.bd }};color:#fff;font-size:14.5px;font-weight:600;font-family:inherit;text-align:left;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.975);transition:transform .09s cubic-bezier(.32,.72,0,1)">
               <span style="flex:1">{{ it.label }}</span>
@@ -4568,7 +4575,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
           <button sc-camel-on-click="{{ closeAcct }}" style="flex:none;height:30px;padding:0 14px;white-space:nowrap;border-radius:11px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.82);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">閉じる</button>
         </div>
 
-        <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:9px;padding-top:11px">
+        <div style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:9px;padding-top:11px;touch-action:pan-y">
           <section style="padding:12px 13px 13px;border-radius:18px;background:linear-gradient(rgba(255,255,255,.055),rgba(255,255,255,.055));border:1px solid rgba(255,255,255,.1)">
             <div style="display:flex;align-items:baseline;gap:7px">
               <span style="font-size:12.5px;font-weight:800;color:#ffe9ac;letter-spacing:.04em">端末間同期</span>
@@ -5053,13 +5060,13 @@ class Component extends DCLogic {
       mapZoom: 100, mapPanX: 0, mapPanY: 0, tabSeq: 0, sheetOut: false, shot: null,
       commView: "group",
       commTab: "visitors",
-      wall: {filter:true, density:"normal", result:true, title:true},
+      /* filter / title のトグルはUIが存在しないため状態からも削除（壁紙は常にヘッダーの絞り込みに追従） */
+      wall: {density:"normal", result:true},
       grp: {list:[], viewId:null, nick:"", onboard:false, memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""},
       justStamped: null,
       acct: false,
       legal: null,
-      nick: this.ls("vegalta-nickname") || "",
-      clock: this.now()
+      nick: this.ls("vegalta-nickname") || ""
     };
   }
 
@@ -5067,8 +5074,10 @@ class Component extends DCLogic {
   ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
   /* Supabaseのセッションが端末に残っていれば「ログイン中」として復帰させる */
   hasCloudSession(){
+    /* 実セッション（sb-*-auth-token）だけを見る。
+       vegalta-last-uid はアカウント切替検出用に残る値で、
+       これを根拠に同期プログラムを読み込むとログアウト後も外部通信が発生してしまう */
     try{
-      if(this.ls("vegalta-last-uid")) return true;
       for(var i=0;i<localStorage.length;i++){ if(/^sb-.*-auth-token$/.test(localStorage.key(i))) return true; }
     }catch(e){}
     return false;
@@ -5173,6 +5182,8 @@ class Component extends DCLogic {
     this._touch = this.onTouchFx.bind(this);
     document.addEventListener("pointerdown", this._touch, {passive:true});
     this.bindViewport();
+    /* 初回の componentDidUpdate はカウントアップでスキップされ得るため、ここで一度採寸しておく */
+    this.fitTop();
     this.bindDebug();
     if(this.props.demoFill){ this._demoOn=true; this.setState({rec:this.demoRec()}); }
     this.runCount(1800);
@@ -5185,18 +5196,32 @@ class Component extends DCLogic {
     if(recovering){
       this._recovering = true;
       this.setState({gate:"reset", gateMsg:""});
-      var pr=this.initSync(); if(pr && pr.catch) pr.catch(function(){});
-      /* 一度受け取ったら住所欄を綺麗にする（再読み込みで再発しないように） */
-      try{
-        if(window.history && history.replaceState){
-          history.replaceState(null, "", location.pathname);
-        }
-      }catch(e){}
-    } else if((this.ls("vegalta-mode")==="cloud" || this.hasCloudSession()) && !this.props.demoFill){
+      /* URLの掃除は、同期プログラムが ?code= / #access_token を読み終えてから行う。
+         先に消すと exchangeCodeForSession が走れず、再設定が必ず失敗する */
+      var cleanUrl=function(){
+        try{
+          if(window.history && history.replaceState){
+            history.replaceState(null, "", location.pathname);
+          }
+        }catch(e){}
+      };
+      var pr=this.initSync();
+      if(pr && pr.then) pr.then(cleanUrl, cleanUrl); else cleanUrl();
+    } else if((this.ls("vegalta-mode")==="cloud" || (this.ls("vegalta-mode")!=="local" && this.hasCloudSession())) && !this.props.demoFill){
       var p=this.initSync(); if(p && p.catch) p.catch(function(){});
     }
   }
   componentDidUpdate(prevProps){
+    /* カウントアップ（runCount）の毎フレーム setState では、
+       getBoundingClientRect と style 書き込みが交互に走る重い処理を全てスキップする。
+       軽い配線（__vg フラグで冪等）だけは維持する */
+    if(this._animOnly){
+      this._animOnly=false;
+      this.bindScrollFx();
+      this.bindHeaderTap();
+      this.bindSheetDrag();
+      return;
+    }
     this.syncDemo(prevProps);
     this.paintMaps(); this.drawWall();
     this.pumpCloud();
@@ -5288,7 +5313,8 @@ class Component extends DCLogic {
     var cv=this.wallRef.current; if(!cv) return;
     var w=this.state.wall;
     var list=this.filtered(this.matches());
-    var sig=["v133",w.density,w.result,w.title,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec).length].join("|");
+    /* .length だと「◎→○」のような同じ文字数の変更を取りこぼすため、内容そのものを署名にする */
+    var sig=["v135",w.density,w.result,(w.stamp!==false),list.length,this.state.seasonId,this.state.filter,JSON.stringify(this.state.rec)].join("|");
     if(cv.__sig===sig) return;
     cv.__sig=sig;
     var self=this;
@@ -5806,9 +5832,11 @@ class Component extends DCLogic {
       if(t0===null) t0=ts;
       var p=Math.min(1,(ts-t0)/D);
       var e=1-Math.pow(1-p,3);
+      self._animOnly=true;              /* この更新はカウントアップの数値だけ */
       self.setState({animT:e});
       if(p<1) self._raf=requestAnimationFrame(step);
     };
+    this._animOnly=true;
     this.setState({animT:0});
     this._raf=requestAnimationFrame(step);
   }
@@ -5817,7 +5845,11 @@ class Component extends DCLogic {
     return Math.round((Number(v)||0)*t);
   }
   componentWillUnmount(){
-    clearInterval(this._t);
+    clearTimeout(this._toast);
+    clearTimeout(this._enter);
+    clearTimeout(this._mapWait);
+    if(this._raf) cancelAnimationFrame(this._raf);
+    if(this._fitRaf) cancelAnimationFrame(this._fitRaf);
     if(this._sheetT) clearTimeout(this._sheetT);
     document.removeEventListener("pointerdown", this._touch);
     if(this._focIn) document.removeEventListener("focusin", this._focIn);
@@ -5844,12 +5876,11 @@ class Component extends DCLogic {
     var self=this, veil = panel.previousElementSibling;
     if(veil && veil.tagName!=="DIV") veil=null;
     var closer = panel.getAttribute("data-sheet-close") || "";
-    /* つまみの帯は指の動きをこちらで受け取る。中の一覧は縦スクロールを許す */
+    /* つまみの帯は指の動きをこちらで受け取る。
+       中の一覧の touch-action:pan-y はマークアップ側で宣言する
+       （全ノード走査＋getComputedStyle は開くたびのコストが大きく、
+        後から差し込まれた子ノードに反映されない問題もあった） */
     panel.style.touchAction = "none";
-    panel.querySelectorAll("*").forEach(function(n){
-      var ov = getComputedStyle(n).overflowY;
-      if(ov === "auto" || ov === "scroll") n.style.touchAction = "pan-y";
-    });
     var y0=0, t0=0, dy=0, on=false, ly=0, lt=0, vel=0;
 
     panel.addEventListener("pointerdown", function(e){
@@ -6109,7 +6140,7 @@ class Component extends DCLogic {
     var self=this;
     this._fit = function(){
       if(self._fitRaf) cancelAnimationFrame(self._fitRaf);
-      self._fitRaf = requestAnimationFrame(function(){ self.fitViewport(); self.fitTop(); self.fitBottom(); });
+      self._fitRaf = requestAnimationFrame(function(){ self.fitViewport(); self.guardShell(); self.fitTop(); self.fitBottom(); });
     };
     this._focIn = function(e){
       var t=e.target;
@@ -6147,20 +6178,20 @@ class Component extends DCLogic {
     if(t.closest("input")) return;
     var host = t.closest("button,[role=button],a");
     if(!host) return;
-    /* 既存の transition（バネの戻り）を潰さないよう、後ろに足すだけにする */
-    var prev = host.style.transition || "";
+    /* 既存の transition（バネの戻り）を潰さないよう、後ろに足すだけにする。
+       連打時に「追記済みの値」を元値として拾ってしまい transition が累積する問題があったため、
+       元値はノードごとに1回だけ退避する */
+    if(host.__vgFxT){ clearTimeout(host.__vgFxT); }
+    else { host.__vgFxPrev = host.style.transition || ""; }
+    var prev = host.__vgFxPrev || "";
     host.style.transition = (prev ? prev + ", " : "") + "opacity .1s cubic-bezier(.32,.72,0,1)";
     host.style.opacity = ".82";
-    setTimeout(function(){
+    host.__vgFxT = setTimeout(function(){
       host.style.opacity = "";
       host.style.transition = prev;
+      host.__vgFxT = null;
     }, 120);
   }
-  now(){
-    var d = new Date();
-    return d.getHours() + ":" + ("0"+d.getMinutes()).slice(-2);
-  }
-
   haptic(ms){
     if(this.props.haptics === false) return;
     try{ if(navigator.vibrate) navigator.vibrate(ms||8); }catch(e){}
@@ -6331,11 +6362,13 @@ class Component extends DCLogic {
   loadCloudGroups(force){
     if(!window.VGSync || !this.state.user) return;
     if(this._grpLoading){ if(force) this._grpPending=true; return; }
-    if(!force && this._grpLoaded) return;
+    /* セッション中も 60 秒ごとに再取得する（以前は初回のみで、仲間の変更が反映されなかった） */
+    if(!force && this._grpLoaded && Date.now()-(this._grpAt||0) < 60000) return;
     this._grpLoading = true; this._grpLoaded = true;
     var self=this;
     var done=function(){
       self._grpLoading=false;
+      self._grpAt=Date.now();
       if(self._grpPending){ self._grpPending=false; self.loadCloudGroups(true); }
     };
     VGSync.myGroups().then(function(res){
@@ -6356,8 +6389,8 @@ class Component extends DCLogic {
   }
   loadGroupDetail(gid){
     if(!window.VGSync || !this.state.user || !gid) return;
-    if(this._detailFor===gid) return;
-    this._detailFor=gid;
+    if(this._detailFor===gid && Date.now()-(this._detailAt||0) < 60000) return;
+    this._detailFor=gid; this._detailAt=Date.now();
     var self=this;
     Promise.all([VGSync.groupMembers(gid), VGSync.groupPlans(gid)]).then(function(rs){
       var mem=(rs[0]&&rs[0].members)||[], rows=(rs[1]&&rs[1].rows)||[];
@@ -6461,13 +6494,6 @@ class Component extends DCLogic {
         self.toast("グループに参加しました");
       },
       openPicker: function(){ self.haptic(8); self.openSheet("group"); },
-      select: function(e){
-        self.haptic(8);
-        var gid=e.target.value;
-        self._detailFor=null;
-        self.gset({viewId:gid, memOpen:false, renameOpen:false}, true);
-        if(cloud) self.loadGroupDetail(gid);
-      },
       newGroup: function(){ self.haptic(8); self.gset({onboard:true, errC:"", errJ:""}); },
       back: function(){ self.haptic(8); self.gset({onboard:false}); },
       copy: function(){
@@ -6571,7 +6597,8 @@ class Component extends DCLogic {
     vals.rows=this.matches().map(function(m){
       var mems=[];
       var mine=(rec[m.id]||{}).s;
-      if(mine) mems.push({nm:(myNick||"あなた"), s:mine, me:true});
+      var myUid=(self.state.user&&self.state.user.id)||null;
+      if(mine) mems.push({nm:(myNick||"あなた"), s:mine, me:true, uid:myUid});
       if(cloud){
         var sid=self.state.seasonId;
         var rows2=(cur.plans&&(cur.plans[sid+"|"+m.id]||cur.plans[m.id]))||[];
@@ -6579,22 +6606,23 @@ class Component extends DCLogic {
         rows2.forEach(function(r){
           var k=r.user_id||("n:"+r.nickname);
           if(seen[k]) return; seen[k]=true;
-          if(r.user_id && self.state.user && r.user_id===self.state.user.id) return; /* 自分は上で追加済み */
-          if(r.status) mems.push({nm:r.nickname||"(名前未設定)", s:r.status, me:false});
+          if(r.user_id && myUid && r.user_id===myUid) return; /* 自分は上で追加済み */
+          if(r.status) mems.push({nm:r.nickname||"(名前未設定)", s:r.status, me:false, uid:r.user_id||null});
         });
       }
-      /* まだ答えていない仲間も出す */
+      /* まだ答えていない仲間も出す（重複判定は user_id 基準。同名メンバーが消えないように） */
       if(cloud && cur && cur.members){
         var answered={};
-        mems.forEach(function(x){ answered[x.nm]=true; });
+        mems.forEach(function(x){ answered[x.uid||("n:"+x.nm)]=true; });
         cur.members.forEach(function(mb){
           var nm = mb.nickname || mb.nm || "(名前未設定)";
-          var isMe = (mb.user_id && self.state.user && mb.user_id===self.state.user.id);
+          var isMe = (mb.user_id && myUid && mb.user_id===myUid);
           if(isMe && mine) return;
           if(isMe) nm = myNick || "あなた";
-          if(answered[nm]) return;
-          answered[nm]=true;
-          mems.push({nm:nm, s:"", me:!!isMe});
+          var key = mb.user_id || ("n:"+nm);
+          if(answered[key]) return;
+          answered[key]=true;
+          mems.push({nm:nm, s:"", me:!!isMe, uid:mb.user_id||null});
         });
       }
       var going=mems.filter(function(x){ return x.s==="◎"||x.s==="○"; }).length;
@@ -7168,19 +7196,15 @@ class Component extends DCLogic {
         };
       }),
       wallGap: dens.gap+"px",
-      wallShowTitle: w.title,
       wallCount: list.length+"試合",
-      wallFilterOn: w.filter, wallResultOn: w.result, wallStampOn: (w.stamp!==false),
-      wallFilterKnob: w.filter ? "translateX(20px)" : "translateX(0)",
+      wallResultOn: w.result, wallStampOn: (w.stamp!==false),
       wallResultKnob: w.result ? "translateX(20px)" : "translateX(0)",
       wallStampKnob: (w.stamp!==false) ? "translateX(20px)" : "translateX(0)",
-      wallFilterTrack: w.filter ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallResultTrack: w.result ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallStampTrack: (w.stamp!==false) ? "rgba(240,198,74,.5)" : "rgba(255,255,255,.09)",
       wallToggleStamp: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.stamp=(n.stamp===false); return {wall:n}; }); },
       wallDensity: w.density,
-      wallSwitch: function(k){ return function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n[k]=!n[k]; return {wall:n}; }); }; },
-      wallToggleFilter: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.filter=!n.filter; return {wall:n}; }); },
+      wallToggleResult: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.result=!n.result; return {wall:n}; }); },
       wallToggleResult: function(){ self.haptic(8); self.setState(function(st){ var n={}; for(var q in st.wall) n[q]=st.wall[q]; n.result=!n.result; return {wall:n}; }); },
       wallDens: [{k:"spacious",lbl:"省略"},{k:"normal",lbl:"正式"}].map(function(d){
         var on = w.density===d.k;
@@ -7196,12 +7220,7 @@ class Component extends DCLogic {
         try{
           cv.toBlob(function(b){
             if(!b){ self.toast("画像の生成に失敗しました"); return; }
-            var a=document.createElement("a");
-            a.href=URL.createObjectURL(b);
-            a.download="vegalta-schedule.png";
-            document.body.appendChild(a); a.click(); a.remove();
-            setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
-            self.toast("壁紙を保存しました");
+            self.saveBlob(b, "vegalta-schedule.png", "壁紙を保存しました");
           }, "image/png");
         }catch(e){ self.toast("画像の生成に失敗しました"); }
       }
@@ -7214,12 +7233,15 @@ class Component extends DCLogic {
     if(this.state.tab!=="comm" || this.state.commView!=="social") return;
     var want = this.state.scope==="all" ? "__all" : this.state.seasonId;
     if(this._commWant===want) return;
+    /* 失敗直後は componentDidUpdate のたびに再試行しない（オフライン時のリクエスト連射防止） */
+    if(this._commErrAt && Date.now()-this._commErrAt < 15000) return;
     this._commWant = want;
     var self=this;
     VGSync.fetchCommunity(want).then(function(res){
-      if(res && res.error){ self._commWant=null; return; }
+      if(res && res.error){ self._commWant=null; self._commErrAt=Date.now(); return; }
+      self._commErrAt=0;
       self.setState({commData:res});
-    }).catch(function(){ self._commWant=null; });
+    }).catch(function(){ self._commWant=null; self._commErrAt=Date.now(); });
   }
 
   /* ══ コミュニティ ══ */
@@ -7359,6 +7381,22 @@ class Component extends DCLogic {
     el.__vgMapBound=true;
     var self=this, pts={}, base=null;
 
+    /* ジェスチャー中は setState せず transform を直接書き、離した瞬間に1回だけ確定する。
+       毎フレームの再レンダー＋地図の再ペイントがズームのカクつきの主因だったため */
+    function cur(){ return self._mapPend || {z:self.state.mapZoom, x:self.state.mapPanX, y:self.state.mapPanY}; }
+    function paintNow(z,x,y){
+      self._mapPend={z:z, x:x, y:y};
+      var node=self.mapRef && self.mapRef.current;
+      if(node){
+        node.style.transition="none";
+        node.style.transform="translate("+x+"px,"+y+"px) scale("+(z/100)+")";
+      }
+    }
+    function commit(){
+      var pd=self._mapPend; self._mapPend=null;
+      if(pd) self.setState({mapZoom:pd.z, mapPanX:pd.x, mapPanY:pd.y});
+    }
+
     function keys(){ return Object.keys(pts); }
     function focus(){
       var k=keys(), b=self.mapBox();
@@ -7371,9 +7409,9 @@ class Component extends DCLogic {
     }
     function begin(){
       var f=focus(); if(!f){ base=null; return; }
-      var s0=self.state.mapZoom/100;
-      base={z:self.state.mapZoom, d:f.d,
-            cx:(f.x-self.state.mapPanX)/s0, cy:(f.y-self.state.mapPanY)/s0};
+      var c0=cur(), s0=c0.z/100;
+      base={z:c0.z, d:f.d,
+            cx:(f.x-c0.x)/s0, cy:(f.y-c0.y)/s0};
     }
 
     el.addEventListener("pointerdown", function(e){
@@ -7381,7 +7419,7 @@ class Component extends DCLogic {
       pts[e.pointerId]={x:e.clientX, y:e.clientY};
       self._mapMoved=0;
       /* 等倍のときの1本指はページスクロールに任せる */
-      if(keys().length===1 && self.state.mapZoom<=100){ base=null; return; }
+      if(keys().length===1 && cur().z<=100){ base=null; return; }
       try{ el.setPointerCapture(e.pointerId); }catch(_){}
       begin();
     });
@@ -7396,14 +7434,14 @@ class Component extends DCLogic {
       if(keys().length>=2 && base.d>0) z=Math.max(100, Math.min(400, Math.round(base.z*(f.d/base.d))));
       var s=z/100, c=self.mapClamp(z, f.x-base.cx*s, f.y-base.cy*s);
       self._mapGesturing=true;
-      self.setState({mapZoom:z, mapPanX:c.x, mapPanY:c.y});
+      paintNow(z, c.x, c.y);
     });
 
     function release(e){
       if(!pts[e.pointerId]) return;
       delete pts[e.pointerId];
       try{ el.releasePointerCapture(e.pointerId); }catch(_){}
-      if(keys().length===0){ base=null; self._mapGesturing=false; }
+      if(keys().length===0){ base=null; self._mapGesturing=false; commit(); }
       else begin();
     }
     el.addEventListener("pointerup", release);
@@ -7424,6 +7462,41 @@ class Component extends DCLogic {
     }, {passive:false});
   }
 
+  /* iOSのホーム画面PWAでは a.download＋blob URL が動かない端末があるため、
+     共有シート（Web Share Level 2 / files）が使えるときはそちらを優先する。
+     使えない環境では従来どおりダウンロードリンクにフォールバックする */
+  saveBlob(b, name, okMsg){
+    var self=this;
+    try{
+      if(navigator.share && navigator.canShare && typeof File==="function"){
+        var f=new File([b], name, {type:b.type||"image/png"});
+        if(navigator.canShare({files:[f]})){
+          navigator.share({files:[f]})
+            .then(function(){ self.toast(okMsg); })
+            .catch(function(){ /* 共有キャンセル時は何もしない */ });
+          return;
+        }
+      }
+    }catch(e){}
+    try{
+      var a=document.createElement("a");
+      a.href=URL.createObjectURL(b);
+      a.download=name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ try{ URL.revokeObjectURL(a.href); }catch(_){} }, 4000);
+      self.toast(okMsg);
+    }catch(e){ self.toast("画像の保存に失敗しました"); }
+  }
+  dataUrlToBlob(u){
+    try{
+      var p=String(u||"").split(",");
+      var mime=(/data:([^;]+)/.exec(p[0])||[])[1]||"image/png";
+      var bin=atob(p[1]||"");
+      var arr=new Uint8Array(bin.length);
+      for(var i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+      return new Blob([arr], {type:mime});
+    }catch(e){ return null; }
+  }
   /* マップをPNGに書き出す（SVG→canvas） */
   saveMapPng(){
     var self=this, el=this.mapRef&&this.mapRef.current;
@@ -7684,16 +7757,27 @@ class Component extends DCLogic {
     if(this.state.tab==="map"){
       this.bindMapGestures();
       var map=this._prefMap||{};
-      mount(this.mapRef, function(name){
-        var e=map[name];
-        return self.PREF_STATUS_COLOR[e?e.st:"none"];
-      });
-      this.paintStadiums(map);
+      /* 塗り分けの入力が前回と同じなら、47都道府県の再ペイントとマーカー層の再構築をスキップ */
+      var sigM="m|"+this.state.scope+"|"+this.state.seasonId+"|"
+        +Object.keys(map).sort().map(function(k){ return k+":"+map[k].st+":"+map[k].matches.length; }).join(",");
+      var elM=this.mapRef && this.mapRef.current;
+      if(!elM || elM.__vgPaintSig!==sigM){
+        mount(this.mapRef, function(name){
+          var e=map[name];
+          return self.PREF_STATUS_COLOR[e?e.st:"none"];
+        });
+        this.paintStadiums(map);
+        if(elM) elM.__vgPaintSig=sigM;
+      }
     }
     this.paintPrefShape();
     if(this.state.tab==="comm" && this.state.commView==="social"){
       var h=this._heat||{rows:[],max:1};
       var byName={}; h.rows.forEach(function(r){ byName[r.name]=r; });
+      var sigH="h|"+h.key+"|"+h.max+"|"+h.rows.map(function(r){ return r[h.key]; }).join(",");
+      var elH=this.heatRef && this.heatRef.current;
+      if(elH && elH.__vgPaintSig===sigH) return;
+      if(elH) elH.__vgPaintSig=sigH;
       mount(this.heatRef, function(name){
         var r=byName[name]; if(!r || !r[h.key]) return "rgba(255,255,255,.07)";
         var t=Math.pow(r[h.key]/h.max, .6);
@@ -7882,9 +7966,9 @@ class Component extends DCLogic {
           };
         }),
         costs: [["移動","ct","交通費"],["宿","cl","宿泊費"],["その他","co","チケット・飲食・グッズ"]].map(function(cf){
-          var v = self.costNum(r[cf[1]]);
+          var raw = (r[cf[1]]==null) ? "" : String(r[cf[1]]);
           return {
-            label: cf[0], ph: "0", value: v ? String(v) : "",
+            label: cf[0], ph: "0", value: raw,
             onInput: function(ev){
               var patch = {}; patch[cf[1]] = ev.target.value.replace(/[^0-9]/g,"").slice(0,8);
               self.setField(m.id, patch);
@@ -8034,7 +8118,6 @@ class Component extends DCLogic {
     var titles = {dash:"成績サマリー", cal:"カレンダー", map:"参戦マップ", cost:"支出管理", wall:"壁紙生成", comm:"コミュニティ", home:"参戦帳"};
 
     var out = {
-      clock: this.state.clock,
       rows: rows,
       isHome: tb==="home",
       isDash: tb==="dash",
@@ -8067,6 +8150,8 @@ class Component extends DCLogic {
       closeShot: function(){ self.haptic(6); self.setState({shot:null}); },
       shotDownload: function(){
         self.haptic(8);
+        var b=self.dataUrlToBlob(self.state.shot);
+        if(b){ self.saveBlob(b, "vegalta-map.png", "画像を保存しました"); return; }
         try{
           var a=document.createElement("a");
           a.href=self.state.shot; a.download="vegalta-map.png";
@@ -8115,7 +8200,7 @@ class Component extends DCLogic {
           self.lsSet("vegalta-mode","local");
           try{ localStorage.removeItem(self.GKEY()); }catch(e){}
           try{ localStorage.removeItem(self.NKEY()); }catch(e){}
-          self.setState({user:null, acct:false, commData:null, rec:{}, gate:"pick", nickDraft:"",
+          self.setState({user:null, acct:false, commData:null, rec:{}, gate:"pick", nick:"",
             grp:{list:[], viewId:null, nick:"", onboard:false,
               memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""}});
           self.toast("アカウントを削除しました");
@@ -8133,7 +8218,7 @@ class Component extends DCLogic {
           try{ localStorage.removeItem(self.NKEY()); }catch(e){}
           self.setState({
             user:null, acct:false, syncState:null, commData:null, legal:null, sheet:null, sheetOut:false,
-            gate:"pick", gateMsg:"", gateEmail:"", gatePass:"", nickDraft:"",
+            gate:"pick", gateMsg:"", gateEmail:"", gatePass:"", nick:"",
             grp:{list:[], viewId:null, nick:"", onboard:false,
               memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""}
           });
