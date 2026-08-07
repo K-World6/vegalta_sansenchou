@@ -4454,7 +4454,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </main>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-  <div style="position:absolute;right:10px;bottom:calc(88px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
+  <div style="position:absolute;right:10px;bottom:calc(74px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
     <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;min-width:118px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
     <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 14.5 12 8l7 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -5972,8 +5972,7 @@ class Component extends DCLogic {
     var m = this.scrollRef && this.scrollRef.current;
     if(!m || !m.parentElement) return;
     var self=this, shell=m.parentElement, f=!!this._folded, e=shell.style;
-    var atStart=!f && m.scrollTop<1;
-    var foldMode=f ? "folded" : (atStart ? "start" : "open");
+    var foldMode=f ? "folded" : "open";
     var changed=this._paintedFold!==foldMode;
     this._paintedFold=foldMode;
     e.setProperty("--h1", f ? "0px" : "34px");
@@ -5981,11 +5980,9 @@ class Component extends DCLogic {
     e.setProperty("--p1", f ? "none" : "auto");
     e.setProperty("--m2", f ? "0px" : "6px");
     e.setProperty("--hrad", f ? "11px" : "20px");
-    var cv=atStart
-      ? {c1:"0px",c2:"0px",c3:"0px",c4:"0px",c5:"0px",x2:"13px",x3:"14px",x4:"16px",x5:"19px",x6:"23px"}
-      : (f
-        ? {c1:"11px",c2:"6.4px",c3:"4.7px",c4:"2.4px",c5:".8px",x2:"13px",x3:"14px",x4:"16px",x5:"19px",x6:"23px"}
-        : {c1:"20px",c2:"8.7px",c3:"8px",c4:"4px",c5:"1.3px",x2:"14px",x3:"16px",x4:"20px",x5:"25px",x6:"32px"});
+    var cv=f
+      ? {c1:"11px",c2:"6.4px",c3:"4.7px",c4:"2.4px",c5:".8px",x2:"13px",x3:"14px",x4:"16px",x5:"19px",x6:"23px"}
+      : {c1:"20px",c2:"8.7px",c3:"8px",c4:"4px",c5:"1.3px",x2:"14px",x3:"16px",x4:"20px",x5:"25px",x6:"32px"};
     for(var ck in cv) m.style.setProperty("--clip-"+ck,cv[ck]);
     if(!changed) return;
     var hd=shell.querySelector("header");
@@ -5994,7 +5991,7 @@ class Component extends DCLogic {
     var started=performance.now();
     var syncClip=function(now){
       var top=shell.getBoundingClientRect().top;
-      var need=Math.round(hd.getBoundingClientRect().bottom-top)+(atStart?12:0);
+      var need=Math.round(hd.getBoundingClientRect().bottom-top);
       if(isFinite(need) && need>=40) m.style.setProperty("--clipt",need+"px");
       if(now-started<420) self._foldClipRaf=requestAnimationFrame(syncClip);
       else self._foldClipRaf=0;
@@ -6069,7 +6066,7 @@ class Component extends DCLogic {
     if(!isFinite(need) || need < 40) return;
     var v = need + "px";
     if(m.style.getPropertyValue("--padt") !== v) m.style.setProperty("--padt", v);
-    var clipNeed = m.scrollTop<1 ? need : Math.round(hd.getBoundingClientRect().bottom - st);
+    var clipNeed = Math.round(hd.getBoundingClientRect().bottom - st);
     var clipV = clipNeed + "px";
     if(m.style.getPropertyValue("--clipt") !== clipV) m.style.setProperty("--clipt", clipV);
     var shell = m.parentElement;
