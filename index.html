@@ -3706,7 +3706,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
 
   <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:var(--edge, 118px);z-index:29;pointer-events:none;background:linear-gradient(to bottom,rgba(5,9,17,var(--eg,0)),rgba(5,9,17,calc(var(--eg,0) * .55)) 55%,rgba(5,9,17,0) 100%)"></div>
 
-  <header style="position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top, 0px) + 4px);z-index:30;padding:7px 11px 7px;border-radius:var(--hrad,20px);overflow:hidden;transition:border-radius .34s cubic-bezier(.32,.72,0,1);background:linear-gradient(165deg,rgba(255,255,255,var(--hg1,.17)),rgba(255,255,255,var(--hg2,.065)));backdrop-filter:blur(var(--hbl,32px)) saturate(190%);-webkit-backdrop-filter:blur(var(--hbl,32px)) saturate(190%);border:1px solid rgba(255,255,255,var(--hb,.22));box-shadow:inset 0 0 0 .5px rgba(255,255,255,.16),inset 0 1.4px 0 rgba(255,255,255,var(--hr,.52)),inset 0 8px 18px -10px rgba(255,255,255,.18)">
+  <header style="position:absolute;left:12px;right:12px;top:env(safe-area-inset-top, 0px);z-index:30;padding:7px 11px 7px;border-radius:var(--hrad,20px);overflow:hidden;transition:border-radius .34s cubic-bezier(.32,.72,0,1);background:linear-gradient(165deg,rgba(255,255,255,var(--hg1,.17)),rgba(255,255,255,var(--hg2,.065)));backdrop-filter:blur(var(--hbl,32px)) saturate(190%);-webkit-backdrop-filter:blur(var(--hbl,32px)) saturate(190%);border:1px solid rgba(255,255,255,var(--hb,.22));box-shadow:inset 0 0 0 .5px rgba(255,255,255,.16),inset 0 1.4px 0 rgba(255,255,255,var(--hr,.52)),inset 0 8px 18px -10px rgba(255,255,255,.18)">
     <div style="position:absolute;inset:0;z-index:0;border-radius:var(--hrad,20px);overflow:hidden;pointer-events:none;clip-path:inset(0 round var(--hrad,20px));transition:border-radius .34s cubic-bezier(.32,.72,0,1)">
       <div style="position:absolute;left:-20px;right:-20px;top:-20px;height:130px;background-image:{{ headerBg }};background-size:cover;background-position:center 35%;filter:blur(1px)"></div>
       <span style="position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(224,185,74,.55),transparent)"></span>
@@ -3752,7 +3752,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     </div>
   </header>
 
-  <main ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;padding:var(--padt, 112px) 12px 0;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;--ta:{{ tabAnimName }}">
+  <main ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:none;clip-path:polygon(0 calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),12px calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),var(--clip-x2,13px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c2,0px)),var(--clip-x3,14px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c3,0px)),var(--clip-x4,16px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c4,0px)),var(--clip-x5,19px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c5,0px)),var(--clip-x6,23px) var(--clipt, var(--padt, 112px)),calc(100% - var(--clip-x6,23px)) var(--clipt, var(--padt, 112px)),calc(100% - var(--clip-x5,19px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c5,0px)),calc(100% - var(--clip-x4,16px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c4,0px)),calc(100% - var(--clip-x3,14px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c3,0px)),calc(100% - var(--clip-x2,13px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c2,0px)),calc(100% - 12px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),100% calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),100% 100%,0 100%);padding:var(--padt, 112px) 12px 0;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;--ta:{{ tabAnimName }}">
 
 
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -4529,7 +4529,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     </div>
   </sc-if>
 
-  <nav style="position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:36;height:66px;padding:5px;border-radius:26px;clip-path:inset(0 round 26px);background:linear-gradient(165deg,rgba(9,14,26,var(--dg1,.70)),rgba(5,9,19,var(--dg2,.56)));backdrop-filter:blur(var(--dbl,34px)) saturate(190%);-webkit-backdrop-filter:blur(var(--dbl,34px)) saturate(190%);border:1px solid rgba(255,255,255,var(--db,.24));box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.16)">
+  <nav style="position:absolute;left:10px;right:10px;bottom:env(safe-area-inset-bottom, 0px);z-index:36;height:66px;padding:5px;border-radius:26px;clip-path:inset(0 round 26px);background:linear-gradient(165deg,rgba(9,14,26,var(--dg1,.70)),rgba(5,9,19,var(--dg2,.56)));backdrop-filter:blur(var(--dbl,34px)) saturate(190%);-webkit-backdrop-filter:blur(var(--dbl,34px)) saturate(190%);border:1px solid rgba(255,255,255,var(--db,.24));box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.16)">
     <div style="position:relative;height:100%;display:grid;grid-template-columns:repeat(7,minmax(0,1fr))">
       <div aria-hidden="true" style="position:absolute;inset:-1px;border-radius:22px;overflow:hidden;clip-path:inset(0 round 22px);pointer-events:none">
       <span style="position:absolute;top:0;bottom:0;left:0;width:14.2857%;border-radius:20px;background:linear-gradient(180deg,rgba(246,208,96,.52),rgba(214,168,50,.26));border:1px solid rgba(246,214,120,.62);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.62),inset 0 -1.2px 0 rgba(90,62,0,.34),inset 1px 0 0 rgba(255,255,255,.18),inset -1px 0 0 rgba(255,255,255,.18);transform:translateX({{ pillX }}%);transition:transform .52s cubic-bezier(.34,1.42,.5,1)"></span>
@@ -4827,7 +4827,6 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     </div>
   </sc-if>
 
-  <div style="position:absolute;left:50%;bottom:6px;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,.32);z-index:80;pointer-events:none"></div>
 </div>
 </div>
 
@@ -5971,13 +5970,35 @@ class Component extends DCLogic {
   paintFold(){
     var m = this.scrollRef && this.scrollRef.current;
     if(!m || !m.parentElement) return;
-    var f = !!this._folded, e = m.parentElement.style;
+    var self=this, shell=m.parentElement, f=!!this._folded, e=shell.style;
+    var atStart=!f && m.scrollTop<1;
+    var foldMode=f ? "folded" : (atStart ? "start" : "open");
+    var changed=this._paintedFold!==foldMode;
+    this._paintedFold=foldMode;
     e.setProperty("--h1", f ? "0px" : "34px");
     e.setProperty("--o1", f ? "0" : "1");
     e.setProperty("--p1", f ? "none" : "auto");
     e.setProperty("--m2", f ? "0px" : "6px");
     e.setProperty("--hrad", f ? "11px" : "20px");
-
+    var cv=atStart
+      ? {c1:"0px",c2:"0px",c3:"0px",c4:"0px",c5:"0px",x2:"13px",x3:"14px",x4:"16px",x5:"19px",x6:"23px"}
+      : (f
+        ? {c1:"11px",c2:"6.4px",c3:"4.7px",c4:"2.4px",c5:".8px",x2:"13px",x3:"14px",x4:"16px",x5:"19px",x6:"23px"}
+        : {c1:"20px",c2:"8.7px",c3:"8px",c4:"4px",c5:"1.3px",x2:"14px",x3:"16px",x4:"20px",x5:"25px",x6:"32px"});
+    for(var ck in cv) m.style.setProperty("--clip-"+ck,cv[ck]);
+    if(!changed) return;
+    var hd=shell.querySelector("header");
+    if(!hd) return;
+    if(this._foldClipRaf) cancelAnimationFrame(this._foldClipRaf);
+    var started=performance.now();
+    var syncClip=function(now){
+      var top=shell.getBoundingClientRect().top;
+      var need=Math.round(hd.getBoundingClientRect().bottom-top)+(atStart?12:0);
+      if(isFinite(need) && need>=40) m.style.setProperty("--clipt",need+"px");
+      if(now-started<420) self._foldClipRaf=requestAnimationFrame(syncClip);
+      else self._foldClipRaf=0;
+    };
+    this._foldClipRaf=requestAnimationFrame(syncClip);
   }
   /* ヘッダーをタップしたら開く */
   bindHeaderTap(){
@@ -6047,6 +6068,9 @@ class Component extends DCLogic {
     if(!isFinite(need) || need < 40) return;
     var v = need + "px";
     if(m.style.getPropertyValue("--padt") !== v) m.style.setProperty("--padt", v);
+    var clipNeed = m.scrollTop<1 ? need : Math.round(hd.getBoundingClientRect().bottom - st);
+    var clipV = clipNeed + "px";
+    if(m.style.getPropertyValue("--clipt") !== clipV) m.style.setProperty("--clipt", clipV);
     var shell = m.parentElement;
     var e = (need + 12) + "px";
     if(shell.style.getPropertyValue("--edge") !== e) shell.style.setProperty("--edge", e);
