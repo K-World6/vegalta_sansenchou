@@ -3650,14 +3650,14 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
 @media (min-width:700px){
   .vg-root{align-items:stretch !important;justify-content:stretch !important}
-  .vg-shell{width:100% !important;max-width:none !important;max-height:none !important;background-image:linear-gradient(180deg,rgba(8,15,28,.42),rgba(4,7,14,.62)),url("img/IMG_7156.jpeg") !important;background-size:cover,cover !important;background-position:center,center 60% !important}
+  .vg-shell{width:100% !important;max-width:none !important;max-height:none !important;isolation:isolate !important;background-image:linear-gradient(180deg,rgba(8,15,28,.42),rgba(4,7,14,.62)),url("img/IMG_7156.jpeg") !important;background-size:cover,cover !important;background-position:center,center 60% !important}
   .vg-shell > div[aria-hidden="true"]{display:none !important}
-  .vg-shell > header{left:256px !important;right:clamp(20px,3vw,48px) !important;top:clamp(16px,3vh,30px) !important;height:44px !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:10px !important;padding:0 !important;border:0 !important;border-radius:0 !important;overflow:visible !important;background:transparent !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:none !important}
+  .vg-shell > header{position:absolute !important;left:232px !important;right:0 !important;top:0 !important;z-index:100 !important;height:80px !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:10px !important;padding:18px clamp(20px,3vw,48px) !important;border:0 !important;border-bottom:1px solid rgba(191,205,222,.18) !important;border-radius:0 !important;overflow:visible !important;background:#061226 !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:0 8px 24px -22px rgba(0,0,0,.9) !important}
   .vg-shell > header > div:first-child{display:none !important}
   .vg-shell > header > div:nth-of-type(2){flex:0 0 auto !important;display:flex !important;align-items:center !important;gap:8px !important;max-height:none !important;opacity:1 !important;overflow:visible !important;pointer-events:auto !important}
   .vg-shell > header > div:nth-of-type(3){flex:1 1 420px !important;min-width:210px !important;max-width:560px !important;height:44px !important;margin-top:0 !important;gap:8px !important}
   .vg-shell > header > div:nth-of-type(2) h1{display:none !important}
-  .vg-shell main{padding-top:calc(clamp(16px,3vh,30px) + 58px) !important;padding-left:calc(232px + clamp(24px,3vw,48px)) !important;padding-right:clamp(20px,3vw,48px) !important;clip-path:none !important}
+  .vg-shell main{position:absolute !important;left:0 !important;right:0 !important;top:80px !important;bottom:0 !important;z-index:1 !important;min-height:0 !important;height:auto !important;padding-top:16px !important;padding-left:calc(232px + clamp(24px,3vw,48px)) !important;padding-right:clamp(20px,3vw,48px) !important;clip-path:none !important;overflow-y:auto !important;-webkit-overflow-scrolling:touch !important;touch-action:pan-y !important;overscroll-behavior-y:contain !important}
   .vg-shell main > *{width:100%;max-width:900px;align-self:center}
   .vg-shell main *{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
   .vg-shell main section{background-color:rgba(7,16,30,.78) !important}
@@ -3681,17 +3681,17 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   .vg-shell > header > div:nth-of-type(2) > button{height:38px !important;min-height:38px !important;padding:0 12px !important;border-radius:4px !important;font-size:12px !important}
   .vg-shell > header > div:nth-of-type(3) > button,
   .vg-shell > header > div:nth-of-type(3) > div{height:44px !important;min-height:44px !important;border-radius:4px !important;font-size:13px !important}
-  .vg-shell > nav{left:0 !important;right:auto !important;top:0 !important;bottom:0 !important;width:232px !important;height:auto !important;padding:18px 12px 16px !important;display:flex !important;flex-direction:column !important;align-items:stretch !important;border-radius:0 !important;clip-path:none !important;background:#061226 !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:0 !important;border-right:1px solid rgba(191,205,222,.18) !important;box-shadow:8px 0 24px -22px rgba(0,0,0,.9) !important}
+  .vg-shell > nav{left:0 !important;right:auto !important;top:0 !important;bottom:0 !important;z-index:110 !important;width:232px !important;height:auto !important;padding:18px 12px 16px !important;display:flex !important;flex-direction:column !important;align-items:stretch !important;border-radius:0 !important;clip-path:none !important;background:#061226 !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:0 !important;border-right:1px solid rgba(191,205,222,.18) !important;box-shadow:8px 0 24px -22px rgba(0,0,0,.9) !important}
   .vg-shell > nav::before{content:"参戦帳";display:block;flex:none;padding:8px 12px 17px;margin:0 0 12px;color:#e7be58;font-family:'Yuji Syuku','Hiragino Mincho ProN',serif;font-size:26px;font-weight:700;letter-spacing:.1em;text-align:left;text-shadow:none;border-bottom:1px solid rgba(191,205,222,.16)}
   .vg-shell > nav > div{display:flex !important;flex:0 0 auto !important;min-height:0 !important;height:auto !important;flex-direction:column !important;gap:0 !important}
-  .vg-shell > nav > div > div[aria-hidden="true"]{inset:0 !important;border-radius:0 !important}
+  .vg-shell > nav > div > div[aria-hidden="true"]{inset:0 !important;border-radius:0 !important;clip-path:none !important;overflow:visible !important}
   .vg-shell > nav > div > div[aria-hidden="true"] > span{width:100% !important;height:16.6667% !important;border:0 !important;border-radius:0 !important;background:rgba(240,198,74,.08) !important;box-shadow:inset 3px 0 0 #e7be58 !important}
   .vg-shell > nav button{height:48px !important;min-height:48px !important;flex:0 0 48px !important;flex-direction:row !important;align-items:center !important;justify-content:flex-start !important;gap:11px !important;padding:0 13px !important;border-radius:0 !important;text-align:left !important;transition:background-color .16s ease,color .16s ease !important}
   .vg-shell > nav button:hover{background:rgba(255,255,255,.045) !important}
   .vg-shell > nav button:focus-visible{outline:1px solid rgba(191,205,222,.38) !important;outline-offset:-1px !important}
   .vg-shell > nav button > span:last-child{font-size:13px !important;font-weight:650 !important;letter-spacing:.01em !important}
-  .vg-shell:has(.vg-home-actions) > header{left:488px !important}
-  .vg-shell .vg-home-actions{left:256px !important;right:auto !important;top:clamp(16px,3vh,30px) !important;bottom:auto !important;gap:8px !important}
+  .vg-shell:has(.vg-home-actions) > header{left:232px !important;padding-left:256px !important}
+  .vg-shell .vg-home-actions{left:256px !important;right:auto !important;top:18px !important;bottom:auto !important;z-index:120 !important;gap:8px !important}
   .vg-shell .vg-home-actions button{height:44px !important;min-height:44px !important;border-radius:4px !important;background:#10243c !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:1px solid rgba(240,198,74,.28) !important;box-shadow:0 8px 18px -12px rgba(0,0,0,.95) !important}
   .vg-shell .vg-modal{align-items:center !important;justify-content:center !important;padding:24px !important;background:rgba(2,8,18,.74) !important;backdrop-filter:blur(4px) !important;-webkit-backdrop-filter:blur(4px) !important}
   .vg-shell .vg-modal-card{border-radius:6px !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:0 24px 54px -26px rgba(0,0,0,.98),inset 0 1px 0 rgba(255,255,255,.12) !important}
@@ -3723,17 +3723,17 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   .vg-shell > nav::before{padding:4px 6px 10px !important;margin:0 0 4px !important;font-size:22px !important}
   .vg-shell > nav > div{gap:0 !important}
   .vg-shell > nav button{min-height:42px !important;padding:0 10px !important;gap:9px !important}
-  .vg-shell > header{position:relative !important;left:auto !important;right:auto !important;top:auto !important;flex:0 0 40px !important;width:auto !important;height:40px !important;margin:max(8px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) 0 204px !important;gap:6px !important}
+  .vg-shell > header{position:relative !important;left:auto !important;right:auto !important;top:auto !important;flex:0 0 52px !important;width:auto !important;height:52px !important;margin:0 0 0 184px !important;padding:max(6px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) 6px 20px !important;align-items:flex-start !important;gap:6px !important;background:#061226 !important}
   .vg-shell > header > div:nth-of-type(2){gap:6px !important}
   .vg-shell > header > div:nth-of-type(2) > a,
   .vg-shell > header > div:nth-of-type(2) > button{height:36px !important;min-height:36px !important;padding:0 9px !important}
   .vg-shell > header > div:nth-of-type(3){height:40px !important;gap:6px !important}
   .vg-shell > header > div:nth-of-type(3) > button,
   .vg-shell > header > div:nth-of-type(3) > div{height:40px !important;min-height:40px !important;font-size:12px !important}
-  .vg-shell:has(.vg-home-actions) > header{left:auto !important}
+  .vg-shell:has(.vg-home-actions) > header{left:auto !important;flex-basis:100px !important;height:100px !important;padding:max(6px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) 54px 20px !important}
   .vg-shell .vg-home-actions{left:204px !important;right:max(10px,env(safe-area-inset-right)) !important;top:52px !important;bottom:auto !important;gap:6px !important}
   .vg-shell .vg-home-actions button{height:40px !important;min-height:40px !important}
-  .vg-shell:has(.vg-home-actions) main{margin-top:48px !important}
+  .vg-shell:has(.vg-home-actions) main{margin-top:0 !important}
   .vg-shell main{position:relative !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important;flex:1 1 auto !important;min-height:0 !important;height:auto !important;padding-top:10px !important;padding-left:204px !important;padding-right:max(10px,env(safe-area-inset-right)) !important;padding-bottom:max(22px,env(safe-area-inset-bottom)) !important;overflow-x:hidden !important;overflow-y:scroll !important;-webkit-overflow-scrolling:touch !important;touch-action:pan-y !important;overscroll-behavior-y:contain !important;scroll-behavior:auto !important}
   .vg-shell .vg-map-wrap,
   .vg-shell .vg-map-canvas{height:max(250px,calc(100dvh - 112px)) !important}
