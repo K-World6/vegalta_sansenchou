@@ -2232,6 +2232,7 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
    ・シーズン単位の Last-Write-Wins ＋ 試合単位マージ */
 (function(){
   var SUPABASE_URL  = "https://vcccdzojztczostxmiay.supabase.co";
+  var PASSWORD_RESET_REDIRECT = "https://vegalta-sansenchou.jp/";
   var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjY2Nkem9qenRjem9zdHhtaWF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwMzUwNjAsImV4cCI6MjA5OTYxMTA2MH0.EQt2u27awFqxLqXhTqv16xBnEFbE2ICWk6L3Th4xcWI";
 
   var sb = null, user = null, cfg = null, ready = null;
@@ -2425,7 +2426,7 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
   }
   function sendReset(email){
     if(!sb) return Promise.resolve("同期機能を読み込めませんでした");
-    return sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname })
+    return sb.auth.resetPasswordForEmail(email, { redirectTo: PASSWORD_RESET_REDIRECT })
       .then(function(r){ return r.error ? (r.error.message||"unknown") : null; })
       .catch(function(e){ return (e && (e.message||e.name)) ? String(e.message||e.name) : "unknown"; });
   }
@@ -5206,7 +5207,7 @@ class Component extends DCLogic {
         }catch(e){}
       };
       var pr=this.initSync();
-      if(pr && pr.then) pr.then(cleanUrl, cleanUrl); else cleanUrl();
+      if(pr && pr.then) pr.then(cleanUrl, function(){});
     } else if((this.ls("vegalta-mode")==="cloud" || (this.ls("vegalta-mode")!=="local" && this.hasCloudSession())) && !this.props.demoFill){
       var p=this.initSync(); if(p && p.catch) p.catch(function(){});
     }
