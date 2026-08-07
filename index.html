@@ -2232,7 +2232,11 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
    ・シーズン単位の Last-Write-Wins ＋ 試合単位マージ */
 (function(){
   var SUPABASE_URL  = "https://vcccdzojztczostxmiay.supabase.co";
-  var PASSWORD_RESET_REDIRECT = "https://vegalta-sansenchou.jp/";
+  function passwordResetRedirect(){
+    return /^https?:$/.test(location.protocol)
+      ? location.origin + location.pathname
+      : "https://vegalta-sansenchou.jp/";
+  }
   var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjY2Nkem9qenRjem9zdHhtaWF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwMzUwNjAsImV4cCI6MjA5OTYxMTA2MH0.EQt2u27awFqxLqXhTqv16xBnEFbE2ICWk6L3Th4xcWI";
 
   var sb = null, user = null, cfg = null, ready = null;
@@ -2277,9 +2281,10 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
       sb = mod.createClient(SUPABASE_URL, SUPABASE_ANON, {
         auth: { detectSessionInUrl: true, flowType: pkce ? "pkce" : "implicit" }
       });
-      sb.auth.onAuthStateChange(function(_e, session){
-        user = session ? session.user : null;
-        afterAuth();
+       sb.auth.onAuthStateChange(function(_e, session){
+         if(_e === "PASSWORD_RECOVERY" && cfg && cfg.onRecovery) cfg.onRecovery();
+         user = session ? session.user : null;
+         afterAuth();
       });
       return sb.auth.getSession().then(function(res){
         user = (res.data && res.data.session) ? res.data.session.user : null;
@@ -2426,7 +2431,7 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
   }
   function sendReset(email){
     if(!sb) return Promise.resolve("同期機能を読み込めませんでした");
-    return sb.auth.resetPasswordForEmail(email, { redirectTo: PASSWORD_RESET_REDIRECT })
+    return sb.auth.resetPasswordForEmail(email, { redirectTo: passwordResetRedirect() })
       .then(function(r){ return r.error ? (r.error.message||"unknown") : null; })
       .catch(function(e){ return (e && (e.message||e.name)) ? String(e.message||e.name) : "unknown"; });
   }
@@ -5116,6 +5121,10 @@ class Component extends DCLogic {
     this._syncWired = true;
     VGSync.configure({
       seasons: this.SEASONS,
+      onRecovery: function(){
+        self._recovering = true;
+        self.setState({gate:"reset", gateMsg:""});
+      },
       onAuth: function(u){
         self.setState({user:u, syncAt:VGSync.lastSync()});
         if(u){
