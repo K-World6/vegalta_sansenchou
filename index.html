@@ -2271,7 +2271,10 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
       });
     }
     var task = pickCdn(0).then(function(mod){
-      sb = mod.createClient(SUPABASE_URL, SUPABASE_ANON);
+      var pkce = /[?&]code=/.test(String(location.search||""));
+      sb = mod.createClient(SUPABASE_URL, SUPABASE_ANON, {
+        auth: { detectSessionInUrl: true, flowType: pkce ? "pkce" : "implicit" }
+      });
       sb.auth.onAuthStateChange(function(_e, session){
         user = session ? session.user : null;
         afterAuth();
@@ -4580,11 +4583,11 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
                 <span style="flex:1;min-width:0;font-size:11.5px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ acctEmail }}</span>
                 <span style="flex:none;font-size:10px;color:rgba(255,255,255,.5)">{{ acctSyncAt }}</span>
               </div>
-              <div style="display:flex;gap:7px;margin-top:9px">
-                <button sc-camel-on-click="{{ acctSyncNow }}" style="flex:1;height:40px;border-radius:13px;border:1px solid rgba(240,198,74,.4);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.1));color:#ffeaa8;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ acctSyncLabel }}</button>
-                <button sc-camel-on-click="{{ acctLogout }}" style="flex:none;height:40px;padding:0 14px;border-radius:13px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:rgba(255,255,255,.86);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログアウト</button>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:9px">
+                <button sc-camel-on-click="{{ acctSyncNow }}" style="width:100%;height:52px;border-radius:15px;border:1px solid rgba(240,198,74,.4);background:linear-gradient(180deg,rgba(240,198,74,.26),rgba(240,198,74,.1));color:#ffeaa8;font-size:15px;font-weight:800;letter-spacing:.02em;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.975);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ acctSyncLabel }}</button>
+                <button sc-camel-on-click="{{ acctLogout }}" style="width:100%;height:42px;border-radius:13px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:rgba(255,255,255,.88);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.955);transition:transform .09s cubic-bezier(.32,.72,0,1)">ログアウト</button>
               </div>
-              <button sc-camel-on-click="{{ acctDelete }}" style="width:100%;height:38px;margin-top:8px;border-radius:12px;border:1px solid rgba(192,87,79,.5);background:rgba(192,87,79,.14);color:#e2a09a;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">アカウントと全記録を削除</button>
+              <button sc-camel-on-click="{{ acctDelete }}" style="height:30px;margin:14px auto 0;padding:0 12px;display:block;border-radius:9px;border:1px solid rgba(192,87,79,.32);background:transparent;color:rgba(210,140,134,.82);font-size:10.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.97);transition:transform .09s cubic-bezier(.32,.72,0,1)">アカウントと全記録を削除</button>
             </sc-if>
           </section>
 
@@ -5107,6 +5110,8 @@ class Component extends DCLogic {
         self.setState({user:u, syncAt:VGSync.lastSync()});
         if(u){
           self.lsSet("vegalta-mode","cloud");
+          /* 再設定の途中なら、入力画面のままにしておく */
+          if(self._recovering){ self.setState({gate:"reset"}); return; }
           /* 応答が返らないことがあるので、ログインが通った時点で画面を進める */
           if(self.state.gate) self.setState({gate:null, gateBusy:false, gateMsg:"", gatePass:""});
         }
@@ -5173,10 +5178,20 @@ class Component extends DCLogic {
     this.runCount(1800);
     this.paintMaps();
     var hash = String(location.hash||"") + String(location.search||"");
-    var recovering = /type=recovery/.test(hash);
+    /* 再設定リンクは形が2通りある。どちらでも受け取る
+       ・#access_token=…&type=recovery
+       ・?code=…（新しい方式） */
+    var recovering = /type=recovery/.test(hash) || /[?&#]code=/.test(hash);
     if(recovering){
+      this._recovering = true;
       this.setState({gate:"reset", gateMsg:""});
       var pr=this.initSync(); if(pr && pr.catch) pr.catch(function(){});
+      /* 一度受け取ったら住所欄を綺麗にする（再読み込みで再発しないように） */
+      try{
+        if(window.history && history.replaceState){
+          history.replaceState(null, "", location.pathname);
+        }
+      }catch(e){}
     } else if((this.ls("vegalta-mode")==="cloud" || this.hasCloudSession()) && !this.props.demoFill){
       var p=this.initSync(); if(p && p.catch) p.catch(function(){});
     }
@@ -7413,9 +7428,27 @@ class Component extends DCLogic {
       var W=1440, H=Math.round(W*(vb[3]/vb[2]));
       clone.setAttribute("width",W); clone.setAttribute("height",H);
       clone.setAttribute("xmlns","http://www.w3.org/2000/svg");
-      var src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(new XMLSerializer().serializeToString(clone));
+      var svgText=new XMLSerializer().serializeToString(clone);
+      /* 大きなSVGはデータURLだと読み込めない端末があるためBlobで渡す */
+      var src, blobUrl=null;
+      try{
+        blobUrl=URL.createObjectURL(new Blob([svgText], {type:"image/svg+xml;charset=utf-8"}));
+        src=blobUrl;
+      }catch(e){
+        src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svgText);
+      }
       var im=new Image();
+      var done=false;
+      var cleanup=function(){ if(blobUrl){ try{ URL.revokeObjectURL(blobUrl); }catch(_){} blobUrl=null; } };
+      /* どちらも呼ばれないまま止まることがあるので、待ち時間を設ける */
+      setTimeout(function(){
+        if(done) return;
+        done=true; cleanup();
+        self.toast("画像の生成に時間がかかっています");
+      }, 8000);
       im.onload=function(){
+        if(done) return;
+        done=true; cleanup();
         var cv=document.createElement("canvas");
         cv.width=W; cv.height=H+96;
         var ctx=cv.getContext("2d");
@@ -7434,7 +7467,7 @@ class Component extends DCLogic {
         try{ self.setState({shot: cv.toDataURL("image/png")}); }
         catch(e){ self.toast("画像の生成に失敗しました"); }
       };
-      im.onerror=function(){ self.toast("画像の生成に失敗しました"); };
+      im.onerror=function(){ if(done) return; done=true; cleanup(); self.toast("画像の生成に失敗しました"); };
       im.src=src;
     }catch(e){ this.toast("画像の生成に失敗しました"); }
   }
@@ -8072,7 +8105,11 @@ class Component extends DCLogic {
           if(err){ self.toast("削除できませんでした："+err); return; }
           self._commWant=null; self._grpLoaded=false; self._detailFor=null;
           self.lsSet("vegalta-mode","local");
-          self.setState({user:null, acct:false, commData:null, rec:{}, gate:"pick"});
+          try{ localStorage.removeItem(self.GKEY()); }catch(e){}
+          try{ localStorage.removeItem(self.NKEY()); }catch(e){}
+          self.setState({user:null, acct:false, commData:null, rec:{}, gate:"pick", nickDraft:"",
+            grp:{list:[], viewId:null, nick:"", onboard:false,
+              memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""}});
           self.toast("アカウントを削除しました");
         });
       },
@@ -8084,10 +8121,12 @@ class Component extends DCLogic {
           self._commWant=null; self._grpLoaded=false; self._detailFor=null; self._syncReady=null;
           if(self._sheetT){ clearTimeout(self._sheetT); self._sheetT=null; }
           try{ localStorage.removeItem(self.GKEY()); }catch(e){}
+          /* 表示名も端末から消す（別のアカウントで入り直したときに残らないように） */
+          try{ localStorage.removeItem(self.NKEY()); }catch(e){}
           self.setState({
             user:null, acct:false, syncState:null, commData:null, legal:null, sheet:null, sheetOut:false,
-            gate:"pick", gateMsg:"", gateEmail:"", gatePass:"",
-            grp:{list:[], viewId:null, nick:(self.state.grp&&self.state.grp.nick)||"", onboard:false,
+            gate:"pick", gateMsg:"", gateEmail:"", gatePass:"", nickDraft:"",
+            grp:{list:[], viewId:null, nick:"", onboard:false,
               memOpen:false, renameOpen:false, nameInp:"", codeInp:"", renameInp:"", errC:"", errJ:"", errR:""}
           });
           self.toast("ログアウトしました");
