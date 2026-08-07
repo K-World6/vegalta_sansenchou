@@ -3633,6 +3633,7 @@ main>*:nth-child(4){animation-delay:.135s}main>*:nth-child(n+5){animation-delay:
 @keyframes gbIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes foilShift{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
 main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,120px);pointer-events:none}
+.vg-dash-grid,.vg-cal-grid,.vg-cost-grid{display:flex;flex-direction:column;gap:10px;width:100%}
 .stadiumDot{fill:url(#awaySilverGrad);stroke:#f4f8fc;stroke-width:1.8;pointer-events:none;transform-box:fill-box;transform-origin:center;animation:homeTwinkle 1.3s ease-in-out infinite;filter:drop-shadow(0 1px 2px rgba(0,0,0,.95)) drop-shadow(0 0 6px rgba(120,150,185,.95))}
 .stadiumDot.homeDot{fill:url(#homeGoldGrad);stroke:#3a2600;stroke-width:1.6;filter:drop-shadow(0 1px 2px rgba(0,0,0,.9)) drop-shadow(0 0 7px rgba(255,214,110,1))}
 @keyframes homeTwinkle{0%,100%{transform:scale(1)}50%{transform:scale(1.24)}}
@@ -3649,7 +3650,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
 @media (min-width:700px){
   .vg-root{align-items:stretch !important;justify-content:stretch !important}
-  .vg-shell{width:100% !important;max-width:none !important;max-height:none !important}
+  .vg-shell{width:100% !important;max-width:none !important;max-height:none !important;background-position:center,center 50% !important}
   .vg-shell > header{left:256px !important;right:clamp(20px,3vw,48px) !important;top:clamp(16px,3vh,30px) !important;display:grid !important;grid-template-columns:minmax(0,1fr) minmax(238px,clamp(238px,30vw,420px)) !important;align-items:center !important;column-gap:18px !important;padding:14px 18px !important;border-radius:4px !important;background:rgba(5,14,30,.92) !important;backdrop-filter:blur(10px) !important;-webkit-backdrop-filter:blur(10px) !important;border-color:rgba(240,198,74,.26) !important;box-shadow:0 16px 30px -24px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.14) !important}
   .vg-shell > header > div:nth-of-type(2){grid-column:1 !important;grid-row:1 !important;max-height:none !important;opacity:1 !important;pointer-events:auto !important}
   .vg-shell > header > div:nth-of-type(3){grid-column:2 !important;grid-row:1 !important;margin-top:0 !important;gap:8px !important}
@@ -3657,16 +3658,57 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   .vg-shell > header > div:nth-of-type(2) h1 .mobile-app-title{display:none !important}
   .vg-shell > header > div:nth-of-type(2) h1 .desktop-screen-title{display:inline !important}
   .vg-shell main{padding-left:calc(232px + clamp(24px,3vw,48px)) !important;padding-right:clamp(20px,3vw,48px) !important}
-  .vg-shell main > *{width:100%;max-width:1320px;align-self:center}
+  .vg-shell main > *{width:100%;max-width:1080px;align-self:center}
+  .vg-shell main > .vg-dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+  .vg-shell .vg-dash-legend{grid-column:1/-1;margin:0 0 2px !important;justify-content:flex-start !important}
+  .vg-shell .vg-dash-legend + .vg-dash-panel{grid-column:1/-1}
+  .vg-shell .vg-dash-panel section{height:100%;border-radius:6px !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .vg-shell main > .vg-cal-grid{display:grid;grid-template-columns:minmax(0,620px);justify-content:center;gap:18px;max-width:640px}
+  .vg-shell .vg-cal-grid > section{width:100%}
+  .vg-shell main > .vg-cost-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+  .vg-shell .vg-cost-grid > *{width:100%;min-width:0}
+  .vg-shell .vg-cost-grid > section{height:100%;border-radius:6px !important}
+  .vg-shell .vg-cost-grid > div > section{border-radius:6px !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .vg-shell .vg-cost-grid > div:nth-child(6){grid-column:1/-1}
+  .vg-shell main > .vg-map-panel{max-width:none;width:100%;padding:14px !important;border-radius:6px !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .vg-shell .vg-map-wrap,.vg-shell .vg-map-canvas{height:clamp(420px,calc(100vh - 280px),760px) !important}
   .vg-shell main > article > div{border-radius:4px !important}
   .vg-shell main > article > div > div[role="button"]{min-height:76px !important}
+  .vg-shell main button{min-height:40px !important;border-radius:4px !important}
+  .vg-shell > header > div:nth-of-type(2) > a,
+  .vg-shell > header > div:nth-of-type(2) > button{height:38px !important;min-height:38px !important;padding:0 12px !important;border-radius:4px !important;font-size:12px !important}
+  .vg-shell > header > div:nth-of-type(3) > button,
+  .vg-shell > header > div:nth-of-type(3) > div{height:44px !important;min-height:44px !important;border-radius:4px !important;font-size:13px !important}
   .vg-shell > nav{left:0 !important;right:auto !important;top:0 !important;bottom:0 !important;width:232px !important;height:auto !important;padding:18px 14px 16px !important;display:flex !important;flex-direction:column !important;align-items:stretch !important;border-radius:0 !important;clip-path:none !important;background:rgba(3,12,28,.97) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:0 !important;border-right:1px solid rgba(246,208,96,.24) !important;box-shadow:12px 0 32px -24px rgba(0,0,0,.98) !important}
   .vg-shell > nav::before{content:"参戦帳";display:block;flex:none;padding:10px 10px 22px;margin:0 0 14px;color:#f1c65b;font-family:'Yuji Syuku','Hiragino Mincho ProN',serif;font-size:32px;font-weight:700;letter-spacing:.16em;text-align:center;text-shadow:0 2px 9px rgba(0,0,0,.75);border-bottom:1px solid rgba(246,208,96,.24)}
   .vg-shell > nav > div{display:flex !important;flex:1 1 auto !important;min-height:0 !important;height:auto !important;flex-direction:column !important;gap:6px !important}
   .vg-shell > nav > div > div[aria-hidden="true"]{inset:0 !important;border-radius:4px !important}
   .vg-shell > nav > div > div[aria-hidden="true"] > span{width:100% !important;height:16.6667% !important;border-radius:4px !important;background:linear-gradient(90deg,rgba(240,198,74,.22),rgba(240,198,74,.08)) !important;border-color:rgba(240,198,74,.36) !important;box-shadow:inset 3px 0 0 #f0c64a,inset 0 1px 0 rgba(255,255,255,.12) !important}
-  .vg-shell > nav button{min-height:52px !important;flex:1 1 0 !important;flex-direction:row !important;align-items:center !important;justify-content:flex-start !important;gap:12px !important;padding:0 14px !important;border-radius:4px !important;text-align:left !important}
+  .vg-shell > nav button{min-height:58px !important;flex:1 1 0 !important;flex-direction:row !important;align-items:center !important;justify-content:flex-start !important;gap:12px !important;padding:0 14px !important;border-radius:4px !important;text-align:left !important}
   .vg-shell > nav button > span:last-child{font-size:14px !important;letter-spacing:.02em !important}
+  .vg-shell .vg-home-actions button{height:48px !important;min-height:48px !important;border-radius:4px !important;background:#10243c !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:1px solid rgba(240,198,74,.28) !important;box-shadow:0 8px 18px -12px rgba(0,0,0,.95) !important}
+  .vg-shell .vg-modal{align-items:center !important;justify-content:center !important;padding:24px !important;background:rgba(2,8,18,.74) !important;backdrop-filter:blur(4px) !important;-webkit-backdrop-filter:blur(4px) !important}
+  .vg-shell .vg-modal-card{border-radius:6px !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:0 24px 54px -26px rgba(0,0,0,.98),inset 0 1px 0 rgba(255,255,255,.12) !important}
+  .vg-shell .vg-modal-calendar > .vg-modal-card{width:min(560px,calc(100% - 48px)) !important;max-width:none !important;max-height:calc(100% - 48px) !important;overflow-y:auto !important;background:#0b1a30 !important}
+  .vg-shell .vg-modal-pref > .vg-modal-card{width:min(880px,calc(100% - 48px)) !important;height:min(720px,calc(100% - 48px)) !important;max-height:none !important;margin:auto !important;padding:20px 24px 24px !important;background:#0b1a30 !important;border:1px solid rgba(240,198,74,.28) !important}
+  .vg-shell .vg-modal-pref > .vg-modal-card > div:first-child,
+  .vg-shell .vg-modal-sheet > .vg-modal-card > div:first-child,
+  .vg-shell .vg-modal-account > .vg-modal-card > div:first-child{display:none !important}
+  .vg-shell .vg-modal-sheet > .vg-modal-card{width:min(560px,calc(100% - 48px)) !important;max-height:min(680px,calc(100% - 48px)) !important;margin:auto !important;padding:20px 22px 22px !important;border-radius:6px !important;background:#0b1a30 !important}
+  .vg-shell .vg-modal-sheet button{min-height:48px !important;border-radius:4px !important;font-size:14px !important}
+  .vg-shell .vg-modal-account > .vg-modal-card{width:min(680px,calc(100% - 48px)) !important;max-height:min(760px,calc(100% - 48px)) !important;margin:auto !important;padding:20px 24px 24px !important;border-radius:6px !important;background:#0b1a30 !important;border:1px solid rgba(240,198,74,.28) !important}
+  .vg-shell .vg-modal-account section,
+  .vg-shell .vg-modal-pref section{border-radius:6px !important}
+  .vg-shell .vg-modal-account input,
+  .vg-shell .vg-modal-pref input{border-radius:4px !important}
+  .vg-shell .vg-modal-account button{min-height:44px !important;border-radius:4px !important}
+  .vg-shell .vg-modal-shot > div:last-child{flex:none !important;width:min(920px,calc(100% - 48px)) !important;max-height:calc(100% - 48px) !important;padding:24px !important;border:1px solid rgba(240,198,74,.28) !important;border-radius:6px !important;background:#0b1a30 !important}
+  .vg-shell .vg-modal-shot button{min-height:46px !important;border-radius:4px !important}
+  .vg-shell .vg-modal-legal{inset:4vh 6vw !important;border:1px solid rgba(240,198,74,.28) !important;border-radius:6px !important;background:#0b1a30 !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:0 24px 54px -26px rgba(0,0,0,.98) !important}
+  .vg-shell .vg-modal-legal button{min-height:40px !important;border-radius:4px !important}
+}
+@media (min-width:1100px){
+  .vg-shell main > .vg-cal-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:900px}
 }
 </style>
 <meta name="theme-color" content="#0a1527">
@@ -3952,13 +3994,14 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     </sc-if>
 
     <sc-if value="{{ isDash }}" hint-placeholder-val="{{ false }}">
-      <div style="flex:none;display:flex;align-items:center;justify-content:center;gap:16px;padding:0 2px;margin:-1px 0 -5px">
+      <div class="vg-dash-grid">
+      <div class="vg-dash-legend" style="flex:none;display:flex;align-items:center;justify-content:center;gap:16px;padding:0 2px;margin:-1px 0 -5px">
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)"><span style="width:9px;height:9px;border-radius:50%;background:#f0c64a"></span>HOME</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)"><span style="width:9px;height:9px;border-radius:50%;background:#5b9bf0"></span>AWAY</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)"><span style="width:9px;height:9px;border-radius:50%;background:#fff"></span>通算</span>
       </div>
       <sc-for list="{{ dashSecs }}" as="sec" hint-placeholder-count="3">
-        <div style="flex:none">
+        <div class="vg-dash-panel" style="flex:none">
         <h3 style="margin:0 0 6px 15px;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(3,7,14,.85),0 0 2px rgba(3,7,14,.7)">{{ sec.title }}</h3>
         <section style="flex:none;padding:10px 10px 11px;border-radius:15px;background:linear-gradient(165deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.3),0 10px 24px -18px rgba(0,0,0,.8)">
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
@@ -4013,9 +4056,11 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
         </section>
         </div>
       </sc-for>
+      </div>
     </sc-if>
 
     <sc-if value="{{ isCal }}" hint-placeholder-val="{{ false }}">
+      <div class="vg-cal-grid">
       <sc-for list="{{ calMonths }}" as="cm" hint-placeholder-count="3">
         <section style="flex:none;padding:0">
           <h3 style="margin:0 0 7px 3px;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:15px;font-weight:700;letter-spacing:.04em;color:#f2d79c;text-shadow:0 1px 4px rgba(3,7,14,.95),0 0 2px rgba(3,7,14,.8)">{{ cm.label }}</h3>
@@ -4050,17 +4095,18 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
           </div>
         </section>
       </sc-for>
+      </div>
     </sc-if>
 
     <sc-if value="{{ isMap }}" hint-placeholder-val="{{ false }}">
-      <section style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.28)">
+      <section class="vg-map-panel" style="flex:none;padding:10px;border-radius:16px;background:linear-gradient(165deg,rgba(255,255,255,.042),rgba(255,255,255,.01));backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.28)">
         <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:8px">
           <sc-for list="{{ mapLegend }}" as="lg" hint-placeholder-count="4">
             <span style="display:flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:rgba(255,255,255,.72)"><span style="width:9px;height:9px;border-radius:3px;background:{{ lg.c }};transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)"></span>{{ lg.lbl }}</span>
           </sc-for>
         </div>
-        <div ref="{{ mapWrapRef }}" sc-camel-on-click="{{ mapTapPref }}" style="position:relative;height:340px;border-radius:12px;overflow:hidden;background:rgba(5,9,17,.5);border:1px solid rgba(255,255,255,.08);touch-action:{{ mapTouch }};cursor:{{ mapGrab }};overscroll-behavior:contain">
-          <div ref="{{ mapRef }}" style="width:100%;height:340px;transform:{{ mapTransform }};transform-origin:0 0;transition:{{ mapTrans }};will-change:transform"></div>
+        <div class="vg-map-wrap" ref="{{ mapWrapRef }}" sc-camel-on-click="{{ mapTapPref }}" style="position:relative;height:340px;border-radius:12px;overflow:hidden;background:rgba(5,9,17,.5);border:1px solid rgba(255,255,255,.08);touch-action:{{ mapTouch }};cursor:{{ mapGrab }};overscroll-behavior:contain">
+          <div class="vg-map-canvas" ref="{{ mapRef }}" style="width:100%;height:340px;transform:{{ mapTransform }};transform-origin:0 0;transition:{{ mapTrans }};will-change:transform"></div>
         </div>
         <div style="display:flex;align-items:center;gap:7px;margin-top:9px">
           <button sc-camel-on-click="{{ mapZoomOut }}" aria-label="縮小" style="flex:none;width:34px;height:34px;border-radius:11px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.07);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .2s cubic-bezier(.32,.72,0,1);transition:opacity .18s cubic-bezier(.32,.72,0,1), transform .42s var(--pop)" style-active="transform:scale(.95);transition:transform .09s cubic-bezier(.32,.72,0,1)">−</button>
@@ -4078,6 +4124,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
         <p style="margin:48px 8px;text-align:center;font-size:12.5px;line-height:1.9;color:rgba(255,255,255,.45)">まだ支出が記録されていません。<br>各試合の券をひらいて「かかった費用」を入力できます。</p>
       </sc-if>
       <sc-if value="{{ costHasData }}" hint-placeholder-val="{{ true }}">
+      <div class="vg-cost-grid">
       <div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <sc-for list="{{ costHa }}" as="h" hint-placeholder-count="2">
           <div style="padding:10px 11px;border-radius:15px;background:{{ h.bg }};border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(24px) saturate(190%);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20)">
@@ -4211,6 +4258,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
         </div>
       </section>
         </div>
+      </div>
       </sc-if>
     </sc-if>
 
@@ -4480,7 +4528,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </main>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-  <div style="position:absolute;right:10px;bottom:calc(74px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
+  <div class="vg-home-actions" style="position:absolute;right:10px;bottom:calc(74px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
     <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;min-width:118px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
     <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 14.5 12 8l7 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -4492,8 +4540,8 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </sc-if>
 
   <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
-    <div sc-camel-on-click="{{ calClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(4,7,14,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fadeIn .22s cubic-bezier(.32,.72,0,1)">
-      <div style="width:100%;max-width:330px;padding:15px 16px 14px;border-radius:22px;background:{{ cd.panelBg }};backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border:1px solid {{ cd.panelBd }};box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.4),0 24px 50px -24px rgba(0,0,0,.95);animation:panelIn .3s cubic-bezier(.32,.72,0,1);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
+    <div class="vg-modal vg-modal-calendar" sc-camel-on-click="{{ calClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(4,7,14,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fadeIn .22s cubic-bezier(.32,.72,0,1)">
+      <div class="vg-modal-card" style="width:100%;max-width:330px;padding:15px 16px 14px;border-radius:22px;background:{{ cd.panelBg }};backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border:1px solid {{ cd.panelBd }};box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.4),0 24px 50px -24px rgba(0,0,0,.95);animation:panelIn .3s cubic-bezier(.32,.72,0,1);transition:background-color .3s cubic-bezier(.32,.72,0,1),background .3s cubic-bezier(.32,.72,0,1),color .3s cubic-bezier(.32,.72,0,1),border-color .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1)">
         <div style="font-size:9.5px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.5)">{{ cd.comp }}</div>
         <div style="display:flex;align-items:center;gap:9px;margin-top:4px">
           <sc-if value="{{ cd.hasCrest }}" hint-placeholder-val="{{ false }}">
@@ -4529,8 +4577,8 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </sc-if>
 
   <sc-if value="{{ prefOpen }}" hint-placeholder-val="{{ false }}">
-    <div sc-camel-on-click="{{ prefClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:flex-end;background:rgba(4,7,14,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .2s cubic-bezier(.32,.72,0,1)">
-      <div data-sheet-panel="1" data-sheet-close="pref" style="width:100%;height:86%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
+    <div class="vg-modal vg-modal-pref" sc-camel-on-click="{{ prefClose }}" style="position:absolute;inset:0;z-index:55;display:flex;align-items:flex-end;background:rgba(4,7,14,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .2s cubic-bezier(.32,.72,0,1)">
+      <div class="vg-modal-card" data-sheet-panel="1" data-sheet-close="pref" style="width:100%;height:86%;display:flex;flex-direction:column;padding:12px 14px 18px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));backdrop-filter:blur(31px) saturate(190%);-webkit-backdrop-filter:blur(31px) saturate(190%);border-top:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),0 -14px 40px -20px rgba(0,0,0,.9);animation:sheetUp .34s cubic-bezier(.32,.72,0,1)">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.26);margin:-2px auto 10px"></div>
         <div style="display:flex;align-items:center;gap:10px;padding-bottom:11px">
           <span style="flex:1;min-width:0;font-family:'Yuji Syuku','Hiragino Kaku Gothic ProN',serif;font-size:22px;font-weight:700;letter-spacing:.01em;color:#fff">{{ ps.pref }}</span>
@@ -4571,9 +4619,9 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </nav>
 
   <sc-if value="{{ sheet }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;pointer-events:{{ sheetPE }}">
+    <div class="vg-modal vg-modal-sheet" style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;pointer-events:{{ sheetPE }}">
       <div sc-camel-on-click="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:{{ sheetVeil }}"></div>
-      <div data-sheet-panel="1" style="position:relative;margin:10px;padding:10px 10px 14px;border-radius:30px;background:linear-gradient(170deg,rgba(30,44,72,.92),rgba(12,20,36,.94));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:{{ sheetAnim }};max-height:72%;display:flex;flex-direction:column">
+      <div class="vg-modal-card" data-sheet-panel="1" style="position:relative;margin:10px;padding:10px 10px 14px;border-radius:30px;background:linear-gradient(170deg,rgba(30,44,72,.92),rgba(12,20,36,.94));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:{{ sheetAnim }};max-height:72%;display:flex;flex-direction:column">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 10px;touch-action:none"></div>
         <div style="flex:none;padding:0 8px 10px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em;touch-action:none">{{ sheetTitle }}</div>
         <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:5px;touch-action:pan-y">
@@ -4590,9 +4638,9 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </sc-if>
 
   <sc-if value="{{ acctOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:58;display:flex;flex-direction:column;justify-content:flex-end">
+    <div class="vg-modal vg-modal-account" style="position:absolute;inset:0;z-index:58;display:flex;flex-direction:column;justify-content:flex-end">
       <div sc-camel-on-click="{{ closeAcct }}" style="position:absolute;inset:0;background:rgba(4,7,14,.58);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fadeIn .28s cubic-bezier(.32,.72,0,1) both"></div>
-      <div data-sheet-panel="1" data-sheet-close="acct" style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
+      <div class="vg-modal-card" data-sheet-panel="1" data-sheet-close="acct" style="position:relative;max-height:86%;display:flex;flex-direction:column;padding:10px 14px 16px;border-radius:28px 28px 0 0;background:linear-gradient(180deg,rgba(28,42,68,.94),rgba(11,19,34,.96));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);border-top:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3),0 -20px 60px -20px rgba(0,0,0,1);animation:sheetUp .46s cubic-bezier(.32,.72,0,1) both">
         <div style="flex:none;width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.24);margin:2px auto 12px"></div>
         <div style="flex:none;display:flex;align-items:center;gap:10px;padding:0 2px 11px;border-bottom:.5px solid rgba(255,255,255,.12)">
           <span role="img" aria-label="ベガルタ仙台エンブレム" style="flex:none;width:30px;height:30px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
@@ -4661,7 +4709,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </sc-if>
 
   <sc-if value="{{ shotOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:76;display:flex;flex-direction:column;animation:fadeIn .26s cubic-bezier(.32,.72,0,1) both">
+    <div class="vg-modal vg-modal-shot" style="position:absolute;inset:0;z-index:76;display:flex;flex-direction:column;animation:fadeIn .26s cubic-bezier(.32,.72,0,1) both">
       <div sc-camel-on-click="{{ closeShot }}" style="position:absolute;inset:0;background:rgba(2,5,11,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)"></div>
       <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:18px 16px">
         <img src="{{ shotSrc }}" alt="参戦マップ" data-saveable="1" style="display:block;width:100%;max-height:62%;object-fit:contain;border-radius:14px;box-shadow:0 20px 50px -24px rgba(0,0,0,.95)">
@@ -4675,7 +4723,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </sc-if>
 
   <sc-if value="{{ legalOpen }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;inset:0;z-index:80;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(16,26,44,.97),rgba(8,14,26,.985));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);animation:sheetUp .42s cubic-bezier(.32,.72,0,1) both">
+    <div class="vg-modal vg-modal-legal" style="position:absolute;inset:0;z-index:80;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(16,26,44,.97),rgba(8,14,26,.985));backdrop-filter:blur(37px) saturate(190%);-webkit-backdrop-filter:blur(37px) saturate(190%);animation:sheetUp .42s cubic-bezier(.32,.72,0,1) both">
       <div style="flex:none;display:flex;align-items:center;gap:10px;padding:54px 14px 11px;border-bottom:.5px solid rgba(255,255,255,.12)">
         <span role="img" aria-label="ベガルタ仙台エンブレム" style="flex:none;width:28px;height:28px;background-image:{{ crestBg }};background-size:contain;background-position:center;background-repeat:no-repeat"></span>
         <div style="flex:1;min-width:0">
@@ -5911,11 +5959,11 @@ class Component extends DCLogic {
        中の一覧の touch-action:pan-y はマークアップ側で宣言する
        （全ノード走査＋getComputedStyle は開くたびのコストが大きく、
         後から差し込まれた子ノードに反映されない問題もあった） */
-    panel.style.touchAction = "none";
+    panel.style.touchAction = window.innerWidth>=700 ? "auto" : "none";
     var y0=0, t0=0, dy=0, on=false, ly=0, lt=0, vel=0;
 
     panel.addEventListener("pointerdown", function(e){
-      if(e.pointerType==="mouse" && e.button!==0) return;
+      if(e.pointerType==="mouse" || window.innerWidth>=700) return;
       var r = panel.getBoundingClientRect();
       /* つまみ・見出しの帯。ただし一覧が最上部にあるときは中身からも引ける */
       if(e.clientY - r.top > 56){
