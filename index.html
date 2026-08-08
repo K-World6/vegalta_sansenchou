@@ -3647,7 +3647,15 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
 @keyframes linkFlow{from{stroke-dashoffset:0}to{stroke-dashoffset:var(--flow,-40px)}}
 @keyframes numPop{from{opacity:0;transform:scale(.86) translateY(6px)}to{opacity:1;transform:none}}
 @keyframes numRise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+  /* シートはスライドの代わりに短いクロスフェード（前庭系に負担をかけない等価物） */
+  [style*="sheetUp"]{animation:fadeIn .18s ease both !important}
+  [style*="sheetDown"]{animation:fadeOut .18s ease both !important}
+}
+@media (prefers-reduced-transparency:reduce){
+  .vg-shell > header,.vg-shell > nav,[data-sheet-panel],.vg-modal-card,.vg-modal-legal{background:rgba(9,15,28,.97) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+}
 @media (min-width:700px){
   .vg-root{align-items:stretch !important;justify-content:stretch !important}
   .vg-shell{width:100% !important;max-width:none !important;max-height:none !important;isolation:isolate !important;background-image:linear-gradient(180deg,rgba(8,15,28,.42),rgba(4,7,14,.62)),url("img/IMG_7156.jpeg") !important;background-size:cover,cover !important;background-position:center,center 60% !important}
@@ -3849,7 +3857,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     </div>
   </header>
 
-  <main ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:none;clip-path:polygon(0 calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),12px calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),var(--clip-x2,13px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c2,0px)),var(--clip-x3,14px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c3,0px)),var(--clip-x4,16px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c4,0px)),var(--clip-x5,19px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c5,0px)),var(--clip-x6,23px) var(--clipt, var(--padt, 112px)),calc(100% - var(--clip-x6,23px)) var(--clipt, var(--padt, 112px)),calc(100% - var(--clip-x5,19px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c5,0px)),calc(100% - var(--clip-x4,16px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c4,0px)),calc(100% - var(--clip-x3,14px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c3,0px)),calc(100% - var(--clip-x2,13px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c2,0px)),calc(100% - 12px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),100% calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),100% 100%,0 100%);padding:var(--padt, 112px) 12px 0;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;--ta:{{ tabAnimName }}">
+  <main ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;clip-path:polygon(0 calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),12px calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),var(--clip-x2,13px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c2,0px)),var(--clip-x3,14px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c3,0px)),var(--clip-x4,16px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c4,0px)),var(--clip-x5,19px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c5,0px)),var(--clip-x6,23px) var(--clipt, var(--padt, 112px)),calc(100% - var(--clip-x6,23px)) var(--clipt, var(--padt, 112px)),calc(100% - var(--clip-x5,19px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c5,0px)),calc(100% - var(--clip-x4,16px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c4,0px)),calc(100% - var(--clip-x3,14px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c3,0px)),calc(100% - var(--clip-x2,13px)) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c2,0px)),calc(100% - 12px) calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),100% calc(var(--clipt, var(--padt, 112px)) - var(--clip-c1,0px)),100% 100%,0 100%);padding:var(--padt, 112px) 12px 0;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;--ta:{{ tabAnimName }}">
 
 
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -6005,9 +6013,26 @@ class Component extends DCLogic {
         if(scroller && scroller.scrollTop > 0) return;
         if(!scroller) return;
       }
-      on=true; y0=e.clientY; t0=Date.now(); dy=0; ly=e.clientY; lt=t0; vel=0;
+      /* 開閉モーションの最中に掴んだら、いま見えている位置から 1:1 で追従を始める
+         （割り込み可能性：モーションの終了を待たせず、その場で指に渡す） */
+      var live = 0;
+      try{
+        var tr = getComputedStyle(panel).transform;
+        if(tr && tr !== "none"){
+          live = tr.indexOf("matrix3d") === 0
+            ? parseFloat(tr.slice(9, -1).split(",")[13]) || 0
+            : parseFloat(tr.slice(7, -1).split(",")[5]) || 0;
+        }
+      }catch(_){}
+      if(live < 0 || !isFinite(live)) live = 0;
+      on=true; y0=e.clientY - live; t0=Date.now(); dy=live; ly=e.clientY; lt=t0; vel=0;
+      if(live) panel.style.transform = "translate3d(0," + live + "px,0)";  /* 先に現在値を固定してから台本を止める（ジャンプ防止） */
       panel.style.animation="none"; panel.style.transition="none";
-      if(veil){ veil.style.animation="none"; veil.style.transition="none"; }
+      if(veil){
+        var vh0 = r.height || 400;
+        if(live) veil.style.opacity = String(Math.max(0, 1 - live / vh0));
+        veil.style.animation="none"; veil.style.transition="none";
+      }
       try{ panel.setPointerCapture(e.pointerId); }catch(_){}
     });
     panel.addEventListener("pointermove", function(e){
@@ -6264,28 +6289,80 @@ class Component extends DCLogic {
     var next = Math.round(h) + "px";
     if(el.style.height !== next) el.style.height = next;
   }
+  /* ══ キーボード表示中の黒画面対策 ══
+     iOSは入力欄を見せようとページ（layout viewport）を勝手にスクロールさせるため、
+     position:fixed のアプリ枠が上へずれ、下に body の黒地が広がって見える。
+     ページスクロールを打ち消し、枠の高さを実際に見えている領域（visualViewport
+     ＝キーボード上端まで）に合わせることで、常にアプリだけが画面を占めるようにする */
+  fitKeyboard(){
+    if(!this._kb) return;
+    var el = this.rootRef && this.rootRef.current;
+    if(!el) return;
+    var vv = window.visualViewport;
+    var h = vv && vv.height ? vv.height : (window.innerHeight || 0);
+    if(!h) return;
+    if((window.scrollY || window.pageYOffset || 0) > 0 || (vv && vv.offsetTop > 0)){
+      try{ window.scrollTo(0, 0); }catch(e){}
+    }
+    var next = Math.round(h) + "px";
+    if(el.style.height !== next) el.style.height = next;
+  }
+  /* 入力欄を「内側のスクロールだけ」で見える位置へ寄せる（ページは動かさない） */
+  revealInput(t){
+    if(!t || !t.getBoundingClientRect) return;
+    var vv = window.visualViewport;
+    var vh = (vv && vv.height) || window.innerHeight || 0;
+    if(!vh) return;
+    var goal = vh * .38;                          /* 見えている領域のやや上寄り */
+    var m = this.scrollRef && this.scrollRef.current;
+    var host = null;
+    if(m && m.contains(t)){
+      host = m;
+    }else{
+      /* シート等、メインスクロールの外にある入力欄は最寄りのスクロール親だけを動かす */
+      var p = t.parentElement;
+      while(p && p !== document.body){
+        var s = getComputedStyle(p);
+        if(/(auto|scroll)/.test(s.overflowY) && p.scrollHeight > p.clientHeight + 4){ host = p; break; }
+        p = p.parentElement;
+      }
+    }
+    if(!host) return;
+    var r = t.getBoundingClientRect();
+    var d = (r.top + r.height/2) - goal;
+    if(Math.abs(d) <= 6) return;
+    try{ host.scrollBy({top:d, behavior:"smooth"}); }catch(e){ host.scrollTop += d; }
+  }
   bindViewport(){
     if(this._fit) return;
     var self=this;
     this._fit = function(){
       if(self._fitRaf) cancelAnimationFrame(self._fitRaf);
-      self._fitRaf = requestAnimationFrame(function(){ self.fitViewport(); self.guardShell(); self.fitTop(); self.fitBottom(); });
+      self._fitRaf = requestAnimationFrame(function(){
+        if(self._kb){ self.fitKeyboard(); return; }   /* キーボード表示中は黒画面対策のみ */
+        self.fitViewport(); self.guardShell(); self.fitTop(); self.fitBottom();
+      });
     };
     this._focIn = function(e){
       var t=e.target;
       if(!t || !t.tagName) return;
       if(t.tagName!=="INPUT" && t.tagName!=="TEXTAREA") return;
       self._kb = true;
-      /* キーボードに隠れないよう、少し待ってから見える位置へ寄せる */
+      /* scrollIntoView はページ（layout viewport）ごと動かしてしまい、
+         固定配置のアプリ枠が上へずれて下から body の黒地が露出する（＝暗い画面）。
+         代わりに枠をキーボード上端まで縮め、内側のスクロールだけで見える位置へ寄せる */
       setTimeout(function(){
-        try{ t.scrollIntoView({block:"center", behavior:"smooth"}); }catch(e2){
-          try{ t.scrollIntoView(); }catch(e3){}
-        }
+        self.fitKeyboard();
+        self.revealInput(t);
       }, 260);
     };
     this._focOut = function(){
       self._kb = false;
-      setTimeout(function(){ self.fitViewport(); self.fitBottom(); }, 80);
+      setTimeout(function(){
+        if(self._kb) return;                     /* 別の入力欄へ移っただけなら何もしない */
+        try{ window.scrollTo(0, 0); }catch(e){}  /* iOSが動かしたページ位置を戻す */
+        self.fitViewport(); self.fitBottom();
+      }, 80);
     };
     document.addEventListener("focusin", this._focIn);
     document.addEventListener("focusout", this._focOut);
