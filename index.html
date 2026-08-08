@@ -2,7 +2,33 @@
 <html><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<script>/* 自分自身の再取得を止める（未定義だとランタイムが location.href を fetch し直す） */window.__resources = window.__resources || {};</script>
+<script>/* 自分自身の再取得を止める（未定義だとランタイムが location.href を fetch し直す） */window.__resources = window.__resources || {};
+/* 実行時エラーを画面に表示する（真っ白のまま原因不明になるのを防ぐ） */
+(function(){
+  function show(msg){
+    try{
+      var el = document.getElementById("vg-err");
+      if(!el){
+        el = document.createElement("div");
+        el.id = "vg-err";
+        el.style.cssText = "position:fixed;left:8px;right:8px;top:8px;z-index:2147483647;padding:10px 12px;"+
+          "border-radius:10px;background:#b00020;color:#fff;font:12px/1.5 ui-monospace,Menlo,monospace;"+
+          "white-space:pre-wrap;word-break:break-all;max-height:45vh;overflow:auto";
+        (document.body || document.documentElement).appendChild(el);
+      }
+      el.textContent += (el.textContent ? "\n\n" : "") + msg;
+    }catch(_){}
+  }
+  window.addEventListener("error", function(e){
+    show("[error] " + (e.message||"") + "\n" + (e.filename||"") + ":" + (e.lineno||"") +
+      (e.error && e.error.stack ? "\n" + String(e.error.stack).slice(0,600) : ""));
+  });
+  window.addEventListener("unhandledrejection", function(e){
+    var r = e.reason;
+    show("[promise] " + (r && r.message ? r.message : String(r)) +
+      (r && r.stack ? "\n" + String(r.stack).slice(0,600) : ""));
+  });
+})();</script>
 <script>
 /**
  * @license React
@@ -3616,7 +3642,6 @@ button:focus{outline:none}
 button:focus-visible{outline:2px solid rgba(240,198,74,.85);outline-offset:2px}
 ::selection{background:rgba(240,198,74,.3)}
 html,body{margin:0;height:100%;background:#05080f;overscroll-behavior:none}
-main{transition:--clipt .34s cubic-bezier(.32,.72,0,1)}
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Hiragino Sans","Yu Gothic UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#f0c64a;text-decoration:none}a:hover{color:#ffd96b}
 input{font-family:inherit}
@@ -6106,6 +6131,7 @@ class Component extends DCLogic {
 
   /* ══ ヘッダー2段目の開閉を画面へ反映 ══ */
   paintFold(){
+   try{
     var m = this.scrollRef && this.scrollRef.current;
     if(!m || !m.parentElement) return;
     var self=this, shell=m.parentElement, f=!!this._folded, e=shell.style;
@@ -6130,7 +6156,12 @@ class Component extends DCLogic {
        毎フレームの getBoundingClientRect（レイアウト強制）が不要になる */
     if(window.__vgClipReg && this._cliptOpen){
       var target = f ? Math.max(40, this._cliptOpen - (this._foldDelta || 40)) : this._cliptOpen;
+      /* transition は畳み開きの瞬間だけ付ける。常時付けると起動時や再採寸のたびに
+         巨大な clip-path が .34s 動き続け、backdrop-filter と合わさって負荷が跳ね上がる */
+      m.style.transition = "--clipt .34s cubic-bezier(.32,.72,0,1)";
       m.style.setProperty("--clipt", target + "px");
+      if(this._clipTrT) clearTimeout(this._clipTrT);
+      this._clipTrT = setTimeout(function(){ try{ m.style.transition = ""; }catch(_){} }, 400);
       return;
     }
     /* 登録プロパティ非対応の環境だけ、従来の実測ループで追従する */
@@ -6144,6 +6175,7 @@ class Component extends DCLogic {
       else self._foldClipRaf=0;
     };
     this._foldClipRaf=requestAnimationFrame(syncClip);
+   }catch(e){}
   }
   /* ヘッダーをタップしたら開く */
   bindHeaderTap(){
@@ -6179,6 +6211,7 @@ class Component extends DCLogic {
     }catch(e){ window.__vgClipReg = window.__vgClipReg || false; }
     var apply=function(){
       raf=0;
+      try{
       var shell = m.parentElement; if(!shell) return;
       var y = m.scrollTop;
       var t = Math.max(0, Math.min(1, y/64));
@@ -6203,7 +6236,7 @@ class Component extends DCLogic {
       set("--db",  (0.24+0.10*t).toFixed(3));
       set("--dbl", (32+8*t).toFixed(1)+"px");
       set("--eg",  (0.32*t).toFixed(3));
-
+      }catch(e){}
     };
     this._fx = function(){ if(!raf) raf=requestAnimationFrame(apply); };
     m.addEventListener("scroll", this._fx, {passive:true});
@@ -6227,14 +6260,16 @@ class Component extends DCLogic {
     var clipV = clipNeed + "px";
     if(m.style.getPropertyValue("--clipt") !== clipV) m.style.setProperty("--clipt", clipV);
     /* 折りたたみ用の基準値。開いている状態でだけ測る */
-    if(!this._folded){
-      this._cliptOpen = clipNeed;
-      var r1 = hd.children && hd.children[1];
-      if(r1){
-        var rh = r1.getBoundingClientRect().height;
-        if(isFinite(rh) && rh > 0) this._foldDelta = Math.round(rh + 6);  /* 1段目の高さ + margin 6px */
+    try{
+      if(!this._folded){
+        this._cliptOpen = clipNeed;
+        var r1 = hd.children && hd.children[1];
+        if(r1){
+          var rh = r1.getBoundingClientRect().height;
+          if(isFinite(rh) && rh > 0) this._foldDelta = Math.round(rh + 6);  /* 1段目の高さ + margin 6px */
+        }
       }
-    }
+    }catch(e){}
     var shell = m.parentElement;
     var e = (need + 12) + "px";
     if(shell.style.getPropertyValue("--edge") !== e) shell.style.setProperty("--edge", e);
@@ -6308,7 +6343,10 @@ class Component extends DCLogic {
        ここで stale な visualViewport の値を使って縮めてしまうのが黒帯の残る原因だった */
     if(this.isStandalone()){
       if(shell.style.maxHeight !== "none") shell.style.maxHeight = "none";
-      if(shell.style.height) shell.style.height = "";
+      /* height:100% はテンプレートのインラインstyleなので空文字での「解除」は禁物。
+         消すとシェルが中身の高さまで伸びて、ヘッダー・ドックが画面外へ出て
+         スクロールも死ぬ。明示的に 100% を維持する */
+      if(shell.style.height !== "100%") shell.style.height = "100%";
       return;
     }
     var vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0;
