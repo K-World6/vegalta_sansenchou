@@ -5,7 +5,11 @@
 <script>/* 自分自身の再取得を止める（未定義だとランタイムが location.href を fetch し直す） */window.__resources = window.__resources || {};
 /* 実行時エラーを画面に表示する（真っ白のまま原因不明になるのを防ぐ） */
 (function(){
+  /* 表示は ?debug=1 のときだけ（共有シートのキャンセル等、正常系の reject まで
+     赤く出てしまい紛らわしいため。採寸デバッグと同じ流儀に合わせる） */
+  var DEBUG = /[?&]debug=1/.test(location.search);
   function show(msg){
+    if(!DEBUG) return;
     try{
       var el = document.getElementById("vg-err");
       if(!el){
@@ -25,6 +29,7 @@
   });
   window.addEventListener("unhandledrejection", function(e){
     var r = e.reason;
+    if(r && (r.name === "AbortError" || r.name === "NotAllowedError")) return;  /* 共有キャンセル等の正常系 */
     show("[promise] " + (r && r.message ? r.message : String(r)) +
       (r && r.stack ? "\n" + String(r.stack).slice(0,600) : ""));
   });
@@ -6372,7 +6377,10 @@ class Component extends DCLogic {
        iOSは起動直後に innerHeight / visualViewport が実画面より小さい値を返すことが
        あり、その値でpx固定すると下に黒帯が残ってしまう（今回の黒スペースの原因） */
     if(this.isStandalone()){
-      if(el.style.height !== "100dvh") el.style.height = "100dvh";
+      /* dvh は standalone の起動直後に 0 相当へ解決される個体があり、
+         root が高さ0になると全面 body 色（真っ黒）になる。
+         テンプレート元来の 100svh は standalone で全画面になる実績があるのでこちらを使う */
+      if(el.style.height !== "100svh") el.style.height = "100svh";
       return;
     }
     var vv = window.visualViewport;
