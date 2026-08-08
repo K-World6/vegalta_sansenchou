@@ -6273,6 +6273,9 @@ class Component extends DCLogic {
     var m = this.scrollRef && this.scrollRef.current;
     var shell = m && m.parentElement;
     if(!shell) return;
+    /* standalone は縦全面をアプリに使う（Safariタブ内の 932px 上限は
+       大画面ブラウザで枠が間延びしないための保険なのでそのまま残す） */
+    if(this.isStandalone() && shell.style.maxHeight !== "none") shell.style.maxHeight = "none";
     var vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0;
     if(!vh) return;
     var h = shell.getBoundingClientRect().height;
@@ -6282,9 +6285,23 @@ class Component extends DCLogic {
       shell.style.height = vh + "px";
     }
   }
+  /* ホーム画面から起動された「アプリとして」の実行かどうか */
+  isStandalone(){
+    try{
+      return window.navigator.standalone === true ||
+        (window.matchMedia && matchMedia("(display-mode: standalone)").matches);
+    }catch(e){ return false; }
+  }
   fitViewport(){
     var el = this.rootRef && this.rootRef.current;
     if(!el) return;
+    /* standalone ではブラウザのツールバー補正が不要なので CSS の 100dvh に任せる。
+       iOSは起動直後に innerHeight / visualViewport が実画面より小さい値を返すことが
+       あり、その値でpx固定すると下に黒帯が残ってしまう（今回の黒スペースの原因） */
+    if(this.isStandalone()){
+      if(el.style.height !== "100dvh") el.style.height = "100dvh";
+      return;
+    }
     var vv = window.visualViewport;
     var h = vv && vv.height ? vv.height : (window.innerHeight || 0);
     if(!h) return;
@@ -6378,7 +6395,11 @@ class Component extends DCLogic {
       window.visualViewport.addEventListener("scroll", this._fit);
     }
     this.fitViewport();
+    this.guardShell();
     this.fitBottom();
+    /* iOS standalone は起動直後の viewport 値が安定しないため、少し置いて測り直す */
+    setTimeout(this._fit, 250);
+    setTimeout(this._fit, 900);
   }
 
   /* ── タッチフィードバック：控えめな沈み込みのみ ── */
