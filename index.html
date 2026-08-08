@@ -3598,7 +3598,12 @@ window.JAPAN_MAP_SVG = "<svg class=\"geolonia-svg-map\" viewBox=\"0 0 1000 1000\
 </style>
 <style>
 *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
-:root{--pop:cubic-bezier(.32,.72,0,1)}
+:root{--pop:cubic-bezier(.32,.72,0,1);
+  /* ドックの下端。standaloneでは safe-area に --dock-sink ぶん沈み込み、
+     ホームインジケータのすぐ上に浮く（iOSのフローティングバーと同じ収まり）。
+     Safariタブ内では inset が 0 なので従来どおり 0 になる */
+  --dock-sink:18px;
+  --dockb:calc(max(env(safe-area-inset-bottom, 0px), var(--dock-sink)) - var(--dock-sink))}
 @supports (transition-timing-function: linear(0, 1)) {
   :root{--pop:linear(0, 0.0348, 0.1184, 0.2265, 0.3429, 0.4567, 0.5617, 0.6544, 0.7337, 0.7996, 0.853, 0.8953, 0.9281, 0.9529, 0.9711, 0.9842, 0.9933, 0.9993, 1.003, 1.0051, 1.0061, 1.0063, 1.006, 1.0054, 1.0047, 1.004, 1)}
 }
@@ -4564,7 +4569,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </main>
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-  <div class="vg-home-actions" style="position:absolute;right:10px;bottom:calc(74px + env(safe-area-inset-bottom, 0px));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
+  <div class="vg-home-actions" style="position:absolute;right:10px;bottom:calc(74px + var(--dockb, env(safe-area-inset-bottom, 0px)));z-index:37;display:flex;flex-direction:row;align-items:center;gap:8px">
     <button sc-camel-on-click="{{ toggleAll }}" style="height:44px;padding:0 14px;min-width:118px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 .5px 0 rgba(255,255,255,.34),inset 0 0 0 .5px rgba(255,255,255,.14),0 10px 22px -12px rgba(0,0,0,.7);border:0;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;font-family:inherit;white-space:nowrap;cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.96);transition:transform .09s cubic-bezier(.32,.72,0,1)">{{ bulkLabel }}</button>
     <button sc-camel-on-click="{{ jumpTop }}" aria-label="一番上へ" style="width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.09);backdrop-filter:blur(24px) saturate(190%);-webkit-backdrop-filter:blur(24px) saturate(190%);border:1px solid rgba(255,255,255,.20);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.3);color:rgba(255,255,255,.8);cursor:pointer;transition:transform .2s cubic-bezier(.32,.72,0,1);transition:transform .42s var(--pop)" style-active="transform:scale(.94);transition:transform .09s cubic-bezier(.32,.72,0,1)">
       <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none"><path d="M5 14.5 12 8l7 6.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -4640,7 +4645,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
     </div>
   </sc-if>
 
-  <nav style="position:absolute;left:10px;right:10px;bottom:env(safe-area-inset-bottom, 0px);z-index:36;height:66px;padding:5px;border-radius:26px;clip-path:inset(0 round 26px);background:linear-gradient(165deg,rgba(9,14,26,var(--dg1,.70)),rgba(5,9,19,var(--dg2,.56)));backdrop-filter:blur(var(--dbl,34px)) saturate(190%);-webkit-backdrop-filter:blur(var(--dbl,34px)) saturate(190%);border:1px solid rgba(255,255,255,var(--db,.24));box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.16)">
+  <nav style="position:absolute;left:10px;right:10px;bottom:var(--dockb, env(safe-area-inset-bottom, 0px));z-index:36;height:66px;padding:5px;border-radius:26px;clip-path:inset(0 round 26px);background:linear-gradient(165deg,rgba(9,14,26,var(--dg1,.70)),rgba(5,9,19,var(--dg2,.56)));backdrop-filter:blur(var(--dbl,34px)) saturate(190%);-webkit-backdrop-filter:blur(var(--dbl,34px)) saturate(190%);border:1px solid rgba(255,255,255,var(--db,.24));box-shadow:inset 0 1.4px 0 rgba(255,255,255,.70),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.20),inset -1px 0 0 rgba(255,255,255,.20),inset 0 8px 18px -10px rgba(255,255,255,.16)">
     <div style="position:relative;height:100%;display:grid;grid-template-columns:repeat(7,minmax(0,1fr))">
       <div aria-hidden="true" style="position:absolute;inset:-1px;border-radius:22px;overflow:hidden;clip-path:inset(0 round 22px);pointer-events:none">
        <span style="position:absolute;top:0;bottom:0;left:0;width:14.2857%;border-radius:20px;background:linear-gradient(180deg,rgba(246,208,96,.52),rgba(214,168,50,.26));border:1px solid rgba(246,214,120,.62);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.62),inset 0 -1.2px 0 rgba(90,62,0,.34),inset 1px 0 0 rgba(255,255,255,.18),inset -1px 0 0 rgba(255,255,255,.18);transform:{{ pillTransform }};transition:transform .52s cubic-bezier(.34,1.42,.5,1)"></span>
@@ -4867,7 +4872,7 @@ main::after{content:"";display:block;flex:0 0 auto;width:100%;height:var(--padb,
   </sc-if>
 
   <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
-    <div style="position:absolute;left:0;right:0;bottom:calc(92px + env(safe-area-inset-bottom, 0px));z-index:60;display:flex;justify-content:center;pointer-events:none">
+    <div style="position:absolute;left:0;right:0;bottom:calc(92px + var(--dockb, env(safe-area-inset-bottom, 0px)));z-index:60;display:flex;justify-content:center;pointer-events:none">
       <div style="padding:11px 18px;border-radius:18px;background:rgba(20,30,50,.86);backdrop-filter:blur(28px) saturate(190%);-webkit-backdrop-filter:blur(28px) saturate(190%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1.4px 0 rgba(255,255,255,.60),inset 0 -1.4px 0 rgba(0,0,0,.34),inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(255,255,255,.16),inset 0 7px 16px -10px rgba(255,255,255,.20),inset 0 1px 0 rgba(255,255,255,.28),0 12px 30px -14px rgba(0,0,0,1);color:#fff;font-size:12.5px;font-weight:600;animation:toastIn .4s cubic-bezier(.32,1.4,.5,1) both">{{ toast }}</div>
     </div>
   </sc-if>
@@ -8372,8 +8377,8 @@ class Component extends DCLogic {
       tabAnimName: (tb==="home") ? "none" : (((this.state.tabSeq||0)%2) ? "cardInB" : "cardInA"),
       /* JSで測る前の初期値 */
       mainPadB: (tb==="home")
-        ? "calc(148px + env(safe-area-inset-bottom, 0px))"
-        : "calc(96px + env(safe-area-inset-bottom, 0px))",
+        ? "calc(148px + var(--dockb, env(safe-area-inset-bottom, 0px)))"
+        : "calc(96px + var(--dockb, env(safe-area-inset-bottom, 0px)))",
       tabs: tabs,
        pillX: pillIdx*100,
        pillTransform: desktopLayout ? "translateY("+(pillIdx*100)+"%)" : "translateX("+(pillIdx*100)+"%)",
